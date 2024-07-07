@@ -1,0 +1,53 @@
+.container {
+    font-family: "Inter";
+    align-items: center;
+}
+
+.header {
+    height: 100px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.brand {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.brand h1 {
+    font-weight: 800;
+}
+
+.iconContainer {
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0e0c0a;
+    margin-right: 40px;
+
+}
+
+.icon {
+    transform: rotate(135deg);
+}
+
+.user {
+    height: 100%;
+    width: 14%;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.userIcon{
+    margin-right: 20px;
+}

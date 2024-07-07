@@ -1,0 +1,137 @@
+img {
+    width: 100%;
+    height: 100%;
+}
+
+h1 {
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+    
+span {
+    font-weight: 800;
+}
+
+button.button {
+    border: none;
+    margin: 0;   
+    width: 80%;
+    height: 215px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    transition: transform 0.2s ease;
+    box-shadow: inset 0 -7px 2px rgba(82, 82, 82, 0.5);
+}
+
+.button:hover {
+    transform: scale(1.05);
+}
+
+.button:active {
+    margin-top: 20px;
+    height: 195px;
+    box-shadow: none;
+}
+
+button:focus {
+    outline: none;
+}
+
+.container {
+    font-family: "Inter";
+    align-items: center;
+}
+
+.card {
+    padding: 40px 20px;
+    border-radius: 25px;
+    background-color: white;
+    transition: transform 1s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.card h1{
+
+    margin-bottom: 30px;
+}
+
+.card h2{
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 70px;
+}    
+
+.buttonContainer{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.containerWelcome h1 {
+    color: white;
+    margin-right: 8%;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.containerWelcome .containerImage {
+    width: 114px;
+    height: 212px;
+}
+
+.containerNew {
+    background-color: #28A745;
+    display: flex;
+    align-items: center;
+}
+
+.containerNew .sumContainer {
+    width: 110px;
+    height: 110px;
+    position: relative;
+    padding: none;
+    margin-right: 7%;
+}
+
+.containerNew .sumContainer .sumVertical {
+    height: 110px;
+    position: absolute;
+    right: 50px;
+    width: 10px;
+    background-color: #EBEBEB;
+    border-radius: 25px;
+}
+
+.containerNew .sumContainer .sumHorizontal {
+    width: 110px;
+    position: absolute;
+    top: 50px;
+    height: 10px;
+    background-color: #EBEBEB;
+    border-radius: 25px;
+}
+
+.containerUpload {
+    background-color: #0989FF;
+
+}
+
+.containerUpload .uploadContainer {
+    margin-left: 0;
+    width: 110px;
+    height: 110px;
+    margin-right: 7%;
+}
