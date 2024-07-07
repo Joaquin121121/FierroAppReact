@@ -5,7 +5,7 @@ import styles from "../styles/New.css"
 
 function New() {
 
-    const[mouseX, setMouseX] = useState(0)
+    const[mousseX, setMouseX] = useState(0)
     const[progressWidth, setProgressWidth] = useState(0)
     const[progressX, setProgressX] = useState(0)
     const[mouseDown, setMouseDown] = useState(false)
@@ -27,7 +27,6 @@ function New() {
             
         }
     }
-
 
 
     useEffect(()=>{
