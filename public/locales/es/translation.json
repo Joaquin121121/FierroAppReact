@@ -1,0 +1,23 @@
+{
+    "visible": "Progreso",
+    "progress": "visible",
+    "unstoppable": "Motivación",
+    "motivation": "imparable",
+    "tracking": "Seguimiento personalizado y motivación constante para ayudarte a perseverar y alcanzar tus metas",
+    "welcome": "Bienvenido",
+    "logInText": "Por favor inicia sesión en tu cuenta o regístrate.",
+    "logIn": "Iniciar sesión",
+    "noUser" : "Por favor, ingrese su nombre de usuario",
+    "userError": "El usuario no existe",
+    "noPassword": "Por favor ingrese su contraseña",
+    "passwordError" : "Contraseña incorrecta",
+    "noAccount": "¿No tienes cuenta?",
+    "register": "Registrarse",
+
+
+    "welcomeTo": "Bienvenido a la",
+    "welcomeSubheading": "Motivación constante, resultados reales",
+    "create": "Crear plan",
+    "load": "Cargar plan"
+  }
+  

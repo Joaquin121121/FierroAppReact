@@ -5,7 +5,7 @@ import createPlan from "../services/planService"
 
 
 
-function New({ mouseDown, setMouseDown, setPage, setPlan}) {
+function New({ mouseDown, setMouseDown, setPage, setPlan, t}) {
 
     const [duration, setDuration] = useState(40)
     const [frequency, setFrequency] = useState(3)
@@ -57,48 +57,48 @@ function New({ mouseDown, setMouseDown, setPage, setPlan}) {
   return (
 <div className={`card ${styles.card}`}>
     <div className={styles.create}>
-        <h1>Cuéntanos sobre tu plan</h1>
+        <h1>{t("tellUs")}</h1>
     </div>
     <div className={styles.frequencyContainer}>
-        <h1>Frecuencia</h1>
+        <h1>{t("frequency")}</h1>
         <div className={styles.sliders} onMouseLeave={() =>{setMouseDown(false)}}>
-            <Slider field="frequency" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={frequency} setCounter={setFrequency}/>
-            <Slider field="duration" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={duration} setCounter={setDuration}/>
+            <Slider field="frequency" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={frequency} setCounter={setFrequency} t={t}/>
+            <Slider field="duration" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={duration} setCounter={setDuration} t={t}/>
         </div>
     </div>
     <div className={styles.goalContainer}>
-        <h1>Objetivo</h1>
+        <h1>{t("goal")}</h1>
         <div className={styles.goal} onClick={() => {setGoal("strength")}} ref={strengthRef}>
             <div className={styles.imageContainer}>
-                <img src="images/STRONGMAN.png" alt="" />
+                <img src="images/strongman.png" alt="" />
             </div>
             <div className={styles.textContainer}>
-                Fuerza
+                {t("strength")}
             </div>
         </div>
         <div className={styles.goal} onClick={() => {setGoal("hyperthrophy")}} ref={hyperthrophyRef}>
             <div className={styles.imageContainer}>
-                <img src="images/CBUM.jpg" alt="" />
+                <img src="images/cbum.jpg" alt="" />
             </div>
             <div className={styles.textContainer}  >
-                Hipertrofia
+              {t("hyperthrophy")}
             </div>
         </div>
         <div className={styles.goal} onClick={() => {setGoal("functional")}} ref={functionalRef}>
             <div className={styles.imageContainer}>
-                <img src="images/GOGGINS.png" alt="" />
+                <img src="images/goggins.png" alt="" />
             </div>
             <div className={styles.textContainer}>
-                Funcional
+                {t("functional")}
             </div>
         </div>
     </div>
     <div className={styles.buttons}>
         <button className={styles.backButton} onClick={() => {setPage("welcome")}}>
-            Volver
+            {t("back")}
         </button>
         <button className={styles.startButton} onClick={onStart}>
-            Comenzar
+            {t("start")}
         </button>
     </div>
 </div>

@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from '../styles/StartLight.module.css'
 import Welcome from './Welcome.jsx'
 import New from "./New.jsx"
 import Display from "./Display.jsx"
 
 
-function Start({ userdata }) {
+function Start({ userdata, t }) {
 
     const [page, setPage] = useState("welcome")
     const [mouseDown, setMouseDown] = useState(false)
     const [plan, setPlan] = useState({})
+    const parentContainerRef = useRef(null)
 
     const onMouseUp = () => {
         setMouseDown(false)
@@ -17,7 +18,7 @@ function Start({ userdata }) {
 
 
   return (
-<div className={`container ${styles.container}`} onMouseUp={onMouseUp}>
+<div className={`container ${styles.container}`} onMouseUp={onMouseUp} ref={parentContainerRef}>
     <div className={styles.header}>
         <div className={styles.brand}>
             <div className={styles.iconContainer}>
@@ -34,17 +35,17 @@ function Start({ userdata }) {
     </div>
         {
             page === "welcome" && (
-                <Welcome setPage={setPage} />
+                <Welcome setPage={setPage} t={t} />
             )
         }
         {
             page === "new" && (
-                <New setPage={setPage} mouseDown={mouseDown} setMouseDown={setMouseDown} setPlan={setPlan}/>
+                <New setPage={setPage} mouseDown={mouseDown} setMouseDown={setMouseDown} setPlan={setPlan} t={t}/>
             )
         }
         {
             page === "display" && (
-                <Display plan={plan}/>
+                <Display plan={plan} t={t} parentContainerRef={parentContainerRef}/>
             )
         }
 </div>

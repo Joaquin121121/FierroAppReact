@@ -118,6 +118,9 @@ form {
     background: radial-gradient(circle at bottom right, #70bbff, #0989ff);
     overflow: hidden;
     animation: fadeDown 1s backwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .cardLogin .heading {

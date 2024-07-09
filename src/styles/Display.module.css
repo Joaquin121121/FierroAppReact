@@ -112,11 +112,9 @@ button:active{
     height: 300px;
     width : 85%;
     margin-top: 60px;
-    opacity: 0;
     display: flex;
     align-items: center;
-    animation: fade-down 1s forwards;
-
+    transition: transform 1s ease;
 }
 
 .session{
@@ -126,10 +124,11 @@ button:active{
     border-radius: 25px;
     display: flex;
     overflow: hidden;
-    transition: transform 1s ease;
+    opacity: 0;
+    animation: fade-down 1s forwards;
 }
 
-.session:hover{
+.sessionContainer:hover{
     transform: scale(1.02);
 
 }
@@ -309,24 +308,24 @@ button:active{
 
 
 .buttonsContainer{
-    width: 75%;
+    width: 60%;
     margin: 80px auto;
     margin-top: 150px;/* Cambiar por 150  */
     display: flex;
     justify-content: space-between;
     opacity: 0;
+    animation: fade-down 1s forwards;
 }
 
-.buttonsContainer#botones-modificar{
-    opacity: 1;
-    margin-top: 20px;
-}
+
 
 
 .returnButton{
+    width: 40%;
     background-color: #adb5bd;
 }
 
 .startButton{
+    width: 40%;
     background-color: #28A745;
 }

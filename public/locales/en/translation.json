@@ -1,0 +1,42 @@
+{
+    "visible": "Visible",
+    "progress": "progress",
+    "unstoppable": "Unstoppable",
+    "motivation": "motivation",
+    "tracking": "Personalized tracking and constant motivation to help you persevere and achieve your goals",
+    "welcome": "Welcome",
+    "logInText": "Please sign in to your account, or register.",
+    "logIn": "Log in",
+    "noUser" : "Please enter your username",
+    "userError" : "Please enter a valid username",
+    "noPassword" : "Please enter your password",
+    "passwordError" : "Incorrect password",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+
+
+    "welcomeTo": "Welcome to the",
+    "welcomeSubheading": "Constant motivation, real results",
+    "create": "Create plan",
+    "load": "Load plan",
+    
+    "tellUs" : "Tell us about your preferences",
+    "frequency" : "Frequency",
+
+    "weeklySessions" : "sessions per week",
+    "minutesPerSession" : "minutes per session" ,
+
+    "goal" : "Goal",
+    "strength" : "Strength",
+    "hyperthrophy" : "Hyperthrophy",
+    "functional" : "Functional",
+    "back" : "Back",
+    "start" : "Start",
+
+    "myPlan" : "My Plan - ",
+    "session" : "Session",
+    "minutes" : "minutes",
+    "exercises" : "exercises",
+    "sessionEdit" : "Edit session"
+
+}

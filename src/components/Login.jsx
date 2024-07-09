@@ -5,6 +5,7 @@ import styles from "../styles/Login.module.css"
 import { useForm } from "react-hook-form"
 import db from "../services/firebase"
 import {collection, query, where, getDocs} from "firebase/firestore"
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -15,6 +16,8 @@ function Login() {
     const[userdata, setUserData] = useState({})
     const[autenticated, setAutenticated] = useState(false)
     const[loginButton, setLoginButton] = useState(styles.logButton)
+
+    const { t } = useTranslation()
 
     const onKeyDown = (e) => {
         if(e.key === "Enter"){
@@ -37,10 +40,10 @@ function Login() {
                 })
                 setAutenticated(true)
             }else{
-                setError("password", {type : "manual", message : "Contraseña incorrecta"})
+                setError("password", {type : "manual", message : t("passwordError")})
             }
         }else{
-            setError("name", {type : "manual", message : "El usuario no existe"})
+            setError("name", {type : "manual", message : t("userError")})
         }
 
     }
@@ -49,15 +52,15 @@ function Login() {
     <>
         {
             autenticated ? (
-                <Start userdata={userdata}/>
+                <Start userdata={userdata} t={t}/>
             ) : (
                 <div className={styles.loginContainer}>
                 <div className={styles.cardLogin}>
                     <div className={styles.heading}>
-                        Progreso <span className={styles.white}>visible.</span> Motivación <span className={styles.white}>imparable.</span>
+                        {t("visible")} <span className={styles.white}>{t("progress")}.</span> {t("unstoppable")} <span className={styles.white}>{t("motivation")}.</span>
                     </div>
                     <div className={styles.subHeading}>
-                        Seguimiento personalizado y motivación constante para ayudarte a perseverar y alcanzar tus metas.
+                        {t("tracking")}
                     </div>
                     <div className={styles.imageContainer}>
                         <img src="images/GYM.webp" alt="" />
@@ -73,27 +76,27 @@ function Login() {
                         </div>
                     </div>
                     <div className={styles.subHeader}>
-                        <h1>Bienvenido</h1>
-                        <p className={styles.subHeading}>Por favor ingrese a su cuenta, o regístrese.</p>
+                        <h1>{t("welcome")}</h1>
+                        <p className={styles.subHeading}>{t("logInText")}</p>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={`${styles.formGroup} form-group`}>
                             <input onKeyDown={onKeyDown} type="text" className={`${styles.formControl} form-control`} id="name" placeholder='Usuario'
-                                {...register("name", { required: "Ingrese su nombre de usuario" })}
+                                {...register("name", { required: t("noUser") })}
                             />
                             {errors.name && <span className="text-danger">{errors.name.message}</span>}
                         </div>
                         <div className={`${styles.formGroup} ${styles.passwordContainer} form-group`}>
                             <input onKeyDown={onKeyDown} type="password" className={`${styles.formControl} form-control`} id="password" placeholder='Contraseña'
-                                {...register("password", { required: "Ingrese su contraseña" })}
+                                {...register("password", { required: t("noPassword") })}
                             />
                             {errors.password && <span className="text-danger">{errors.password.message}</span>}
                         </div>
-                        <button className={loginButton}>Iniciar Sesión</button>
+                        <button className={loginButton}>{t("logIn")}</button>
                     </form>
                     <div className={styles.line}></div>
-                    <p className="">No tiene cuenta?</p>
-                    <button type='submit' className={styles.registerButton} id="register">Registrarse</button>
+                    <p className="">{t("noAccount")}</p>
+                    <button type='submit' className={styles.registerButton} id="register">{t("register")}</button>
                 </div>
             </div>
             
