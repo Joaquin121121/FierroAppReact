@@ -1,114 +1,108 @@
 import React, { useEffect, useState, useRef } from 'react'
-import styles from "../styles/New.css"
+import styles from "../styles/New.module.css"
+import Slider from "./Slider"
+import createPlan from "../services/planService"
 
 
 
-function New() {
+function New({ mouseDown, setMouseDown, setPage, setPlan}) {
 
-    const[mousseX, setMouseX] = useState(0)
-    const[progressWidth, setProgressWidth] = useState(0)
-    const[progressX, setProgressX] = useState(0)
-    const[mouseDown, setMouseDown] = useState(false)
-    
+    const [duration, setDuration] = useState(40)
+    const [frequency, setFrequency] = useState(3)
+    const [goal, setGoal] = useState("hyperthrophy")
+    const hyperthrophyRef = useRef(null)
+    const strengthRef = useRef(null)
+    const functionalRef = useRef(null)
 
-    const progressRef = useRef(null)
-
-    const onMouseDown = () => {
-        setMouseDown(true)
+    const onStart = () => {
+        setPlan(createPlan(frequency, duration, goal))
+        console.log(createPlan(frequency, duration, goal))
+        setPage("display")
     }
 
-    const onMouseUp = () =>{
-        setMouseDown(false)
-    }
+    useEffect(() => {
 
-
-    const onMouseMove = (e) => {
-        if(mouseDown){
-            
+        if (hyperthrophyRef.current) hyperthrophyRef.current.style.border = "none";
+        if (strengthRef.current) strengthRef.current.style.border = "none";
+        if (functionalRef.current) functionalRef.current.style.border = "none";
+        
+        switch(goal) {
+          case "strength":
+            if (strengthRef.current) {
+              strengthRef.current.style.borderColor = "#0989FF"
+              strengthRef.current.style.borderWidth = "4px"
+              strengthRef.current.style.borderStyle = "solid"
+            }
+            break
+          case "hyperthrophy":
+            if (hyperthrophyRef.current) {
+              hyperthrophyRef.current.style.borderColor = "#0989FF"
+              hyperthrophyRef.current.style.borderWidth = "4px"
+              hyperthrophyRef.current.style.borderStyle = "solid"
+            }
+            break
+          case "functional":
+            if (functionalRef.current) {
+              functionalRef.current.style.borderColor = "#0989FF"
+              functionalRef.current.style.borderWidth = "4px"
+              functionalRef.current.style.borderStyle = "solid"
+            }
+            break
+          default:
+            break
         }
-    }
+      }, [goal])
 
-
-    useEffect(()=>{
-        const { left } = progressRef.current.getBoundingClientRect()
-        setProgressX(left)
-
-
-
-    }, [])
 
   return (
-    <div className="card">
-        <div className="create">
-            <h1>Cuéntanos sobre tu plan</h1>
-        </div>    
-        <div className="containerFrequency">
-            <h1>Frecuencia</h1>
-            <div className="sliders">
-                <div className="slider">
-                    <div className="sliderBar" >
-                        <div className="progress" ref={progressRef}>
-                            <div className="pill">
-                                <div className="line"></div>
-                                <div className="line"></div>
-                                <div className="line"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="counter">3</div> 
-                    <p>sesiones x semana</p>
-                </div>
-                <div className="slider">
-                    <div className="sliderBar" id="sliderDuracion">
-                        <div className="progress" id="progressDuracion">
-                            <div className="pill" onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove} id="pillDuracion">
-                                <div className="line"></div>
-                                <div className="line"></div>
-                                <div className="line"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="counter" id="counterDuracion">60</div> 
-                    <p>minutos x sesión</p>
-                </div>
-            </div>
-        </div>
-        <div className="containerGoal">
-            <h1>Objetivo</h1>
-            <div className="goal" id="fuerza">
-                <div className="containerImage">
-                    <img src="images/STRONGMAN.png" alt="" />
-                </div>
-                <div className="containerText">
-                    Fuerza
-                </div>
-            </div>
-            <div className="goal" id="hipertrofia">
-                <div className="containerImage">
-                    <img src="images/CBUM.jpg" alt="" />
-                </div>
-                <div className="containerText">
-                    Hipertrofia
-                </div>
-            </div>
-            <div className="goal" id="funcional">
-                <div className="containerImage">
-                    <img src="images/GOGGINS.png" alt="" />
-                </div>
-                <div className="containerText">
-                    Funcional
-                </div>
-            </div>
-        </div>
-        <div className="buttons">
-            <button className="buttonBack" id="volver">
-                Volver
-            </button>
-            <button className="buttonStart" id="comenzar">
-                Comenzar
-            </button>
+<div className={`card ${styles.card}`}>
+    <div className={styles.create}>
+        <h1>Cuéntanos sobre tu plan</h1>
+    </div>
+    <div className={styles.frequencyContainer}>
+        <h1>Frecuencia</h1>
+        <div className={styles.sliders} onMouseLeave={() =>{setMouseDown(false)}}>
+            <Slider field="frequency" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={frequency} setCounter={setFrequency}/>
+            <Slider field="duration" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={duration} setCounter={setDuration}/>
         </div>
     </div>
+    <div className={styles.goalContainer}>
+        <h1>Objetivo</h1>
+        <div className={styles.goal} onClick={() => {setGoal("strength")}} ref={strengthRef}>
+            <div className={styles.imageContainer}>
+                <img src="images/STRONGMAN.png" alt="" />
+            </div>
+            <div className={styles.textContainer}>
+                Fuerza
+            </div>
+        </div>
+        <div className={styles.goal} onClick={() => {setGoal("hyperthrophy")}} ref={hyperthrophyRef}>
+            <div className={styles.imageContainer}>
+                <img src="images/CBUM.jpg" alt="" />
+            </div>
+            <div className={styles.textContainer}  >
+                Hipertrofia
+            </div>
+        </div>
+        <div className={styles.goal} onClick={() => {setGoal("functional")}} ref={functionalRef}>
+            <div className={styles.imageContainer}>
+                <img src="images/GOGGINS.png" alt="" />
+            </div>
+            <div className={styles.textContainer}>
+                Funcional
+            </div>
+        </div>
+    </div>
+    <div className={styles.buttons}>
+        <button className={styles.backButton} onClick={() => {setPage("welcome")}}>
+            Volver
+        </button>
+        <button className={styles.startButton} onClick={onStart}>
+            Comenzar
+        </button>
+    </div>
+</div>
+
 
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Inicio from "./Inicio.jsx"
+import Start from "./Start.jsx"
 import styles from "../styles/Login.module.css"
 import { useForm } from "react-hook-form"
 import db from "../services/firebase"
@@ -49,9 +49,9 @@ function Login() {
     <>
         {
             autenticated ? (
-                <Inicio userdata={userdata}/>
+                <Start userdata={userdata}/>
             ) : (
-                <div className={styles.containerLogin}>
+                <div className={styles.loginContainer}>
                 <div className={styles.cardLogin}>
                     <div className={styles.heading}>
                         Progreso <span className={styles.white}>visible.</span> Motivación <span className={styles.white}>imparable.</span>

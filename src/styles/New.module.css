@@ -1,0 +1,104 @@
+.card {
+    padding: 0 50px;
+    border-radius: 25px;
+    transition: transform 1s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: scale(1.03); 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
+}
+
+.create h1 {
+    margin-top: 70px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.frequencyContainer {
+    margin-top: 50px;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.frequencyContainer h1 {
+    font-weight: 300;
+}
+
+.frequencyContainer .sliders {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.goalContainer {
+    margin-top: 80px;
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.goalContainer h1 {
+    font-weight: 300;
+    margin-right: 5%;
+}
+
+.goalContainer .goal {
+    width: 200px;
+    height: 250px;
+    border-style: solid;
+    border-color: #D9D9D9;
+    border-width: thin;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 1s ease;
+    cursor: pointer;
+}
+
+.goalContainer .goal:hover {
+    transform: scale(1.03); 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.goalContainer .goal .imageContainer {
+    height: 70%;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.goalContainer .goal .textContainer {
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.buttons {
+    width: 75%;
+    margin: 80px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.backButton {
+    background-color: #adb5bd;
+    width: 35%;
+}
+
+.startButton {
+    background-color: #28A745;
+    width: 35%;
+
+}

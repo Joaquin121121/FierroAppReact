@@ -9,7 +9,7 @@ h1 {
     margin: 0;
 }
     
-span {
+span.bold {
     font-weight: 800;
 }
 
@@ -80,25 +80,25 @@ button:focus {
     align-items: center;
 }
 
-.containerWelcome h1 {
+.welcomeContainer h1 {
     color: white;
     margin-right: 8%;
     margin-bottom: 0;
     font-weight: 700;
 }
 
-.containerWelcome .containerImage {
+.welcomeContainer .imageContainer {
     width: 114px;
     height: 212px;
 }
 
-.containerNew {
+.newContainer {
     background-color: #28A745;
     display: flex;
     align-items: center;
 }
 
-.containerNew .sumContainer {
+.newContainer .sumContainer {
     width: 110px;
     height: 110px;
     position: relative;
@@ -106,7 +106,7 @@ button:focus {
     margin-right: 7%;
 }
 
-.containerNew .sumContainer .sumVertical {
+.newContainer .sumContainer .sumVertical {
     height: 110px;
     position: absolute;
     right: 50px;
@@ -115,7 +115,7 @@ button:focus {
     border-radius: 25px;
 }
 
-.containerNew .sumContainer .sumHorizontal {
+.newContainer .sumContainer .sumHorizontal {
     width: 110px;
     position: absolute;
     top: 50px;
@@ -124,12 +124,12 @@ button:focus {
     border-radius: 25px;
 }
 
-.containerUpload {
+.uploadContainer {
     background-color: #0989FF;
 
 }
 
-.containerUpload .uploadContainer {
+.uploadContainer .secondaryUploadContainer {
     margin-left: 0;
     width: 110px;
     height: 110px;

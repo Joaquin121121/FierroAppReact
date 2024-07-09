@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
-import styles from '../styles/Inicio.module.css'
+import styles from '../styles/StartLight.module.css'
 import Welcome from './Welcome.jsx'
 import New from "./New.jsx"
+import Display from "./Display.jsx"
 
 
-function Inicio({ userdata }) {
+function Start({ userdata }) {
 
-    const [page, setPage] = useState("Welcome")
+    const [page, setPage] = useState("welcome")
+    const [mouseDown, setMouseDown] = useState(false)
+    const [plan, setPlan] = useState({})
+
+    const onMouseUp = () => {
+        setMouseDown(false)
+    }
+
 
   return (
-<div className={`container ${styles.container}`}>
+<div className={`container ${styles.container}`} onMouseUp={onMouseUp}>
     <div className={styles.header}>
         <div className={styles.brand}>
             <div className={styles.iconContainer}>
@@ -20,18 +28,23 @@ function Inicio({ userdata }) {
         <div className={styles.user}>
             <i className={`${styles.userIcon} fa-solid fa-user fa-2xl`}></i>
             <div className={styles.text} id="user">
-                Juani
+                {userdata.name || "Joaquin121"}
             </div>
         </div>
     </div>
         {
-            page === "Welcome" && (
+            page === "welcome" && (
                 <Welcome setPage={setPage} />
             )
         }
         {
-            page === "New" && (
-                <New setPage={setPage}/>
+            page === "new" && (
+                <New setPage={setPage} mouseDown={mouseDown} setMouseDown={setMouseDown} setPlan={setPlan}/>
+            )
+        }
+        {
+            page === "display" && (
+                <Display plan={plan}/>
             )
         }
 </div>
@@ -39,4 +52,4 @@ function Inicio({ userdata }) {
   )
 }
 
-export default Inicio
+export default Start

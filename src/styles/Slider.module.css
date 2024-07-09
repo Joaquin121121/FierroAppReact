@@ -1,0 +1,69 @@
+.slider {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.slider .sliderBar {
+    height: 15px;
+    width: 60%;
+    border-radius: 25px;
+    background-color: #ECEFEA;
+    border-width: thin;
+}
+
+.slider .sliderBar .progress {
+    width: 33%;
+    height: 100%;
+    background-image: linear-gradient(to right, #0989FF, #45a5ff);
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    border-radius: 25px;
+    position: relative;
+    overflow: visible;
+}
+
+.slider .sliderBar .progress .pill {
+    cursor: pointer;
+    width: 27px;
+    height: 60px;
+    border-radius: 25px;
+    background-color: white;
+    border-color: #0989FF;
+    border-style: solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.5s;
+
+}
+
+.pill:hover {
+    transform: scale(1.1);
+}
+
+.pill .line {
+    width: 80%;
+    height: 2px;
+    background-color: #0989FF;
+    margin-top: 12px;
+}
+
+.slider .counter {
+    font-size: 40px;
+    font-weight: 900;
+    color: #0989FF;
+    margin-left: 0px;
+    width: 100px;
+    text-align: right;
+}
+
+.slider p {
+    font-size: 400;
+    font-size: 16px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    margin-top: 5px;
+}
