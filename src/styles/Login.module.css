@@ -121,6 +121,7 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    zoom: 0.85;
 }
 
 .cardLogin .heading {
@@ -252,5 +253,6 @@ form {
 @media (min-height: 800px) {
     .containerLogin {
         height: 90%;
+        zoom: normal;
     }
 }

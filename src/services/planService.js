@@ -1,73 +1,74 @@
 const createPlan = (sessions, duration, goal) => {
 
     const chestExercises = [
-        { name: { spanish: "Press de Banca", english: "Bench Press" }, imagen: "PRESS-BANCA.jpg", targetedMuscles: { spanish: "Pecho, Tríceps", english: "Chest, Triceps" } },
-        { name: { spanish: "Press de Banca Inclinado", english: "Incline Bench Press" }, imagen: "PRESS-INCLINADO.jpeg", targetedMuscles: { spanish: "Pecho, Tríceps", english: "Chest, Triceps" } },
-        { name: { spanish: "Fondos de Pecho", english: "Chest Dips" }, imagen: "CHEST-DIPS.jpg", targetedMuscles: { spanish: "Pecho, Tríceps, Hombros", english: "Chest, Triceps, Shoulders" } },
-        { name: { spanish: "Press de Banca Declinado", english: "Decline Bench Press" }, imagen: "PRESS-DECLINADO.jpg", targetedMuscles: { spanish: "Pecho, Tríceps", english: "Chest, Triceps" } },
-        { name: { spanish: "Aperturas de Pecho con Mancuernas", english: "Dumbbell Flyes" }, imagen: "APERTURA-MANCUERNAS.jpg", targetedMuscles: { spanish: "Pecho, Hombros", english: "Chest, Shoulders" } },
-        { name: { spanish: "Cruces de Poleas para Pecho", english: "Cable Crossovers" }, imagen: "CRUCE-POLEA.jpg", targetedMuscles: { spanish: "Pecho", english: "Chest" } },
-        { name: { spanish: "Press de Banca con Mancuernas", english: "Dumbbell Bench Press" }, imagen: "PRESS-MANCUERNAS.jpg", targetedMuscles: { spanish: "Pecho, Tríceps", english: "Chest, Triceps" } },
-        { name: { spanish: "Pull-over", english: "Pull-over" }, imagen: "PULLOVER.jpg", targetedMuscles: { spanish: "Pecho, Dorsales", english: "Chest, Lats" } }
+        { name: "benchPress", image: "bench-press.webp", targetedMuscles: ["chest", "triceps"] },
+        { name: "inclineBenchPress", image: "incline-press.webp", targetedMuscles: ["chest", "triceps"] },
+        { name: "chestDips", image: "chest-dips.webp", targetedMuscles: ["chest", "triceps", "shoulders"] },
+        { name: "declineBenchPress", image: "declined-press.webp", targetedMuscles: ["chest", "triceps"] },
+        { name: "dumbbellFlyes", image: "butterfly.jpeg", targetedMuscles: ["chest", "shoulders"] },
+        { name: "cableCrossovers", image: "pulley-crossover.jpg", targetedMuscles: ["chest"] },
+        { name: "dumbbellBenchPress", image: "dumbbell-press.jpeg", targetedMuscles: ["chest", "triceps"] },
+        { name: "pullOver", image: "pullover.jpg", targetedMuscles: ["chest", "lats"] }
     ]
     
     const backExercises = [
-        { name: { spanish: "Dominada Abierta", english: "Wide Pull-up" }, imagen: "DOMINADA-ABIERTA.jpeg", targetedMuscles: { spanish: "Dorsales, Bíceps", english: "Lats, Biceps" } },
-        { name: { spanish: "Dominada Cerrada", english: "Close Pull-up" }, imagen: "DOMINADA-CERRADA.jpg", targetedMuscles: { spanish: "Dorsales, Bíceps", english: "Lats, Biceps" } },
-        { name: { spanish: "Remo con Barra", english: "Barbell Row" }, imagen: "REMO-BARRA.jpg", targetedMuscles: { spanish: "Espalda Alta, Dorsales", english: "Upper Back, Lats" } },
-        { name: { spanish: "Remo con Mancuerna", english: "Dumbbell Row" }, imagen: "REMO-MANCUERNAS.jpg", targetedMuscles: { spanish: "Espalda Alta, Dorsales", english: "Upper Back, Lats" } },
-        { name: { spanish: "Peso Muerto", english: "Deadlift" }, imagen: "PESO-MUERTO.jpg", targetedMuscles: { spanish: "Espalda Baja, Glúteos, Isquiotibiales", english: "Lower Back, Glutes, Hamstrings" } },
-        { name: { spanish: "Pulldowns al Pecho", english: "Pulldowns to Chest" }, imagen: "PULLDOWN-PECHO.jpg", targetedMuscles: { spanish: "Dorsales, Bíceps", english: "Lats, Biceps" } },
-        { name: { spanish: "Remo con Cable", english: "Cable Row" }, imagen: "REMO-CABLE.jpg", targetedMuscles: { spanish: "Espalda Alta, Dorsales", english: "Upper Back, Lats" } },
-        { name: { spanish: "Hiperextensiones", english: "Hyperextensions" }, imagen: "HIPEREXTENSIONES.jpg", targetedMuscles: { spanish: "Espalda Baja, Glúteos", english: "Lower Back, Glutes" } }
+        { name: "widePullUp", image: "pull-ups.webp", targetedMuscles: ["lats", "biceps"] },
+        { name: "closePullUp", image: "chin-ups.jpg", targetedMuscles: ["lats", "biceps"] },
+        { name: "barbellRow", image: "barbell-row.jpg", targetedMuscles: ["upperBack", "lats"] },
+        { name: "dumbbellRow", image: "dumbbel-row.jpeg", targetedMuscles: ["upperBack", "lats"] },
+        { name: "deadlift", image: "deadlift.jpeg", targetedMuscles: ["lowerBack", "glutes", "hamstrings"] },
+        { name: "pulldownsToChest", image: "chest-pulldown.jpg", targetedMuscles: ["lats", "biceps"] },
+        { name: "cableRow", image: "single-arm-cable-row.jpg", targetedMuscles: ["upperBack", "lats"] },
+        { name: "hyperextensions", image: "hyperextensions.jpg", targetedMuscles: ["lowerBack", "glutes"] }
     ]
     
     const bicepsExercises = [
-        { name: { spanish: "Curl de Bíceps con Barra", english: "Barbell Curl" }, imagen: "BICEPS-BARRA.jpg", targetedMuscles: { spanish: "Bíceps", english: "Biceps" } },
-        { name: { spanish: "Curl de Bíceps con Mancuernas", english: "Dumbbell Curl" }, imagen: "BICEPS-MANCUERNAS.jpg", targetedMuscles: { spanish: "Bíceps", english: "Biceps" } },
-        { name: { spanish: "Curl de Bíceps con Cable", english: "Cable Curl" }, imagen: "BICEPS-CABLE.jpg", targetedMuscles: { spanish: "Bíceps", english: "Biceps" } },
-        { name: { spanish: "Martillo de Bíceps", english: "Hammer Curl" }, imagen: "BICEPS-MARTILLO.jpg", targetedMuscles: { spanish: "Bíceps, Braquiorradial", english: "Biceps, Brachioradialis" } },
-        { name: { spanish: "Curl de Concentración", english: "Concentration Curl" }, imagen: "BICEP-CONCENTRADO.jpg", targetedMuscles: { spanish: "Bíceps", english: "Biceps" } },
-        { name: { spanish: "Curl de Bíceps Inclinado", english: "Incline Dumbbell Curl" }, imagen: "BICEPS-INCLINADO.jpeg", targetedMuscles: { spanish: "Bíceps", english: "Biceps" } },
-        { name: { spanish: "Curl de Bíceps en Banco Scott", english: "Preacher Curl" }, imagen: "BICEPS-SCOTT.jpg", targetedMuscles: { spanish: "Bíceps", english: "Biceps" } },
-        { name: { spanish: "Chin-ups (Dominadas Supinas)", english: "Chin-ups" }, imagen: "CHIN-UPS.jpg", targetedMuscles: { spanish: "Bíceps, Dorsales", english: "Biceps, Lats" } }
+        { name: "barbellCurl", image: "barbell-biceps.jpg", targetedMuscles: ["biceps"] },
+        { name: "dumbbellCurl", image: "dumbbell-biceps.jpg", targetedMuscles: ["biceps"] },
+        { name: "cableCurl", image: "cable-biceps.webp", targetedMuscles: ["biceps"] },
+        { name: "hammerCurl", image: "hammer-biceps.webp", targetedMuscles: ["biceps", "brachioradialis"] },
+        { name: "concentrationCurl", image: "concentrated-bicep-curl.jpg", targetedMuscles: ["biceps"] },
+        { name: "inclineDumbbellCurl", image: "incline-biceps.png", targetedMuscles: ["biceps"] },
+        { name: "preacherCurl", image: "scott-biceps.jpeg", targetedMuscles: ["biceps"] },
+        { name: "chinUps", image: "chin-row.jpeg", targetedMuscles: ["biceps", "lats"] }
     ]
     
     const tricepsExercises = [
-        { name: { spanish: "Press Francés", english: "French Press" }, imagen: "TRICEP-FRANCES.jpeg", targetedMuscles: { spanish: "Tríceps", english: "Triceps" } },
-        { name: { spanish: "Extensiones de Tríceps en Polea Alta", english: "Triceps Pushdown" }, imagen: "TRICEP-POLEA.jpg", targetedMuscles: { spanish: "Tríceps", english: "Triceps" } },
-        { name: { spanish: "Extensiones de Tríceps con Soga", english: "Rope Tricep Extension" }, imagen: "TRICEP-SOGA.jpg", targetedMuscles: { spanish: "Tríceps", english: "Triceps" } },
-        { name: { spanish: "Fondos de Tríceps", english: "Tricep Dips" }, imagen: "TRICEP-DIPS.jpg", targetedMuscles: { spanish: "Tríceps, Pecho", english: "Triceps, Chest" } },
-        { name: { spanish: "Patada de Tríceps", english: "Tricep Kickback" }, imagen: "TRICEP-PATADA.jpg", targetedMuscles: { spanish: "Tríceps", english: "Triceps" } },
-        { name: { spanish: "Press de Tríceps con Mancuernas", english: "Dumbbell Tricep Press" }, imagen: "TRICEP-PRESS.jpg", targetedMuscles: { spanish: "Tríceps", english: "Triceps" } }
+        { name: "frenchPress", image: "french-press.avif", targetedMuscles: ["triceps"] },
+        { name: "tricepsPushdown", image: "tricep-pulley.webp", targetedMuscles: ["triceps"] },
+        { name: "ropeTricepExtension", image: "tricep-rope.jpeg", targetedMuscles: ["triceps"] },
+        { name: "tricepDips", image: "tricep-dips.jpeg", targetedMuscles: ["triceps", "chest"] },
+        { name: "tricepKickback", image: "tricep-kickback.png", targetedMuscles: ["triceps"] },
+        { name: "dumbbellTricepPress", image: "tricep-pushdown.jpg", targetedMuscles: ["triceps"] }
     ]
     
     const legExercises = [
-        { name: { spanish: "Sentadillas (Squats)", english: "Squats" }, imagen: "SENTADILLA.jpeg", targetedMuscles: { spanish: "Cuádriceps, Glúteos, Isquiotibiales", english: "Quadriceps, Glutes, Hamstrings" } },
-        { name: { spanish: "Peso Muerto", english: "Deadlift" }, imagen: "PESO-MUERTO.jpg", targetedMuscles: { spanish: "Espalda Baja, Glúteos, Isquiotibiales", english: "Lower Back, Glutes, Hamstrings" } },
-        { name: { spanish: "Zancadas (Lunges)", english: "Lunges" }, imagen: "ZANCADAS.jpg", targetedMuscles: { spanish: "Cuádriceps, Glúteos", english: "Quadriceps, Glutes" } },
-        { name: { spanish: "Extensiones de Pierna en Máquina", english: "Leg Extensions" }, imagen: "EXTENSIONES-PIERNA.jpg", targetedMuscles: { spanish: "Cuádriceps", english: "Quadriceps" } },
-        { name: { spanish: "Curl de Piernas Acostado", english: "Lying Leg Curls" }, imagen: "CURL-PIERNA.jpg", targetedMuscles: { spanish: "Isquiotibiales, Glúteos", english: "Hamstrings, Glutes" } },
-        { name: { spanish: "Elevación de Talones de Pie", english: "Standing Calf Raises" }, imagen: "ELEVACION-TALONES.jpg", targetedMuscles: { spanish: "Gemelos", english: "Calves" } },
-        { name: { spanish: "Prensa de Piernas", english: "Leg Press" }, imagen: "PRENSA-PIERNA.jpg", targetedMuscles: { spanish: "Cuádriceps, Glúteos", english: "Quadriceps, Glutes" } },
-        { name: { spanish: "Sentadilla Hack", english: "Hack Squat" }, imagen: "SENTADILLA-HACK.jpg", targetedMuscles: { spanish: "Cuádriceps, Glúteos", english: "Quadriceps, Glutes" } }
+        { name: "squats", image: "squat.jpeg", targetedMuscles: ["quadriceps", "glutes", "hamstrings"] },
+        { name: "deadlift", image: "deadlift.jpeg", targetedMuscles: ["lowerBack", "glutes", "hamstrings"] },
+        { name: "lunges", image: "lunges.jpg", targetedMuscles: ["quadriceps", "glutes"] },
+        { name: "legExtensions", image: "leg-extensions.jpeg", targetedMuscles: ["quadriceps"] },
+        { name: "lyingLegCurls", image: "reverse-wrist-curl.jpg", targetedMuscles: ["hamstrings", "glutes"] },
+        { name: "standingCalfRaises", image: "calf-raises.jpg", targetedMuscles: ["calves"] },
+        { name: "legPress", image: "leg-press.jpeg", targetedMuscles: ["quadriceps", "glutes"] },
+        { name: "hackSquat", image: "hack-squat.jpeg", targetedMuscles: ["quadriceps", "glutes"] }
     ]
-
-    const shoulderExercises = [
-        { name: "Press Militar", imagen: "PRESS-MILITAR.jpg", targetedMuscles: { spanish: "Hombros, Tríceps", english: "Shoulders, Triceps" } },
-        { name: "Vuelos Laterales", imagen: "VUELO-LATERAL.jpg", targetedMuscles: { spanish: "Hombros", english: "Shoulders" } },
-        { name: "Vuelos Posteriores", imagen: "VUELO-POSTERIOR.jpeg", targetedMuscles: { spanish: "Hombros, Espalda Alta", english: "Shoulders, Upper Back" } },
-        { name: "Press Arnold", imagen: "PRESS-ARNOLD.jpeg", targetedMuscles: { spanish: "Hombros, Tríceps", english: "Shoulders, Triceps" } },
-        { name: "Jalones a la Cara (Face Pulls)", imagen: "FACE-PULLS.jpg", targetedMuscles: { spanish: "Hombros, Espalda Alta", english: "Shoulders, Upper Back" } },
-        { name: "Remo al Mentón (Upright Rows)", imagen: "REMO-MENTON", targetedMuscles: { spanish: "Hombros, Trapecio", english: "Shoulders, Trapezius" } }
-    ];
     
-
+    const shoulderExercises = [
+        { name: "militaryPress", image: "military-press.jpeg", targetedMuscles: ["shoulders", "triceps"] },
+        { name: "lateralRaises", image: "lateral-raises.jpg", targetedMuscles: ["shoulders"] },
+        { name: "rearDeltFly", image: "rear-raises.jpeg", targetedMuscles: ["shoulders", "upperBack"] },
+        { name: "arnoldPress", image: "arnold-press.jpeg", targetedMuscles: ["shoulders", "triceps"] },
+        { name: "facePulls", image: "face-pulls.jpg", targetedMuscles: ["shoulders", "upperBack"] },
+        { name: "uprightRows", image: "wrist-rotation.webp", targetedMuscles: ["shoulders", "trapezius"] }
+    ]
+    
     const forearmExercises = [
-        { name: "Curl de Muñeca con Mancuernas", imagen: "MUÑECA-CURL.jpg", targetedMuscles: { spanish: "Antebrazos", english: "Forearms" } },
-        { name: "Curl de Muñeca Inverso con Mancuernas", imagen: "CURL-MUÑECA-INVERTIDO.jpg", targetedMuscles: { spanish: "Antebrazos", english: "Forearms" } },
-        { name: "Rotaciones de Muñeca con Mancuernas", imagen: "MUÑECAS-ROTACION.jpg", targetedMuscles: { spanish: "Antebrazos", english: "Forearms" } }
-    ];
+        { name: "wristCurlDumbbells", image: "wrist-curls.jpg", targetedMuscles: ["forearms"] },
+        { name: "reverseWristCurlDumbbells", image: "reverse-wrist-curl.jpg", targetedMuscles: ["forearms"] },
+        { name: "wristRotationsDumbbells", image: "wrist-rotation.webp", targetedMuscles: ["forearms"] }
+    ]
+    
+    
     
     
     
@@ -223,7 +224,7 @@ const createPlan = (sessions, duration, goal) => {
                 chestPointer++
             }
             plan[`session ${i + 1}`].chestExercises = plan[`session ${i + 1}`].chestExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].chest) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].chest % 3), reps : 6}   
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].chest) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].chest % 3), reps : 6}   
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].chestExercises)
 
@@ -235,7 +236,7 @@ const createPlan = (sessions, duration, goal) => {
               backPointer++
             }
             plan[`session ${i + 1}`].backExercises = plan[`session ${i + 1}`].backExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].back) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].back % 3), reps : 6}   
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].back) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].back % 3), reps : 6}   
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].backExercises)
 
@@ -247,7 +248,7 @@ const createPlan = (sessions, duration, goal) => {
               pointer_legs++
             }
             plan[`session ${i + 1}`].legsExercises = plan[`session ${i + 1}`].legsExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].legs) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].legs % 3), reps : 6}   
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].legs) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].legs % 3), reps : 6}   
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].legsExercises)
 
@@ -259,7 +260,7 @@ const createPlan = (sessions, duration, goal) => {
               shouldersPointer++
             }
             plan[`session ${i + 1}`].shouldersExercises = plan[`session ${i + 1}`].shouldersExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].shoulders) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].shoulders % 3), reps : 6}   
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].shoulders) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].shoulders % 3), reps : 6}   
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].shouldersExercises)
 
@@ -271,7 +272,7 @@ const createPlan = (sessions, duration, goal) => {
               bicepsPointer++    
             }
             plan[`session ${i + 1}`].bicepsExercises = plan[`session ${i + 1}`].bicepsExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].biceps) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].biceps % 3), reps : 6}   
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].biceps) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].biceps % 3), reps : 6}   
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].bicepsExercises)
 
@@ -285,7 +286,7 @@ const createPlan = (sessions, duration, goal) => {
               tricepsPointer++
             }
             plan[`session ${i + 1}`].tricepsExercises = plan[`session ${i + 1}`].tricepsExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].triceps) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].triceps % 3), reps : 6} 
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].triceps) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].triceps % 3), reps : 6} 
                 
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].tricepsExercises)
@@ -298,7 +299,7 @@ const createPlan = (sessions, duration, goal) => {
               forearmsPointer++ 
             }
             plan[`session ${i + 1}`].forearmsExercises = plan[`session ${i + 1}`].forearmsExercises.map((e, k) => {
-                return (((k + 1) * 3) <= plan[`session ${i + 1}`].forearms) ? {ejercicio : e, sets : 3, reps : 6} : {ejercicio : e, sets : (plan[`session ${i + 1}`].forearms % 3), reps : 6}   
+                return (((k + 1) * 3) <= plan[`session ${i + 1}`].forearms) ? {exercise : e, sets : 3, reps : 6} : {exercise : e, sets : (plan[`session ${i + 1}`].forearms % 3), reps : 6}   
             })
             plan[`session ${i + 1}`].exerciseList.push(...plan[`session ${i + 1}`].forearmsExercises)
 

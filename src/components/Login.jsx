@@ -4,7 +4,8 @@ import Start from "./Start.jsx"
 import styles from "../styles/Login.module.css"
 import { useForm } from "react-hook-form"
 import db from "../services/firebase"
-import {collection, query, where, getDocs} from "firebase/firestore"
+import {collection, query, where, getDocs, QuerySnapshot} from "firebase/firestore"
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"
 import { useTranslation } from 'react-i18next';
 
 
@@ -14,8 +15,9 @@ function Login() {
     const{ register, handleSubmit, setError, formState: {errors} } = useForm()
     const usuarios = collection(db, "usuarios")
     const[userdata, setUserData] = useState({})
-    const[autenticated, setAutenticated] = useState(false)
+    const[authenticated, setAuthenticated] = useState(false)
     const[loginButton, setLoginButton] = useState(styles.logButton)
+    const auth = getAuth()
 
     const { t } = useTranslation()
 
@@ -26,32 +28,48 @@ function Login() {
         }
     }
 
-    const onSubmit = async(data) =>{
-        const q = query(usuarios, where("name", "==", data.name))
-        const snap = await getDocs(q)
-        console.log(snap)
-        if(!snap.empty){
-            const doc = snap.docs[0]
-            const password = doc.data().password
-            if(password === data.password){
-                setUserData({
-                    ...doc.data(),
-                    id : doc.id
-                })
-                setAutenticated(true)
-            }else{
-                setError("password", {type : "manual", message : t("passwordError")})
+    const onSubmit = async (data) => {
+        try {
+            const q = query(collection(db, "usernames"), where("username", "==", data.name));
+            const snap = await getDocs(q);
+            if (snap.empty) {
+                setError("name", { type: "manual", message: t("userError") });
+                return;
             }
-        }else{
-            setError("name", {type : "manual", message : t("userError")})
+            const email = snap.docs[0].data().email;
+            signInWithEmailAndPassword(auth, email, data.password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    setAuthenticated(true);
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setError("password", { type: "manual", message: t("passwordError") });
+                    console.error(errorCode, errorMessage);
+                });
+        } catch (error) {
+            console.log(error.message);
+            setError("password", { type: "manual", message: t("passwordError") });
         }
+    }
 
+    const onRegister = (data) => {
+        createUserWithEmailAndPassword(auth, data.user, data.password)
+        .then((userCredential) => {
+            const user = userCredential.user
+        })
+        .catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            console.log(errorCode)
+        })
     }
     
   return (
     <>
         {
-            autenticated ? (
+            authenticated ? (
                 <Start userdata={userdata} t={t}/>
             ) : (
                 <div className={styles.loginContainer}>

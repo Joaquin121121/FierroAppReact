@@ -78,6 +78,18 @@ button:active{
         }
         }
 
+.fadeUp {
+    animation-name: fade-up;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+    
+.fadeOut {
+animation-name: fade-out;
+animation-duration: 1s;
+animation-fill-mode: forwards;
+}
+
 
 .card{
     border-radius: 25px;
@@ -179,16 +191,16 @@ button:active{
 }
 
 .editContainer{
-    height: 75px;
-    width : 120px;
+    height: 80px;
+    width : 100px;
     margin-left: 3%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     font-size: 12px;
     font-weight: 400;
     color: gray;
-    display: none;
     opacity: 0;
     cursor: pointer;
     transition: transform 1s ease;
@@ -197,6 +209,8 @@ button:active{
 .editContainer:hover{
     color:black;
 }
+
+
 
 .edit{
     width: 50px;

@@ -1,8 +1,20 @@
+@keyframes fade-down{
+    0%{
+        opacity: 0;
+        transform: translateY(-30px)
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
 .card {
     padding: 0 50px;
     border-radius: 25px;
     transition: transform 1s ease;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fade-down 1s forwards;
 }
 
 .card:hover {
