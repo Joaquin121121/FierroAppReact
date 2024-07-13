@@ -97,6 +97,11 @@ function ExerciseSwap({ session, n, t, setPage, prevPage, setPrevPage }) {
                 </div>
             </div>
             <div className={styles.buttonsContainer}>
+                <div className={styles.exerciseSwapButtons}>
+                    {lengthArray.map((i) => (
+                        <button className={`${styles.exerciseSwapButton} ${(exerciseN === i ? styles.selected : "")}`} onClick={() => {setExerciseN(i)}}></button>
+                    ))}
+                </div>
                 <button className={styles.backButton} onClick={onBack}>
                     {t("back")}
                 </button>

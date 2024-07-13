@@ -47,11 +47,7 @@ button:focus {
     outline: none;
 }
 
-button:active {
-    box-shadow: none;
-    margin-top: 10px;
-    height: 55px;
-}
+
 
 button:hover {
     transform: scale(1.02);
@@ -240,6 +236,12 @@ form {
     background-color: #0989ff;
 }
 
+.logButton:active{
+    box-shadow: none;
+    margin-top: 10px;
+    height: 55px;
+}
+
 .line {
     height: 1px;
     width: 80%;
@@ -250,8 +252,14 @@ form {
     background-color: #28A745;
 }
 
+.registerButton:active{
+    box-shadow: none;
+    margin-top: 10px;
+    height: 55px;
+}
+
 @media (min-height: 800px) {
-    .containerLogin {
+    .cardLogin {
         height: 90%;
         zoom: normal;
     }

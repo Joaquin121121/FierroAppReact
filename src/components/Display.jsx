@@ -123,11 +123,11 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
                 }, ((prevPage === "new") ? ((i + 1) * 1000) : 5))
             }
 
-            jsx.push(<div className={styles.buttonsContainer} style={(prevPage === "new") ? {animationDelay : `${plan.sessions + 1 }s`} : null}>
-                <button className={styles.returnButton} onClick={onBack}>
+            jsx.push(<div className={styles.buttonsContainer} key="buttons-container" style={(prevPage === "new") ? {animationDelay : `${plan.sessions + 1 }s`} : null}>
+                <button className={`${styles.button} ${styles.returnButton}`} onClick={onBack}>
                     {t("back")}
                 </button>
-                <button className={styles.startButton}>
+                <button className={`${styles.button} ${styles.startButton}`}>
                     {t("start")}
                 </button>
             </div>)
@@ -160,6 +160,7 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
     <div className={`${styles.card} ${navAnimation}`} >
         <h1>{t("myPlan")}<span className={styles.span}>{plan.name}</span></h1>
         {cardsJSX}
+
         
         
     </div>

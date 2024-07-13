@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styles from "../styles/New.module.css"
-import Slider from "./Slider"
+import Slider from "@mui/material/Slider"
+import CustomSlider from "./CustomSlider"
 import createPlan from "../services/planService"
 import navAnimations from "../styles/NavAnimations.module.css"
 
@@ -17,6 +18,13 @@ function New({ mouseDown, setMouseDown, setPage, setPlan, t, prevPage, setPrevPa
     const hyperthrophyRef = useRef(null)
     const strengthRef = useRef(null)
     const functionalRef = useRef(null)
+    const [chestExercises, setChestExercises] = useState(0)
+    const [backExercises, setBackExercises] = useState(0)
+    const [legExercises, setLegExercises] = useState(0)
+    const [shoulderExercises, setShoulderExercises] = useState(0)
+    const [bicepsExercises, setBicepExercises] = useState(0)
+    const [tricepsExercises, setTricepExercises] = useState(0)
+    const [forearmExercises, setForearmExercises] = useState(0)
 
     const onStart = () => {
       setPlan(createPlan(frequency, duration, goal))
@@ -76,6 +84,10 @@ function New({ mouseDown, setMouseDown, setPage, setPlan, t, prevPage, setPrevPa
 
       },[])
 
+      useEffect(() => {
+
+      }, [duration, frequency])
+
 
   return (
 <div className={`${animation} card ${styles.card} `}>
@@ -85,8 +97,8 @@ function New({ mouseDown, setMouseDown, setPage, setPlan, t, prevPage, setPrevPa
     <div className={styles.frequencyContainer}>
         <h1>{t("frequency")}</h1>
         <div className={styles.sliders} onMouseLeave={() =>{setMouseDown(false)}}>
-            <Slider field="frequency" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={frequency} setCounter={setFrequency} t={t}/>
-            <Slider field="duration" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={duration} setCounter={setDuration} t={t}/>
+            <CustomSlider field="frequency" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={frequency} setCounter={setFrequency} t={t}/>
+            <CustomSlider field="duration" mouseDown={mouseDown} setMouseDown={setMouseDown} counter={duration} setCounter={setDuration} t={t}/>
         </div>
     </div>
     <div className={styles.goalContainer}>
@@ -115,6 +127,9 @@ function New({ mouseDown, setMouseDown, setPage, setPlan, t, prevPage, setPrevPa
                 {t("functional")}
             </div>
         </div>
+    </div>
+    <div style={{width: "40%", margin:"0 auto", marginTop: "20px"}}>
+      <Slider></Slider>
     </div>
     <div className={styles.buttons}>
         <button className={styles.backButton} onClick={onBack}>

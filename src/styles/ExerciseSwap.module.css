@@ -44,6 +44,7 @@
     overflow: hidden;
     border-color: #0989FF;
     border-style: solid;
+    margin-bottom: 0;
     
 }
 
@@ -153,10 +154,52 @@
 }
 
 .buttonsContainer {
+    height: 150px;
+    position: relative;
     width: 75%;
-    margin: 20px auto;
+    margin: 5px auto;
     display: flex;
     justify-content: space-between;
+    align-items: end;
+    margin-bottom: 50px;
+}
+
+.exerciseSwapButtons{
+    position: absolute;
+    top: 0;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+button.exerciseSwapButton{
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border-color: #0989FF;
+    border-style: solid;
+    background-color: black;
+    border-width: thin;
+}
+
+button.exerciseSwapButton:active{
+    margin-top: 0;
+    transform: scale(1.1);
+    height: 15px;
+}
+
+button.selected{
+    background-color: #0989FF;
+    border-color: black;
+}
+
+button.selected:active{
+    transform: scale(1);
+    height: 15px;
 }
 
 .backButton{

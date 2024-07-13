@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from "../styles/Slider.module.css"
 import setSlider from "../services/sliderService.js"
 
-function Slider({ field, mouseDown, setMouseDown, counter, setCounter, t }) {
+function CustomSlider({ field, mouseDown, setMouseDown, counter, setCounter, t }) {
 
     const[sliderBarX, setSliderBarX] = useState(0)
     const[sliderBarWidth, setSliderBarWidth] = useState(0)
@@ -60,4 +60,4 @@ function Slider({ field, mouseDown, setMouseDown, counter, setCounter, t }) {
 )
 }
 
-export default Slider
+export default CustomSlider
