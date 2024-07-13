@@ -2,22 +2,34 @@ import React, { useEffect, useState, useRef } from 'react'
 import styles from "../styles/New.module.css"
 import Slider from "./Slider"
 import createPlan from "../services/planService"
+import navAnimations from "../styles/NavAnimations.module.css"
 
 
 
-function New({ mouseDown, setMouseDown, setPage, setPlan, t}) {
+
+
+function New({ mouseDown, setMouseDown, setPage, setPlan, t, prevPage, setPrevPage}) {
 
     const [duration, setDuration] = useState(40)
     const [frequency, setFrequency] = useState(3)
     const [goal, setGoal] = useState("hyperthrophy")
+    const [animation, setAnimation] = useState("")
     const hyperthrophyRef = useRef(null)
     const strengthRef = useRef(null)
     const functionalRef = useRef(null)
 
     const onStart = () => {
-        setPlan(createPlan(frequency, duration, goal))
-        console.log(createPlan(frequency, duration, goal))
-        setPage("display")
+      setPlan(createPlan(frequency, duration, goal))
+      console.log(createPlan(frequency, duration, goal))
+      setPrevPage("new")
+      setAnimation(navAnimations.fadeOutLeft)
+      setTimeout(() =>{setPage("display")}, 500)
+    }
+
+    const onBack = () => {
+      setPrevPage("new")
+      setAnimation(navAnimations.fadeOutRight)
+      setTimeout(() =>{setPage("welcome")}, 500)
     }
 
     useEffect(() => {
@@ -53,9 +65,20 @@ function New({ mouseDown, setMouseDown, setPage, setPlan, t}) {
         }
       }, [goal])
 
+      useEffect(()=>{
+        
+        if(prevPage === "welcome"){
+          setAnimation(navAnimations.fadeInRight)
+        } else{
+          window.scrollTo({top : 0, behavior : "smooth"})
+          setAnimation(navAnimations.fadeInLeft)
+        }
+
+      },[])
+
 
   return (
-<div className={`card ${styles.card}`}>
+<div className={`${animation} card ${styles.card} `}>
     <div className={styles.create}>
         <h1>{t("tellUs")}</h1>
     </div>
@@ -94,7 +117,7 @@ function New({ mouseDown, setMouseDown, setPage, setPlan, t}) {
         </div>
     </div>
     <div className={styles.buttons}>
-        <button className={styles.backButton} onClick={() => {setPage("welcome")}}>
+        <button className={styles.backButton} onClick={onBack}>
             {t("back")}
         </button>
         <button className={styles.startButton} onClick={onStart}>

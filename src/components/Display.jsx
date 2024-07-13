@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from "../styles/Display.module.css"
+import navAnimations from "../styles/NavAnimations.module.css"
 
-function Display({ plan, t, setPage, setSessionN, scrolled, setScrolled }) {
+function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
 
-    const[cardsJSX, setCardsJSX] = useState("")
+    const [cardsJSX, setCardsJSX] = useState("")
+    const [navAnimation, setNavAnimation] = useState("")
     const cardsRef = useRef([])
     const editRefs = useRef([])
     const loadedSessions = []
@@ -28,17 +30,28 @@ function Display({ plan, t, setPage, setSessionN, scrolled, setScrolled }) {
 
     const onEdit = (i) => {
         setSessionN(i)
-        setPage("exerciseSwap")
+        setPrevPage("display")
+        setNavAnimation(navAnimations.fadeOutLeft)
+        setTimeout(() =>{setPage("exerciseSwap")}, 500)
+        
     }
 
     const onBack = () => {
-        setScrolled(false)
-        setPage("new")
+        setPrevPage("display")
+        setNavAnimation(navAnimations.fadeOutRight)
+        setTimeout(() => {setPage("new")}, 500)
+        
     }
 
 
 
     useEffect(() => {
+
+        if(prevPage === "new"){
+            setNavAnimation(navAnimations.fadeInRight)
+        } else{
+            setNavAnimation(navAnimations.fadeInLeft)
+        }
 
         const loadJSX = () => {
 
@@ -70,7 +83,7 @@ function Display({ plan, t, setPage, setSessionN, scrolled, setScrolled }) {
                 cardsRef.current[i - 1] = React.createRef()
                 editRefs.current[i - 1] = React.createRef()
                 jsx.push(<div className={styles.sessionContainer} key={i} ref={cardsRef.current[i - 1]} onMouseEnter={() => {onMouseEnter(editRefs.current[i - 1], i)}} onMouseLeave={() => {onMouseLeave(editRefs.current[i - 1], i)}}>
-                    <div className={styles.session} style={!scrolled ? {animationDelay : `${i + 1}s`} : null} >
+                    <div className={styles.session} style={(prevPage === "new") ? {animationDelay : `${i + 1}s`} : null} >
                         <div className={styles.imageContainer}>
                             <img src={img || `images/full-body-${i}.jpg`} alt=""/>
                         </div>
@@ -107,10 +120,10 @@ function Display({ plan, t, setPage, setSessionN, scrolled, setScrolled }) {
 
                 setTimeout(() =>{
                     loadedSessions.push(i)
-                }, (!scrolled ? ((i + 1) * 1000) : 5))
+                }, ((prevPage === "new") ? ((i + 1) * 1000) : 5))
             }
 
-            jsx.push(<div className={styles.buttonsContainer} style={!scrolled ? {animationDelay : `${plan.sessions + 1 }s`} : null}>
+            jsx.push(<div className={styles.buttonsContainer} style={(prevPage === "new") ? {animationDelay : `${plan.sessions + 1 }s`} : null}>
                 <button className={styles.returnButton} onClick={onBack}>
                     {t("back")}
                 </button>
@@ -128,7 +141,7 @@ function Display({ plan, t, setPage, setSessionN, scrolled, setScrolled }) {
 
 
     useEffect(() => {
-        if(!scrolled)
+        if((prevPage === "new"))
         {cardsRef.current.forEach((ref, index) => {
             if(ref && ref.current){
                 setTimeout(() => {
@@ -144,7 +157,7 @@ function Display({ plan, t, setPage, setSessionN, scrolled, setScrolled }) {
 
     }, [cardsJSX])
   return (
-    <div className={styles.card} >
+    <div className={`${styles.card} ${navAnimation}`} >
         <h1>{t("myPlan")}<span className={styles.span}>{plan.name}</span></h1>
         {cardsJSX}
         

@@ -3,11 +3,11 @@ const createPlan = (sessions, duration, goal) => {
     const chestExercises = [
         { name: "benchPress", image: "bench-press.webp", targetedMuscles: ["chest", "triceps"] },
         { name: "inclineBenchPress", image: "incline-press.webp", targetedMuscles: ["chest", "triceps"] },
-        { name: "chestDips", image: "chest-dips.webp", targetedMuscles: ["chest", "triceps", "shoulders"] },
-        { name: "declineBenchPress", image: "declined-press.webp", targetedMuscles: ["chest", "triceps"] },
-        { name: "dumbbellFlyes", image: "butterfly.jpeg", targetedMuscles: ["chest", "shoulders"] },
+        { name: "chestDips", image: "chest-dips.png", targetedMuscles: ["chest", "triceps", "shoulders"] },
+        { name: "declineBenchPress", image: "decline-bench-press.jpg", targetedMuscles: ["chest", "triceps"] },
+        { name: "dumbbellFlyes", image: "dumbbell-fly.webp", targetedMuscles: ["chest", "shoulders"] },
         { name: "cableCrossovers", image: "pulley-crossover.jpg", targetedMuscles: ["chest"] },
-        { name: "dumbbellBenchPress", image: "dumbbell-press.jpeg", targetedMuscles: ["chest", "triceps"] },
+        { name: "dumbbellBenchPress", image: "dumbbell-press.webp", targetedMuscles: ["chest", "triceps"] },
         { name: "pullOver", image: "pullover.jpg", targetedMuscles: ["chest", "lats"] }
     ]
     
@@ -15,8 +15,8 @@ const createPlan = (sessions, duration, goal) => {
         { name: "widePullUp", image: "pull-ups.webp", targetedMuscles: ["lats", "biceps"] },
         { name: "closePullUp", image: "chin-ups.jpg", targetedMuscles: ["lats", "biceps"] },
         { name: "barbellRow", image: "barbell-row.jpg", targetedMuscles: ["upperBack", "lats"] },
-        { name: "dumbbellRow", image: "dumbbel-row.jpeg", targetedMuscles: ["upperBack", "lats"] },
-        { name: "deadlift", image: "deadlift.jpeg", targetedMuscles: ["lowerBack", "glutes", "hamstrings"] },
+        { name: "dumbbellRow", image: "dumbbell-row.jpg", targetedMuscles: ["upperBack", "lats"] },
+        { name: "deadlifts", image: "deadlifts.webp", targetedMuscles: ["lowerBack", "glutes", "hamstrings"] },
         { name: "pulldownsToChest", image: "chest-pulldown.jpg", targetedMuscles: ["lats", "biceps"] },
         { name: "cableRow", image: "single-arm-cable-row.jpg", targetedMuscles: ["upperBack", "lats"] },
         { name: "hyperextensions", image: "hyperextensions.jpg", targetedMuscles: ["lowerBack", "glutes"] }
@@ -30,36 +30,35 @@ const createPlan = (sessions, duration, goal) => {
         { name: "concentrationCurl", image: "concentrated-bicep-curl.jpg", targetedMuscles: ["biceps"] },
         { name: "inclineDumbbellCurl", image: "incline-biceps.png", targetedMuscles: ["biceps"] },
         { name: "preacherCurl", image: "scott-biceps.jpeg", targetedMuscles: ["biceps"] },
-        { name: "chinUps", image: "chin-row.jpeg", targetedMuscles: ["biceps", "lats"] }
+        { name: "chinUps", image: "chin-ups.jpeg", targetedMuscles: ["biceps", "lats"] }
     ]
     
     const tricepsExercises = [
         { name: "frenchPress", image: "french-press.avif", targetedMuscles: ["triceps"] },
         { name: "tricepsPushdown", image: "tricep-pulley.webp", targetedMuscles: ["triceps"] },
-        { name: "ropeTricepExtension", image: "tricep-rope.jpeg", targetedMuscles: ["triceps"] },
-        { name: "tricepDips", image: "tricep-dips.jpeg", targetedMuscles: ["triceps", "chest"] },
-        { name: "tricepKickback", image: "tricep-kickback.png", targetedMuscles: ["triceps"] },
-        { name: "dumbbellTricepPress", image: "tricep-pushdown.jpg", targetedMuscles: ["triceps"] }
+        { name: "ropeTricepExtension", image: "tricep-rope.avif", targetedMuscles: ["triceps"] },
+        { name: "tricepDips", image: "tricep-dips.webp", targetedMuscles: ["triceps", "chest"] },
+        { name: "tricepKickback", image: "tricep-kickback.png", targetedMuscles: ["triceps"] }
     ]
     
     const legExercises = [
-        { name: "squats", image: "squat.jpeg", targetedMuscles: ["quadriceps", "glutes", "hamstrings"] },
-        { name: "deadlift", image: "deadlift.jpeg", targetedMuscles: ["lowerBack", "glutes", "hamstrings"] },
+        { name: "squats", image: "squat.jpg", targetedMuscles: ["quadriceps", "glutes", "hamstrings"] },
+        { name: "deadlift", image: "deadlifts.webp", targetedMuscles: ["lowerBack", "glutes", "hamstrings"] },
         { name: "lunges", image: "lunges.jpg", targetedMuscles: ["quadriceps", "glutes"] },
-        { name: "legExtensions", image: "leg-extensions.jpeg", targetedMuscles: ["quadriceps"] },
-        { name: "lyingLegCurls", image: "reverse-wrist-curl.jpg", targetedMuscles: ["hamstrings", "glutes"] },
+        { name: "legExtensions", image: "leg-extensions.webp", targetedMuscles: ["quadriceps"] },
+        { name: "lyingLegCurls", image: "hamstring-curls.webp", targetedMuscles: ["hamstrings", "glutes"] },
         { name: "standingCalfRaises", image: "calf-raises.jpg", targetedMuscles: ["calves"] },
-        { name: "legPress", image: "leg-press.jpeg", targetedMuscles: ["quadriceps", "glutes"] },
-        { name: "hackSquat", image: "hack-squat.jpeg", targetedMuscles: ["quadriceps", "glutes"] }
+        { name: "legPress", image: "leg-press.webp", targetedMuscles: ["quadriceps", "glutes"] },
+        { name: "hackSquat", image: "hack-squat.webp", targetedMuscles: ["quadriceps", "glutes"] }
     ]
     
     const shoulderExercises = [
-        { name: "militaryPress", image: "military-press.jpeg", targetedMuscles: ["shoulders", "triceps"] },
+        { name: "militaryPress", image: "military-press.jpg", targetedMuscles: ["shoulders", "triceps"] },
         { name: "lateralRaises", image: "lateral-raises.jpg", targetedMuscles: ["shoulders"] },
-        { name: "rearDeltFly", image: "rear-raises.jpeg", targetedMuscles: ["shoulders", "upperBack"] },
-        { name: "arnoldPress", image: "arnold-press.jpeg", targetedMuscles: ["shoulders", "triceps"] },
+        { name: "rearDeltFly", image: "rear-raises.jpg", targetedMuscles: ["shoulders", "upperBack"] },
+        { name: "arnoldPress", image: "arnold-press.jpg", targetedMuscles: ["shoulders", "triceps"] },
         { name: "facePulls", image: "face-pulls.jpg", targetedMuscles: ["shoulders", "upperBack"] },
-        { name: "uprightRows", image: "wrist-rotation.webp", targetedMuscles: ["shoulders", "trapezius"] }
+        { name: "uprightRows", image: "chin-rows.webp", targetedMuscles: ["shoulders", "trapezius"] }
     ]
     
     const forearmExercises = [

@@ -1,15 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from "../styles/Welcome.module.css"
+import navAnimations from "../styles/NavAnimations.module.css"
 
 
-function Welcome({ setPage, t }) {
+
+function Welcome({ setPage, t, prevPage, setPrevPage }) {
+
+    const [navAnimation, setNavAnimation] = useState("")
 
     const onNew = () =>{
-        setPage("new")
+        setPrevPage("welcome")
+        setNavAnimation(navAnimations.fadeOutLeft)
+        setTimeout(()=>{setPage("new")}, 500)
     }
 
+    useEffect(() => {
+        if(prevPage === "new"){
+            setNavAnimation(navAnimations.fadeInLeft)
+        } else{
+            setNavAnimation(navAnimations.fadeInRight)
+        }
+    }, [])
+
   return (
-    <div className={styles.card}>
+    <div className={`${navAnimation} ${styles.card} `}>
             <h1>{t("welcomeTo")} <span className={styles.bold}>Fierro App</span></h1>
             <h2>{t("welcomeSubheading")}</h2>
             <div className={styles.buttonContainer}>

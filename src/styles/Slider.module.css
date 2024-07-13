@@ -46,8 +46,9 @@
 
 .pill .line {
     width: 80%;
-    height: 2px;
+    height: 3px;
     background-color: #0989FF;
+    border-radius: 25px;
     margin-top: 12px;
 }
 

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styles from "../styles/ExerciseSwap.module.css"
+import navAnimations from "../styles/NavAnimations.module.css"
 
-function ExerciseSwap({ session, n, t, setPage, setScrolled }) {
+function ExerciseSwap({ session, n, t, setPage, prevPage, setPrevPage }) {
     const length = session.exerciseList.length
     const lengthArray = Array.from({length}, (_, i) => i)
     const [exerciseN, setExerciseN] = useState(0)
+    const [navAnimation, setNavAnimation] = useState("")
 
     const onLeft = () => {
         setExerciseN(index => {
@@ -23,16 +25,29 @@ function ExerciseSwap({ session, n, t, setPage, setScrolled }) {
     
 
     const onBack = () => {
-        setScrolled(true)
-        setPage("display")
+        window.removeEventListener("keydown", onKeyDown)
+        setPrevPage("exerciseSwap")
+        setNavAnimation(navAnimations.fadeOutRight)
+        setTimeout(() => {setPage("display")}, 500)
+    }
+
+    const onKeyDown = (event) => {
+        if(event.key === "ArrowLeft"){
+            onLeft()
+        } else if(event.key === "ArrowRight"){
+            onRight()
+        }
     }
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" })
+        window.addEventListener("keydown", onKeyDown)
+        if(prevPage === "display"){
+            setNavAnimation(navAnimations.fadeInRight)
+        }
     }, [])
 
     return (
-        <div className={styles.card}>
+        <div className={`${navAnimation} ${styles.card} `}>
             <h1>{t("session")} {n} - <span className={styles.span}>{t("exercises").charAt(0).toUpperCase() + t("exercises").slice(1)}</span></h1>
             <div className={styles.parentContainer}>
                 <div className={styles.leftButtons}>

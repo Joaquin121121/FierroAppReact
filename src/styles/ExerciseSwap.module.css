@@ -1,67 +1,6 @@
-@keyframes fade-up{
-    0%{
-        opacity: 0;
-        transform: translateY(30px)
-    }
-    100%{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}
-
-
-@keyframes fade-in-left{
-    0%{
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    100%{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-}
-
-@keyframes fade-out-left {
-    0%{
-        opacity: 1;
-        transform: translateX(0px)
-    }
-    100%{
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    
-}
-
-@keyframes fade-in-right{
-    0%{
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    100%{
-        opacity: 1;
-        transform: translateX(0px);
-    }
-}
-
-@keyframes fade-out-right {
-    0%{
-        opacity: 1;
-        transform: translateX(0px)
-    }
-    100%{
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    
-}
-
-
-
 
 
 .card{
-    opacity: 0;
     border-radius: 25px;
     background-color: white;
     transition: all 1s ease;
@@ -72,7 +11,6 @@
     padding-top: 50px;
     margin-bottom: 40px;
     zoom: 0.9;
-    animation: fade-up 1s forwards;
     
     
 }
@@ -104,6 +42,8 @@
     height: 700px;
     zoom: 0.8;
     overflow: hidden;
+    border-color: #0989FF;
+    border-style: solid;
     
 }
 
@@ -230,26 +170,8 @@
 }
 
 
-.fadeOutLeft{
-    animation-name: fade-out-left;
-    animation-duration: 0.25s;
-    animation-fill-mode: forwards;
-}
-
-.fadeInLeft{
-    animation-name: fade-in-left;
-    animation-duration: 0.25s;
-    animation-fill-mode: forwards;
-}
-
-.fadeOutRight{
-    animation-name: fade-out-right;
-    animation-duration: 0.25s;
-    animation-fill-mode: forwards;
-}
-
-.fadeInRight{
-    animation-name: fade-in-right;
+.fadeOut{
+    animation-name: fade-out;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
 }

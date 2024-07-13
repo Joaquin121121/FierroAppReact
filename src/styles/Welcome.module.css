@@ -63,7 +63,6 @@ button:focus {
     background-color: white;
     transition: transform 1s ease;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation: fade-down 1s forwards;
 }
 
 .card:hover {
