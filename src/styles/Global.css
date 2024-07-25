@@ -1,9 +1,9 @@
-html{
-    transform: scale(0.75)
+html {
+  transform: scale(0.75);
 }
 
-@media (min-width : 1200px){
-    html{
-        transform: scale(1);
-    }
+@media (min-width: 1200px) {
+  html {
+    transform: scale(1);
+  }
 }

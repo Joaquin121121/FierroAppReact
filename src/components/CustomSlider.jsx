@@ -1,63 +1,88 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react"
 import styles from "../styles/Slider.module.css"
 import setSlider from "../services/sliderService.js"
 
-function CustomSlider({ field, mouseDown, setMouseDown, counter, setCounter, t }) {
+function CustomSlider({
+  field,
+  mouseDown,
+  setMouseDown,
+  counter,
+  setCounter,
+  t,
+}) {
+  const [sliderBarX, setSliderBarX] = useState(0)
+  const [sliderBarWidth, setSliderBarWidth] = useState(0)
+  const sliderBarRef = useRef(null)
+  const sliderRef = useRef(null)
 
-    const[sliderBarX, setSliderBarX] = useState(0)
-    const[sliderBarWidth, setSliderBarWidth] = useState(0)
-    const sliderBarRef = useRef(null)
-    const sliderRef = useRef(null)
+  const onMouseDown = (e) => {
+    setMouseDown(true)
+    const [width, count] = setSlider(
+      field,
+      sliderBarX,
+      sliderBarWidth,
+      e.clientX
+    )
+    sliderRef.current.style.width = `${width + 10}px`
+    setCounter(count)
+  }
 
-    const onMouseDown = () => {
-        setMouseDown(true)
+  const onMouseMove = (e) => {
+    if (mouseDown) {
+      const [width, count] = setSlider(
+        field,
+        sliderBarX,
+        sliderBarWidth,
+        e.clientX
+      )
+      sliderRef.current.style.width = `${width + 10}px`
+      setCounter(count)
+    }
+  }
+
+  useEffect(() => {
+    const updateSliderDimensions = () => {
+      setSliderBarX(sliderBarRef.current.getBoundingClientRect().left)
+      setSliderBarWidth(sliderBarRef.current.offsetWidth)
+      sliderRef.current.style.width = "33%"
+      setCounter(field === "frequency" ? 3 : 40)
     }
 
-    const onMouseMove = (e) => {
-        if(mouseDown){
-            const[width, count] = setSlider(field, sliderBarX, sliderBarWidth, e.clientX)
-            sliderRef.current.style.width = `${width + 10}px`
-            setCounter(count)
-        }
+    updateSliderDimensions()
+
+    window.addEventListener("resize", updateSliderDimensions)
+
+    return () => {
+      window.removeEventListener("resize", updateSliderDimensions)
     }
-
-    useEffect(() => {
-        
-        const updateSliderDimensions = () => {
-            
-            setSliderBarX(sliderBarRef.current.getBoundingClientRect().left);
-            setSliderBarWidth(sliderBarRef.current.offsetWidth);
-            sliderRef.current.style.width = "33%"
-            setCounter((field === "frequency" ? 3 : 40))
-
-        }
-
-        updateSliderDimensions()
-
-        window.addEventListener('resize', updateSliderDimensions)
-
-        return () => {
-            window.removeEventListener("resize", updateSliderDimensions)
-        }
-
-    }, [setCounter, field])
-
+  }, [setCounter, field])
 
   return (
-    <div className={styles.slider} onMouseMove={onMouseMove}>
-        <div className={styles.sliderBar} ref={sliderBarRef}>
-            <div className={styles.progress} ref={sliderRef} >
-                <div className={styles.pill} onMouseDown={onMouseDown} onDragStart={(e) => {e.preventDefault()}} >
-                    <div className={styles.line}></div>
-                    <div className={styles.line}></div>
-                    <div className={styles.line}></div>
-                </div>
-            </div>
+    <div
+      className={styles.slider}
+      onMouseMove={onMouseMove}
+      onMouseDown={onMouseDown}
+    >
+      <div className={styles.sliderBar} ref={sliderBarRef}>
+        <div className={styles.progress} ref={sliderRef}>
+          <div
+            className={styles.pill}
+            onDragStart={(e) => {
+              e.preventDefault()
+            }}
+          >
+            <div className={styles.line}></div>
+            <div className={styles.line}></div>
+            <div className={styles.line}></div>
+          </div>
         </div>
-        <div className={styles.counter}>{counter}</div>
-        <p>{field === "frequency" ? t("weeklySessions") : t("minutesPerSession")}</p>
+      </div>
+      <div className={styles.counter}>{counter}</div>
+      <p>
+        {field === "frequency" ? t("weeklySessions") : t("minutesPerSession")}
+      </p>
     </div>
-)
+  )
 }
 
 export default CustomSlider

@@ -1,66 +1,65 @@
-@keyframes fade-in-right{
-    0%{
-        opacity: 0;
-        transform: translateX(300px)
-    }
-    100%{
-        opacity: 1;
-        transform: translateX(0px);
-    }
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 
-@keyframes fade-in-left{
-    0%{
-        opacity: 0;
-        transform: translateX(-300px)
-    }
-    100%{
-        opacity: 1;
-        transform: translateX(0px);
-    }
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 
-@keyframes fade-out-right{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-        transform: translateX(300px);
-    }
+@keyframes fade-out-right {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
 }
 
-@keyframes fade-out-left{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-        transform: translateX(-300px);
-    }
+@keyframes fade-out-left {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
 }
 
-.fadeInRight{
-    animation-name: fade-in-right;
-    animation-duration: 500ms;
-    animation-fill-mode: forwards;
+.fadeInRight {
+  animation-name: fade-in-right;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
 }
 
-.fadeInLeft{
-    animation-name: fade-in-left;
-    animation-duration: 500ms;
-    animation-fill-mode: forwards;
+.fadeInLeft {
+  animation-name: fade-in-left;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
 }
 
-.fadeOutRight{
-    animation-name: fade-out-right;
-    animation-duration: 500ms;
-    animation-fill-mode: forwards;
+.fadeOutRight {
+  animation-name: fade-out-right;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
 }
 
-.fadeOutLeft{
-    animation-name: fade-out-left;
-    animation-duration: 500ms;
-    animation-fill-mode: forwards;
+.fadeOutLeft {
+  animation-name: fade-out-left;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
 }
-
