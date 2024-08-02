@@ -13,6 +13,7 @@
   "userError": "El usuario no existe",
   "noPassword": "Por favor ingrese su contraseña",
   "passwordError": "Contraseña incorrecta",
+  "orSignIn": "O ingrese utilizando",
   "noAccount": "¿No tienes cuenta?",
   "newAccount": "Crear Cuenta",
   "registerSubheading": "Llene los siguientes campos para llenar su cuenta",
@@ -20,6 +21,11 @@
   "birthDate": "Fecha de Nacimiento",
   "male": "Masculino",
   "female": "Femenino",
+  "usernameInUse": "Ese nombre de usuario ya está en uso. Por favor, elige otro.",
+  "weakPassword": "La contraseña que ingresaste es demasiado débil. Para una contraseña más fuerte, utiliza al menos 12 caracteres, incluyendo una combinación de letras mayúsculas, minúsculas, números y símbolos especiales.",
+  "noEmail": "Por favor ingrese su correo electrónico",
+  "emailInUse": "Ese correo electrónico ya está en uso. Inicia sesión o elige otro correo electrónico.",
+  "invalidEmail": "La dirección de correo electrónico que ingresaste es inválida. Por favor, asegúrate de que esté en el formato: usuario@ejemplo.com.",
 
   "welcomeTo": "Bienvenido a la",
   "welcomeSubheading": "Motivación constante, resultados reales",
@@ -113,5 +119,14 @@
   "calves": "Pantorrillas",
   "brachioradialis": "Braquiorradial",
   "trapezius": "Trapecio",
-  "forearms": "Antebrazos"
+  "forearms": "Antebrazos",
+
+  "home": "Inicio",
+  "logSession": "Cargar entrenamiento",
+  "calendar": "Calendario",
+  "plan": "Mi plan",
+  "myStats": "Mis estadísticas",
+  "myWeek": "Mi Semana",
+  "completedSessions": "Sesiones completadas",
+  "streakDays": "Días de racha"
 }

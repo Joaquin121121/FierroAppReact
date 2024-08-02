@@ -1,13 +1,25 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import styles from "../styles/Display.module.css"
 import navAnimations from "../styles/NavAnimations.module.css"
+import TranslationContext from "../contexts/TranslationContext"
+import { useNavigate } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
+import { db, auth } from "../services/firebase"
+import { doc, updateDoc } from "firebase/firestore"
 
-function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
+function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
   const [cardsJSX, setCardsJSX] = useState("")
-  const [navAnimation, setNavAnimation] = useState("")
+  const [cardAnimation, setCardAnimation] = useState("")
   const cardsRef = useRef([])
   const editRefs = useRef([])
   const loadedSessions = []
+
+  const t = useContext(TranslationContext)
+  const { user, setUser } = useContext(UserContext)
+
+  const navigate = useNavigate()
+
+  const plan = user.plan
 
   const onMouseEnter = (ref, i) => {
     if (loadedSessions.includes(i)) {
@@ -26,7 +38,7 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
   const onEdit = (i) => {
     setSessionN(i)
     setPrevPage("display")
-    setNavAnimation(navAnimations.fadeOutLeft)
+    setCardAnimation(navAnimations.fadeOutLeft)
     setTimeout(() => {
       setPage("exerciseSwap")
     }, 500)
@@ -34,17 +46,27 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
 
   const onBack = () => {
     setPrevPage("display")
-    setNavAnimation(navAnimations.fadeOutRight)
+    setCardAnimation(navAnimations.fadeOutRight)
     setTimeout(() => {
       setPage("new")
     }, 500)
   }
 
+  const onStart = async () => {
+    const docRef = doc(db, "userdata", auth.currentUser.uid)
+    await updateDoc(docRef, { ["hasPlan"]: true })
+    setPrevPage("Display")
+    setCardAnimation(navAnimations.fadeOutLeft)
+    setTimeout(() => {
+      navigate("/main")
+    }, 500)
+  }
+
   useEffect(() => {
     if (prevPage === "new") {
-      setNavAnimation(navAnimations.fadeInRight)
+      setCardAnimation(navAnimations.fadeInRight)
     } else {
-      setNavAnimation(navAnimations.fadeInLeft)
+      setCardAnimation(navAnimations.fadeInLeft)
     }
 
     const loadJSX = () => {
@@ -170,7 +192,10 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
           >
             {t("goBack")}
           </button>
-          <button className={`${styles.button} ${styles.startButton}`}>
+          <button
+            className={`${styles.button} ${styles.startButton}`}
+            onClick={onStart}
+          >
             {t("start")}
           </button>
         </div>
@@ -181,6 +206,13 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
     setCardsJSX(loadJSX())
   }, [])
 
+  const onHover = (e) => {
+    if (e._reactName === "onMouseEnter") {
+      setCardAnimation(styles.hover)
+    } else {
+      setCardAnimation("")
+    }
+  }
   useEffect(() => {
     if (prevPage === "new") {
       cardsRef.current.forEach((ref, index) => {
@@ -195,7 +227,11 @@ function Display({ plan, t, setPage, setSessionN, prevPage, setPrevPage }) {
     }
   }, [cardsJSX])
   return (
-    <div className={`${styles.card} ${navAnimation}`}>
+    <div
+      className={`${styles.card} ${cardAnimation}`}
+      onMouseEnter={onHover}
+      onMouseLeave={onHover}
+    >
       <h1>
         {t("myPlan")}
         <span className={styles.span}>{plan.name}</span>

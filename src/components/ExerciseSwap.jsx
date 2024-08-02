@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import styles from "../styles/ExerciseSwap.module.css"
 import navAnimations from "../styles/NavAnimations.module.css"
+import TranslationContext from "../contexts/TranslationContext"
+import UserContext from "../contexts/UserContext"
 
-function ExerciseSwap({ session, n, t, setPage, prevPage, setPrevPage }) {
+function ExerciseSwap({ n, setPage, prevPage, setPrevPage }) {
+  const [exerciseN, setExerciseN] = useState(0)
+  const [cardAnimation, setCardAnimation] = useState("")
+
+  const t = useContext(TranslationContext)
+  const { user, setUser } = useContext(UserContext)
+
+  const session = user.plan[`session ${n}`]
   const length = session.exerciseList.length
   const lengthArray = Array.from({ length }, (_, i) => i)
-  const [exerciseN, setExerciseN] = useState(0)
-  const [navAnimation, setNavAnimation] = useState("")
 
   const onLeft = () => {
     setExerciseN((index) => {
@@ -26,7 +33,7 @@ function ExerciseSwap({ session, n, t, setPage, prevPage, setPrevPage }) {
   const onBack = () => {
     window.removeEventListener("keydown", onKeyDown)
     setPrevPage("exerciseSwap")
-    setNavAnimation(navAnimations.fadeOutRight)
+    setCardAnimation(navAnimations.fadeOutRight)
     setTimeout(() => {
       setPage("display")
     }, 500)
@@ -40,15 +47,27 @@ function ExerciseSwap({ session, n, t, setPage, prevPage, setPrevPage }) {
     }
   }
 
+  const onHover = (e) => {
+    if (e._reactName === "onMouseEnter") {
+      setCardAnimation(styles.hover)
+    } else {
+      setCardAnimation("")
+    }
+  }
+
   useEffect(() => {
     window.addEventListener("keydown", onKeyDown)
     if (prevPage === "display") {
-      setNavAnimation(navAnimations.fadeInRight)
+      setCardAnimation(navAnimations.fadeInRight)
     }
   }, [])
 
   return (
-    <div className={`${navAnimation} ${styles.card} `}>
+    <div
+      className={`${styles.card} ${cardAnimation}`}
+      onMouseEnter={onHover}
+      onMouseLeave={onHover}
+    >
       <h1>
         {t("session")} {n} -{" "}
         <span className={styles.span}>

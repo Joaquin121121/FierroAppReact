@@ -1,28 +1,40 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import styles from "../styles/Welcome.module.css"
 import navAnimations from "../styles/NavAnimations.module.css"
+import TranslationContext from "../contexts/TranslationContext"
+import { auth } from "../services/firebase"
+function Welcome({ setPage, prevPage, setPrevPage }) {
+  const [cardAnimation, setCardAnimation] = useState(
+    prevPage === "new" ? navAnimations.fadeInLeft : navAnimations.fadeInRight
+  )
 
-function Welcome({ setPage, t, prevPage, setPrevPage }) {
-  const [navAnimation, setNavAnimation] = useState("")
+  const t = useContext(TranslationContext)
 
   const onNew = () => {
     setPrevPage("welcome")
-    setNavAnimation(navAnimations.fadeOutLeft)
+    setCardAnimation(navAnimations.fadeOutLeft)
     setTimeout(() => {
       setPage("new")
     }, 500)
   }
 
-  useEffect(() => {
-    if (prevPage === "new") {
-      setNavAnimation(navAnimations.fadeInLeft)
+  const onHover = (e) => {
+    if (e._reactName === "onMouseEnter") {
+      setCardAnimation(styles.hover)
     } else {
-      setNavAnimation(navAnimations.fadeInRight)
+      setCardAnimation("")
     }
-  }, [])
+  }
 
+  useEffect(() => {
+    console.log(auth.currentUser.uid)
+  })
   return (
-    <div className={`${navAnimation} ${styles.card} `}>
+    <div
+      className={`${styles.card} ${cardAnimation}`}
+      onMouseEnter={onHover}
+      onMouseLeave={onHover}
+    >
       <h1>
         {t("welcomeTo")} <span className={styles.bold}>Fierro App</span>
       </h1>

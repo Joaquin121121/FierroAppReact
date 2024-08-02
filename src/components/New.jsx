@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback, useContext } from "react"
 import styles from "../styles/New.module.css"
 import Slider from "@mui/material/Slider"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
@@ -8,6 +8,10 @@ import navAnimations from "../styles/NavAnimations.module.css"
 import { Chart } from "chart.js"
 import { Doughnut } from "react-chartjs-2"
 import { throttle } from "lodash"
+import TranslationContext from "../contexts/TranslationContext"
+import { db, auth } from "../services/firebase"
+import UserContext from "../contexts/UserContext"
+import { updateDoc, doc } from "firebase/firestore"
 
 Chart.register(ArcElement, Tooltip, Legend)
 
@@ -44,15 +48,7 @@ const colors = [
     {track: "#0ff", rail: "#4dffff"}
   ] */
 
-function New({
-  mouseDown,
-  setMouseDown,
-  setPage,
-  setPlan,
-  t,
-  prevPage,
-  setPrevPage,
-}) {
+function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
   const [duration, setDuration] = useState(40)
   const [frequency, setFrequency] = useState(3)
   const [animation, setAnimation] = useState("")
@@ -60,6 +56,9 @@ function New({
   const [indexToIgnore, setIndexToIgnore] = useState(null)
   const [replacePointer, setReplacePointer] = useState(0)
   const [premadePlan, setPremadePlan] = useState("balanced")
+
+  const t = useContext(TranslationContext)
+  const { user, setUser } = useContext(UserContext)
 
   const data = {
     labels: muscleGroups.map(
@@ -72,6 +71,27 @@ function New({
         borderWidth: 0,
       },
     ],
+  }
+  const options = {
+    cutout: "80%",
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const total = context.dataset.data.reduce(
+              (acc, curr) => acc + curr,
+              0
+            )
+            const value = context.raw
+            const percentage = Math.round((value / total) * 100).toFixed(0)
+            return `${percentage}%`
+          },
+        },
+      },
+    },
   }
 
   const onPlan = (plan) => {
@@ -90,9 +110,12 @@ function New({
     }
   }
 
-  const onStart = () => {
-    setPlan(createPlan(frequency, duration, sliders))
-    console.log(createPlan(frequency, duration, sliders))
+  const onStart = async () => {
+    const docRef = doc(db, "userdata", auth.currentUser.uid)
+    const plan = createPlan(frequency, duration, sliders)
+    setUser({ ...user, plan: plan })
+    await updateDoc(docRef, { ["plan"]: plan })
+    console.log(plan)
     setPrevPage("new")
     setAnimation(navAnimations.fadeOutLeft)
     setTimeout(() => {
@@ -148,6 +171,14 @@ function New({
     [onChange, sliders]
   )
 
+  const onHover = (e) => {
+    if (e._reactName === "onMouseEnter") {
+      setAnimation(styles.hover)
+    } else {
+      setAnimation("")
+    }
+  }
+
   useEffect(() => {
     if (prevPage === "welcome") {
       setAnimation(navAnimations.fadeInRight)
@@ -170,7 +201,11 @@ function New({
   }, [sliders])
 
   return (
-    <div className={`${animation} card ${styles.card} `}>
+    <div
+      className={`card ${styles.card} ${animation}`}
+      onMouseEnter={onHover}
+      onMouseLeave={onHover}
+    >
       <div className={styles.create}>
         <h1>{t("tellUs")}</h1>
       </div>
@@ -231,8 +266,9 @@ function New({
         <div className={styles.chartContainer}>
           <h1>{t("exerciseDistribution")}</h1>
           <Doughnut
+            style={{ zIndex: 1 }}
             data={data}
-            options={{ cutout: "80%", plugins: { legend: { display: false } } }}
+            options={options}
           ></Doughnut>
           <img src="images/icon-blue.png" alt="" />
         </div>
@@ -286,10 +322,16 @@ function New({
       </div>
 
       <div className={styles.buttons}>
-        <button className={styles.backButton} onClick={onBack}>
+        <button
+          className={`${styles.button} ${styles.backButton}`}
+          onClick={onBack}
+        >
           {t("goBack")}
         </button>
-        <button className={styles.startButton} onClick={onStart}>
+        <button
+          className={`${styles.button} ${styles.startButton}`}
+          onClick={onStart}
+        >
           {t("start")}
         </button>
       </div>

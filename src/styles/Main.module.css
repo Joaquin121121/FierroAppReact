@@ -1,0 +1,278 @@
+body {
+  font-family: "Inter";
+  background-color: #ecefea;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+}
+
+.card1 {
+  margin-top: 20px;
+  margin-left: 25px;
+  width: 25%;
+  height: 95vh;
+  border-radius: 25px;
+  transition: transform 1s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border-radius: 25px;
+  transition: transform 1s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  width: 90%;
+  padding-left: 2%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.iconContainer {
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5%;
+}
+
+.buttons {
+  width: 95%;
+  margin-left: 5px;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+.button {
+  color: #71797e;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border-radius: 25px;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  transition: background-color 0.5s ease;
+}
+
+.button:hover {
+  background-color: #e5e4e2;
+  color: black;
+  cursor: pointer;
+}
+
+.button h6 {
+  margin-top: 5px;
+  margin-bottom: 0;
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.button .iconContainer {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button .extra {
+  position: absolute;
+  right: 20px;
+  width: 18%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 5px;
+}
+
+.button .extra .iconContainer {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  border-radius: 50px;
+  transition: background-color 1s ease;
+}
+
+.button .extra .iconContainer:hover {
+  background-color: #bbb6af;
+  color: black;
+}
+
+.button .extra .plans {
+  width: 40%;
+  border-radius: 5px;
+  background-color: #89cff0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button .extra .plans p {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.cardsRight {
+  width: 72%;
+  margin-top: 20px;
+  margin-left: 8px;
+  height: 95vh;
+}
+
+.top {
+  height: 30%;
+  display: flex;
+}
+
+.card2 {
+  margin-right: 8px;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card2 h1 {
+  font-weight: 400;
+}
+
+.card2 .middleContainer {
+  height: 60%;
+  width: 95%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.card2 .externalSessionsContainer {
+  height: 80%;
+  width: 50%;
+  border-radius: 25px;
+  padding-bottom: 5px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  background-color: #0989ff;
+  margin-right: 15%;
+}
+
+.card2 .externalSessionsContainer .internalSessionsContainer {
+  border-radius: 25px;
+  height: 85%;
+  width: 95%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.card2 .externalSessionsContainer .internalSessionsContainer .textContainer {
+  height: 100%;
+  width: 90%;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0989ff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card2 .externalSessionsContainer .internalSessionsContainer .textContainer h1 {
+  margin-right: 20%;
+  font-weight: 900;
+}
+
+.card2 .imageContainer {
+  width: 250px;
+  height: 200px;
+}
+
+.card2 .progressContainer {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card2 .progressContainer .progress {
+  width: 90%;
+  height: 50%;
+}
+
+.weeklyProgress {
+  width: 33%;
+}
+
+.card3 {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3%;
+}
+
+.card3 .textContainer {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.card3 .textContainer .streak {
+  width: 100%;
+  font-weight: 900;
+  color: #0989ff;
+  font-size: 64px;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.card3 .textContainer h1 {
+  color: #ff9900;
+  font-weight: 600;
+}
+
+.card3 .imageContainer {
+  width: 40%;
+  height: 90%;
+}
+
+.card4 {
+  margin-top: 8px;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

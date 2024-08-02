@@ -1,24 +1,24 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import styles from "../styles/StartLight.module.css"
 import Welcome from "./Welcome.jsx"
 import New from "./New.jsx"
 import Display from "./Display.jsx"
 import ExerciseSwap from "./ExerciseSwap.jsx"
-import { useTranslation } from "react-i18next"
 import "../styles/Global.css"
 
 function Start({ userdata }) {
   const [page, setPage] = useState("welcome")
   const [prevPage, setPrevPage] = useState("")
   const [mouseDown, setMouseDown] = useState(false)
-  const [plan, setPlan] = useState({})
   const [sessionN, setSessionN] = useState(0)
 
   const onMouseUp = () => {
     setMouseDown(false)
   }
 
-  const { t } = useTranslation()
+  useEffect(() => {
+    window.scrollTo({ behavior: "smooth", top: 0 })
+  }, [page])
 
   return (
     <div className={`container ${styles.container}`} onMouseUp={onMouseUp}>
@@ -42,7 +42,6 @@ function Start({ userdata }) {
       {page === "welcome" && (
         <Welcome
           setPage={setPage}
-          t={t}
           prevPage={prevPage}
           setPrevPage={setPrevPage}
         />
@@ -52,16 +51,12 @@ function Start({ userdata }) {
           setPage={setPage}
           mouseDown={mouseDown}
           setMouseDown={setMouseDown}
-          setPlan={setPlan}
-          t={t}
           prevPage={prevPage}
           setPrevPage={setPrevPage}
         />
       )}
       {page === "display" && (
         <Display
-          plan={plan}
-          t={t}
           setPage={setPage}
           setSessionN={setSessionN}
           prevPage={prevPage}
@@ -70,9 +65,7 @@ function Start({ userdata }) {
       )}
       {page === "exerciseSwap" && (
         <ExerciseSwap
-          session={plan[`session ${sessionN}`]}
           n={sessionN}
-          t={t}
           setPage={setPage}
           prevPage={prevPage}
           setPrevPage={setPrevPage}

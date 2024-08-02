@@ -1,19 +1,15 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import styles from "../styles/Slider.module.css"
 import setSlider from "../services/sliderService.js"
+import TranslationContext from "../contexts/TranslationContext.jsx"
 
-function CustomSlider({
-  field,
-  mouseDown,
-  setMouseDown,
-  counter,
-  setCounter,
-  t,
-}) {
+function CustomSlider({ field, mouseDown, setMouseDown, counter, setCounter }) {
   const [sliderBarX, setSliderBarX] = useState(0)
   const [sliderBarWidth, setSliderBarWidth] = useState(0)
   const sliderBarRef = useRef(null)
   const sliderRef = useRef(null)
+
+  const t = useContext(TranslationContext)
 
   const onMouseDown = (e) => {
     setMouseDown(true)
