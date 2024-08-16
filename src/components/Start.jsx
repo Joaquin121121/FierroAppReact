@@ -1,24 +1,98 @@
 import React, { useContext, useEffect, useState } from "react"
 import styles from "../styles/StartLight.module.css"
+import navAnimations from "../styles/NavAnimations.module.css"
 import Welcome from "./Welcome.jsx"
 import New from "./New.jsx"
 import Display from "./Display.jsx"
 import ExerciseSwap from "./ExerciseSwap.jsx"
 import "../styles/Global.css"
+import { useNavigate, useParams } from "react-router-dom"
 
 function Start({ userdata }) {
-  const [page, setPage] = useState("welcome")
-  const [prevPage, setPrevPage] = useState("")
+  const { param } = useParams()
+  const [selectedAction, setSelectedAction] = useState(
+    param ? (isNaN(Number(param)) ? param : "exerciseSwap") : null
+  )
+
   const [mouseDown, setMouseDown] = useState(false)
   const [sessionN, setSessionN] = useState(0)
+  const [page, setPage] = useState(selectedAction || "welcome")
+  const [welcomeAnimation, setWelcomeAnimation] = useState(
+    navAnimations.fadeInRight
+  )
+  const [newAnimation, setNewAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+  const [displayAnimation, setDisplayAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+  const [exerciseSwapAnimation, setExerciseSwapAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+
+  const pages = ["welcome", "new", "display", "exerciseSwap"]
+  const timeouts = []
+
+  const routeNavigate = useNavigate()
+
+  const setters = {
+    welcome: setWelcomeAnimation,
+    new: setNewAnimation,
+    display: setDisplayAnimation,
+    exerciseSwap: setExerciseSwapAnimation,
+  }
 
   const onMouseUp = () => {
     setMouseDown(false)
   }
 
+  const navigate = (nextPage) => {
+    while (timeouts.length > 2) {
+      clearInterval(timeouts.shift())
+    }
+    const prevPage = page
+    timeouts.push(
+      setTimeout(() => {
+        nextPage === "main" ? routeNavigate("/main") : setPage(nextPage)
+      }, 500)
+    )
+    if (nextPage === "main") {
+      setters[prevPage](navAnimations.fadeOutLeft)
+      return
+    }
+    if (pages.indexOf(nextPage) > pages.indexOf(prevPage)) {
+      setters[prevPage](navAnimations.fadeOutLeft)
+      setters[nextPage](navAnimations.fadeInRight)
+      timeouts.push(
+        setTimeout(() => {
+          setters[nextPage](null)
+        }, 1000)
+      )
+    } else {
+      setters[prevPage](navAnimations.fadeOutRight)
+      setters[nextPage](navAnimations.fadeInLeft)
+      timeouts.push(
+        setTimeout(() => {
+          setters[nextPage](null)
+        }, 1000)
+      )
+    }
+  }
+
   useEffect(() => {
     window.scrollTo({ behavior: "smooth", top: 0 })
   }, [page])
+
+  useEffect(() => {
+    if (selectedAction) {
+      setTimeout(() => {
+        setters[selectedAction](null)
+      }, 500)
+    }
+    setTimeout(() => {
+      setWelcomeAnimation(null)
+    }, 500)
+  }, [])
 
   return (
     <div className={`container ${styles.container}`} onMouseUp={onMouseUp}>
@@ -41,34 +115,37 @@ function Start({ userdata }) {
       </div>
       {page === "welcome" && (
         <Welcome
-          setPage={setPage}
-          prevPage={prevPage}
-          setPrevPage={setPrevPage}
+          navigate={navigate}
+          animation={welcomeAnimation}
+          setAnimation={setWelcomeAnimation}
         />
       )}
       {page === "new" && (
         <New
-          setPage={setPage}
           mouseDown={mouseDown}
           setMouseDown={setMouseDown}
-          prevPage={prevPage}
-          setPrevPage={setPrevPage}
+          navigate={navigate}
+          animation={newAnimation}
+          setAnimation={setNewAnimation}
+          selectedAction={selectedAction}
         />
       )}
       {page === "display" && (
         <Display
-          setPage={setPage}
+          navigate={navigate}
+          animation={displayAnimation}
+          setAnimation={setDisplayAnimation}
           setSessionN={setSessionN}
-          prevPage={prevPage}
-          setPrevPage={setPrevPage}
+          selectedAction={selectedAction}
         />
       )}
       {page === "exerciseSwap" && (
         <ExerciseSwap
-          n={sessionN}
-          setPage={setPage}
-          prevPage={prevPage}
-          setPrevPage={setPrevPage}
+          navigate={navigate}
+          n={param || sessionN}
+          animation={exerciseSwapAnimation}
+          setAnimation={setExerciseSwapAnimation}
+          selectedAction={selectedAction}
         />
       )}
     </div>

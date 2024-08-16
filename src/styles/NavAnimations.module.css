@@ -40,6 +40,27 @@
   }
 }
 
+@keyframes fade-in-top-right {
+  0% {
+    opacity: 0;
+    transform: translate(50px, -50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+@keyframes fade-out-top-right {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(50px, -50px);
+  }
+}
+
 .fadeInRight {
   animation-name: fade-in-right;
   animation-duration: 500ms;
@@ -61,5 +82,16 @@
 .fadeOutLeft {
   animation-name: fade-out-left;
   animation-duration: 500ms;
+  animation-fill-mode: forwards;
+}
+
+.fadeInTopRight {
+  animation-name: fade-in-top-right;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+.fadeOutTopRight {
+  animation-name: fade-out-top-right;
+  animation-duration: 1s;
   animation-fill-mode: forwards;
 }

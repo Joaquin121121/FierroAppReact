@@ -122,13 +122,28 @@
   "brachioradialis": "Brachioradialis",
   "trapezius": "Trapezius",
   "forearms": "Forearms",
+  "save": "Save Changes",
+  "dontSave": "Exit without saving",
 
   "home": "Home",
-  "logSession": "Log session",
+  "logSession": "Log Session",
   "calendar": "Calendar",
-  "plan": "My plan",
-  "myStats": "My statistics",
+  "plan": "My Plan",
+  "myStats": "My Statistics",
+  "logOut": "Exit Session",
   "myWeek": "My Week",
   "completedSessions": "Completed sessions",
-  "streakDays": "Days in a row"
+  "streakWeeks": "Weeks in a row",
+
+  "miPlan": "My Plan",
+  "showing": "Showing",
+  "sessions": "sessions",
+  "fullBodySplit": "Full Body Split",
+
+  "rollback": "Modify sets/reps",
+  "swap": "Swap exercise",
+  "notToday": "I couldn´t today",
+  "success": "I did it!",
+  "successMessage": "Excelent! Keep it up!",
+  "failureMessage": "No worries! You´ll get it next time!"
 }

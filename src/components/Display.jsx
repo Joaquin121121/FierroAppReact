@@ -7,17 +7,14 @@ import UserContext from "../contexts/UserContext"
 import { db, auth } from "../services/firebase"
 import { doc, updateDoc } from "firebase/firestore"
 
-function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
+function Display({ navigate, animation, setAnimation, setSessionN }) {
   const [cardsJSX, setCardsJSX] = useState("")
-  const [cardAnimation, setCardAnimation] = useState("")
   const cardsRef = useRef([])
   const editRefs = useRef([])
   const loadedSessions = []
 
   const t = useContext(TranslationContext)
   const { user, setUser } = useContext(UserContext)
-
-  const navigate = useNavigate()
 
   const plan = user.plan
 
@@ -37,38 +34,20 @@ function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
 
   const onEdit = (i) => {
     setSessionN(i)
-    setPrevPage("display")
-    setCardAnimation(navAnimations.fadeOutLeft)
-    setTimeout(() => {
-      setPage("exerciseSwap")
-    }, 500)
+    navigate("exerciseSwap")
   }
 
   const onBack = () => {
-    setPrevPage("display")
-    setCardAnimation(navAnimations.fadeOutRight)
-    setTimeout(() => {
-      setPage("new")
-    }, 500)
+    navigate("new")
   }
 
   const onStart = async () => {
     const docRef = doc(db, "userdata", auth.currentUser.uid)
     await updateDoc(docRef, { ["hasPlan"]: true })
-    setPrevPage("Display")
-    setCardAnimation(navAnimations.fadeOutLeft)
-    setTimeout(() => {
-      navigate("/main")
-    }, 500)
+    navigate("main")
   }
 
   useEffect(() => {
-    if (prevPage === "new") {
-      setCardAnimation(navAnimations.fadeInRight)
-    } else {
-      setCardAnimation(navAnimations.fadeInLeft)
-    }
-
     const loadJSX = () => {
       let img = ""
       let jsx = []
@@ -77,16 +56,16 @@ function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
         if (plan.sessions > 3) {
           switch (plan[`session ${i}`].name) {
             case "Push Day":
-              img = "images/bench-press.webp"
+              img = "/images/bench-press.webp"
               break
             case "Pull Day":
-              img = "images/pull.jpg"
+              img = "/images/pull.jpg"
               break
             case "Leg Day":
-              img = "images/legs.jpg"
+              img = "/images/legs.jpg"
               break
             case "Upper Day":
-              img = "images/full-body-3.jpg"
+              img = "/images/full-body-3.jpg"
               break
             default:
               break
@@ -109,12 +88,12 @@ function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
           >
             <div
               className={styles.session}
-              style={
-                prevPage === "new" ? { animationDelay: `${i + 1}s` } : null
-              }
+              style={{
+                animationDelay: `${i + 1}s`,
+              }}
             >
               <div className={styles.imageContainer}>
-                <img src={img || `images/full-body-${i}.jpg`} alt="" />
+                <img src={img || `/images/full-body-${i}.jpg`} alt="" />
               </div>
               <div className={styles.textContainer}>
                 <h1>
@@ -168,23 +147,16 @@ function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
           </div>
         )
 
-        setTimeout(
-          () => {
-            loadedSessions.push(i)
-          },
-          prevPage === "new" ? (i + 1) * 1000 : 5
-        )
+        setTimeout(() => {
+          loadedSessions.push(i)
+        }, (i + 1) * 1000)
       }
 
       jsx.push(
         <div
           className={styles.buttonsContainer}
           key="buttons-container"
-          style={
-            prevPage === "new"
-              ? { animationDelay: `${plan.sessions + 1}s` }
-              : null
-          }
+          style={{ animationDelay: `${plan.sessions + 1}s` }}
         >
           <button
             className={`${styles.button} ${styles.returnButton}`}
@@ -207,28 +179,28 @@ function Display({ setPage, setSessionN, prevPage, setPrevPage }) {
   }, [])
 
   const onHover = (e) => {
-    if (e._reactName === "onMouseEnter") {
-      setCardAnimation(styles.hover)
-    } else {
-      setCardAnimation("")
-    }
+    setAnimation(
+      animation && animation !== styles.hover
+        ? animation
+        : e._reactName === "onMouseEnter"
+        ? styles.hover
+        : null
+    )
   }
   useEffect(() => {
-    if (prevPage === "new") {
-      cardsRef.current.forEach((ref, index) => {
-        if (ref && ref.current) {
-          setTimeout(() => {
-            if (ref && ref.current) {
-              ref.current.scrollIntoView({ behavior: "smooth" })
-            }
-          }, index * 1000 + 3000)
-        }
-      })
-    }
+    cardsRef.current.forEach((ref, index) => {
+      if (ref && ref.current) {
+        setTimeout(() => {
+          if (ref && ref.current) {
+            ref.current.scrollIntoView({ behavior: "smooth" })
+          }
+        }, index * 1000 + 3000)
+      }
+    })
   }, [cardsJSX])
   return (
     <div
-      className={`${styles.card} ${cardAnimation}`}
+      className={`${styles.card} ${animation}`}
       onMouseEnter={onHover}
       onMouseLeave={onHover}
     >

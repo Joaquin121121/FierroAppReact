@@ -167,6 +167,11 @@
   width: 35%;
 }
 
+.loadingAnimation {
+  height: 50px;
+  width: 50px;
+}
+
 .startButton {
   background-color: #28a745;
   width: 35%;

@@ -1,3 +1,30 @@
+@keyframes fade-right {
+  0% {
+    opacity: 0;
+    width: 0%;
+  }
+  50% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 100%;
+
+    width: 110%;
+  }
+}
+@keyframes fade-out {
+  0% {
+    right: 0;
+    opacity: 1;
+    width: 100%;
+  }
+  100% {
+    right: 100%;
+    opacity: 1;
+    width: 0%;
+  }
+}
+
 .card {
   border-radius: 25px;
   background-color: white;
@@ -40,6 +67,7 @@
   border-color: #0989ff;
   border-style: solid;
   margin-bottom: 0;
+  position: relative;
 }
 
 .exerciseCard h1 {
@@ -50,6 +78,7 @@
 }
 
 .contentContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,11 +89,84 @@
   transition: translate 300ms ease-in-out;
 }
 
+.transition {
+  position: absolute;
+  top: 0px;
+  content: "";
+  right: 0px;
+  width: 0%;
+  height: 100%;
+  border-bottom-left-radius: 25px;
+  border-top-left-radius: 25px;
+  z-index: 1;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transition.success {
+  background-color: #28a745;
+}
+.transition.failure {
+  background-color: #ff0909;
+}
+
+.transitionContent {
+  position: absolute;
+  top: 35%;
+  left: 20%;
+  height: 30%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  color: white;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.actionCircle {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  background-color: white;
+  opacity: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionContainer {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionContainer i {
+  transform: scale(2);
+}
+
+.fadeIn {
+  animation: fade-right 1s forwards;
+}
+
+.fadeOut {
+  animation: fade-out 0.5s forwards;
+}
+
 .span {
   font-weight: 900;
   color: #0989ff;
 }
 
+span.item {
+  font-size: 24px;
+}
 .itemContainer {
   font-size: 20px;
   font-weight: 400;
@@ -80,15 +182,15 @@
   height: 40px;
   background-color: inherit;
 
-  margin-right: 20px;
+  margin-right: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .itemContainer .iconContainer img {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 }
 .exerciseCard .imgContainer {
   margin-top: 40px;
@@ -106,18 +208,27 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: end;
-  height: 300px;
-  width: 15%;
+  align-items: start;
+  height: 350px;
+  width: 25%;
 }
 
 .parentContainer .leftButtons {
   display: flex;
   flex-direction: column;
   justify-content: end;
-  align-items: start;
-  height: 300px;
-  width: 15%;
+  align-items: end;
+  height: 350px;
+  width: 25%;
+}
+
+.exerciseButtonContainer {
+  width: 200px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .exerciseButton {
@@ -150,7 +261,7 @@
 .buttonsContainer {
   height: 150px;
   position: relative;
-  width: 75%;
+  width: 60%;
   margin: 5px auto;
   display: flex;
   justify-content: space-between;
@@ -169,7 +280,6 @@
   gap: 10px;
   padding-top: 10px;
 }
-
 button.exerciseSwapButton {
   height: 15px;
   width: 15px;
@@ -196,18 +306,29 @@ button.selected:active {
   height: 15px;
 }
 
-.backButton {
+button.button {
+  box-shadow: inset 0 -3px 2px rgba(82, 82, 82, 0.5);
+  border-radius: 15px;
   width: 40%;
+  height: 60px;
+}
+
+button.button:hover {
+  transform: scale(1.02);
+}
+
+button.button:active {
+  margin-top: 10px;
+  height: 50px;
+  box-shadow: none;
+}
+
+.backButton {
   background-color: #adb5bd;
 }
 
 .startButton {
+  border-radius: 15px;
   width: 40%;
   background-color: #28a745;
-}
-
-.fadeOut {
-  animation-name: fade-out;
-  animation-duration: 0.25s;
-  animation-fill-mode: forwards;
 }

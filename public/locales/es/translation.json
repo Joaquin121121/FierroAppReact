@@ -122,11 +122,13 @@
   "forearms": "Antebrazos",
 
   "home": "Inicio",
-  "logSession": "Cargar entrenamiento",
+  "logSession": "Cargar Entrenamiento",
   "calendar": "Calendario",
-  "plan": "Mi plan",
-  "myStats": "Mis estadísticas",
+  "plan": "Mi Plan",
+  "myStats": "Mis Estadísticas",
   "myWeek": "Mi Semana",
   "completedSessions": "Sesiones completadas",
-  "streakDays": "Días de racha"
+  "streakDays": "Días de racha",
+
+  "fullBodySplit": "Entrenamiento completo"
 }

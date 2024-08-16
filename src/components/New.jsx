@@ -48,14 +48,21 @@ const colors = [
     {track: "#0ff", rail: "#4dffff"}
   ] */
 
-function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
+function New({
+  mouseDown,
+  setMouseDown,
+  navigate,
+  animation,
+  setAnimation,
+  selectedAction,
+}) {
   const [duration, setDuration] = useState(40)
   const [frequency, setFrequency] = useState(3)
-  const [animation, setAnimation] = useState("")
   const [sliders, setSliders] = useState(initialSliders)
   const [indexToIgnore, setIndexToIgnore] = useState(null)
   const [replacePointer, setReplacePointer] = useState(0)
   const [premadePlan, setPremadePlan] = useState("balanced")
+  const [loading, setLoading] = useState(false)
 
   const t = useContext(TranslationContext)
   const { user, setUser } = useContext(UserContext)
@@ -111,24 +118,17 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
   }
 
   const onStart = async () => {
+    setLoading(true)
     const docRef = doc(db, "userdata", auth.currentUser.uid)
     const plan = createPlan(frequency, duration, sliders)
     setUser({ ...user, plan: plan })
-    await updateDoc(docRef, { ["plan"]: plan })
-    console.log(plan)
-    setPrevPage("new")
-    setAnimation(navAnimations.fadeOutLeft)
-    setTimeout(() => {
-      setPage("display")
-    }, 500)
+    await updateDoc(docRef, { plan: plan })
+    setLoading(false)
+    navigate(selectedAction ? "main" : "display")
   }
 
   const onBack = () => {
-    setPrevPage("new")
-    setAnimation(navAnimations.fadeOutRight)
-    setTimeout(() => {
-      setPage("welcome")
-    }, 500)
+    navigate(selectedAction ? "main" : "welcome")
   }
 
   const onChange = (index, value) => {
@@ -172,21 +172,14 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
   )
 
   const onHover = (e) => {
-    if (e._reactName === "onMouseEnter") {
-      setAnimation(styles.hover)
-    } else {
-      setAnimation("")
-    }
+    setAnimation(
+      animation && animation !== styles.hover
+        ? animation
+        : e._reactName === "onMouseEnter"
+        ? styles.hover
+        : null
+    )
   }
-
-  useEffect(() => {
-    if (prevPage === "welcome") {
-      setAnimation(navAnimations.fadeInRight)
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-      setAnimation(navAnimations.fadeInLeft)
-    }
-  }, [])
 
   useEffect(() => {
     if (sliders === initialSliders) {
@@ -270,7 +263,7 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
             data={data}
             options={options}
           ></Doughnut>
-          <img src="images/icon-blue.png" alt="" />
+          <img src="/images/icon-blue.png" alt="" />
         </div>
       </div>
       <div className={styles.plansContainer}>
@@ -285,7 +278,7 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
           }}
         >
           <div className={styles.imageContainer}>
-            <img src="images/balanced-training.jpg" alt="" />
+            <img src="/images/balanced-training.jpg" alt="" />
           </div>
           <div className={styles.textContainer}>{t("balanced")}</div>
         </div>
@@ -300,7 +293,7 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
           }}
         >
           <div className={styles.imageContainer}>
-            <img src="images/lower-body-training.jpg" alt="" />
+            <img src="/images/lower-body-training.jpg" alt="" />
           </div>
           <div className={styles.textContainer}>+ {t("lowerBody")}</div>
         </div>
@@ -315,7 +308,7 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
           }}
         >
           <div className={styles.imageContainer}>
-            <img src="images/upper-body-training.jpg" alt="" />
+            <img src="/images/upper-body-training.jpg" alt="" />
           </div>
           <div className={styles.textContainer}>+ {t("upperBody")}</div>
         </div>
@@ -326,13 +319,19 @@ function New({ mouseDown, setMouseDown, setPage, prevPage, setPrevPage }) {
           className={`${styles.button} ${styles.backButton}`}
           onClick={onBack}
         >
-          {t("goBack")}
+          {selectedAction ? t("dontSave") : t("goBack")}
         </button>
+        <div
+          className={styles.loadingAnimation}
+          style={{ display: loading ? "block" : "none" }}
+        >
+          <img src="/images/loading-animation.gif" alt="loading-animation" />
+        </div>
         <button
           className={`${styles.button} ${styles.startButton}`}
           onClick={onStart}
         >
-          {t("start")}
+          {selectedAction ? t("save") : t("start")}
         </button>
       </div>
     </div>

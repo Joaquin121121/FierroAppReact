@@ -29,6 +29,7 @@ function Register({ setAction, username, email, providerLogIn }) {
     formState: { errors },
   } = useForm()
 
+  const [loading, setLoading] = useState(false)
   const [gender, setGender] = useState("male")
   const [language, setLanguage] = useState("en")
   const [visiblePassword, setVisiblePassword] = useState("fzlse")
@@ -52,51 +53,74 @@ function Register({ setAction, username, email, providerLogIn }) {
   }
 
   const onSubmit = async (data) => {
-    if (providerLogIn) {
-      const userdata = {
-        email: email,
-        username: data.username,
-        gender: gender,
-        language: language,
-        hasPlan: false,
+    setLoading(true)
+    try {
+      if (providerLogIn) {
+        const userdata = {
+          email: email,
+          username: data.username,
+          gender: gender,
+          language: language,
+          hasPlan: false,
+          weeklyCompletedSessions: 0,
+          perfectStreak: 0,
+        }
+        await setDoc(doc(db, "userdata", auth.currentUser.uid), userdata)
+        setUser(userdata)
+        changeLanguage(language)
+        navigate("/start")
+      } else {
+        const q = query(
+          collection(db, "usernames"),
+          where("username", "==", data.username)
+        )
+        const snap = await getDocs(q)
+        console.log(snap.empty)
+        if (!snap.empty) {
+          setError("username", { type: "manual", message: t("usernameInUse") })
+          window.scrollTo({ top: 0, behavior: "smooth" })
+          return
+        }
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          data.password
+        )
+        await addDoc(collection(db, "usernames"), {
+          email: data.email,
+          username: data.username,
+        })
+        const userdata = {
+          email: data.email,
+          name: data.username,
+          gender: gender,
+          language: language,
+          hasPlan: false,
+          weeklyCompletedSessions: 0,
+          perfectStreak: 0,
+        }
+        await setDoc(doc(db, "userdata", userCredential.user.uid), userdata)
+        setUser(userdata)
+        await signInWithEmailAndPassword(auth, data.email, data.password)
+        changeLanguage(language)
+        navigate("/start")
       }
-      await setDoc(doc(db, "userdata", auth.currentUser.uid), userdata)
-      setUser(userdata)
-      changeLanguage(language)
-      navigate("/start")
-    } else {
-      const q = query(
-        collection(db, "usernames"),
-        where("username", "==", data.username)
-      )
-      const snap = await getDocs(q)
-      console.log(snap.empty)
-      if (!snap.empty) {
-        setError("username", { type: "manual", message: t("usernameInUse") })
-        return
+    } catch (error) {
+      console.log(error.code)
+      switch (error.code) {
+        case "auth/weak-password":
+          setError("password", { type: "manual", message: t("weakPassword") })
+          window.scrollTo({ top: 0, behavior: "smooth" })
+          break
+        case "auth/email-already-in-use":
+          setError("email", { type: "manual", message: t("emailInUse") })
+          window.scrollTo({ top: 0, behavior: "smooth" })
+          break
+        default:
+          break
       }
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      )
-      await addDoc(collection(db, "usernames"), {
-        email: data.email,
-        username: data.username,
-      })
-      const userdata = {
-        email: data.email,
-        name: data.username,
-        gender: gender,
-        language: language,
-        hasPlan: false,
-      }
-      await setDoc(doc(db, "userdata", userCredential.user.uid), userdata)
-      setUser(userdata)
-      await signInWithEmailAndPassword(auth, data.email, data.password)
-      changeLanguage(language)
-      navigate("start")
     }
+    setLoading(false)
   }
 
   const onClose = () => {
@@ -188,7 +212,7 @@ function Register({ setAction, username, email, providerLogIn }) {
                 className={styles.formIcon}
                 onMouseEnter={onHover}
                 onMouseLeave={onHover}
-                style={{ cursor: "pointer", right: "15.5%" }}
+                style={{ cursor: "pointer", right: "12.5%" }}
                 onClick={togglePasswordVisibility}
               >
                 <i
@@ -308,6 +332,12 @@ function Register({ setAction, username, email, providerLogIn }) {
           <button className={styles.button} type="submit">
             {t("newAccount")}
           </button>
+          <div
+            className={styles.loadingAnimation}
+            style={{ display: loading ? "block" : "none" }}
+          >
+            <img src="images/loading-animation.gif" alt="loading-animation" />
+          </div>
         </div>
       </form>
     </div>

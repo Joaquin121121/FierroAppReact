@@ -103,24 +103,24 @@ function Login() {
           const userdata = docSnap.data()
           setUser(userdata)
           console.log(userdata)
-          setLoading(false)
           navigate(userdata.hasPlan ? "/main" : "/start")
         })
         .catch((error) => {
-          setLoading(false)
           const errorCode = error.code
           const errorMessage = error.message
           setError("password", { type: "manual", message: t("passwordError") })
           console.error(errorCode, errorMessage)
         })
     } catch (error) {
-      setLoading(false)
       console.log(error.message)
       setError("password", { type: "manual", message: t("passwordError") })
     }
+    setLoading(false)
   }
 
   const googleSignIn = async () => {
+    setDisabled(true)
+    setLoading(true)
     const provider = new GoogleAuthProvider()
     try {
       const result = await signInWithPopup(auth, provider)
@@ -142,6 +142,8 @@ function Login() {
     } catch (error) {
       console.log(error)
     }
+    setLoading(false)
+    setDisabled(false)
   }
 
   const facebookSignIn = async () => {
@@ -152,6 +154,7 @@ function Login() {
   }
 
   const onRegister = () => {
+    setDisabled(true)
     loginContainerRef.current.classList.add(styles.blur)
     window.scrollTo({ behavior: "smooth", top: 0 })
     setUsername(null)
@@ -174,7 +177,6 @@ function Login() {
   }
 
   useEffect(() => {
-    setDisabled(action === "register")
     if (loginContainerRef.current && action === "login") {
       loginContainerRef.current.classList.remove(styles.blur)
     }

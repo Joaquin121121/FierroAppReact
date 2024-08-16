@@ -3,35 +3,26 @@ import styles from "../styles/Welcome.module.css"
 import navAnimations from "../styles/NavAnimations.module.css"
 import TranslationContext from "../contexts/TranslationContext"
 import { auth } from "../services/firebase"
-function Welcome({ setPage, prevPage, setPrevPage }) {
-  const [cardAnimation, setCardAnimation] = useState(
-    prevPage === "new" ? navAnimations.fadeInLeft : navAnimations.fadeInRight
-  )
-
+function Welcome({ navigate, animation, setAnimation }) {
   const t = useContext(TranslationContext)
 
   const onNew = () => {
-    setPrevPage("welcome")
-    setCardAnimation(navAnimations.fadeOutLeft)
-    setTimeout(() => {
-      setPage("new")
-    }, 500)
+    navigate("new")
   }
 
   const onHover = (e) => {
-    if (e._reactName === "onMouseEnter") {
-      setCardAnimation(styles.hover)
-    } else {
-      setCardAnimation("")
-    }
+    setAnimation(
+      animation && animation !== styles.hover
+        ? animation
+        : e._reactName === "onMouseEnter"
+        ? styles.hover
+        : null
+    )
   }
 
-  useEffect(() => {
-    console.log(auth.currentUser.uid)
-  })
   return (
     <div
-      className={`${styles.card} ${cardAnimation}`}
+      className={`${styles.card} ${animation}`}
       onMouseEnter={onHover}
       onMouseLeave={onHover}
     >
@@ -50,21 +41,21 @@ function Welcome({ setPage, prevPage, setPrevPage }) {
           </div>
           <h1>{t("create")}</h1>
           <div className={styles.imageContainer}>
-            <img src="images/JUNIOR.webp" alt="" />
+            <img src="/images/JUNIOR.webp" alt="" />
           </div>
         </button>
         <button
           className={`${styles.button} ${styles.welcomeContainer} ${styles.uploadContainer}`}
         >
           <div className={styles.secondaryUploadContainer}>
-            <img src="images/UPLOAD.svg" alt="" />
+            <img src="/images/UPLOAD.svg" alt="" />
           </div>
           <h1>{t("load")}</h1>
           <div
             className={styles.imageContainer}
             style={{ marginBottom: "20px" }}
           >
-            <img src="images/HAPPY-EDDIE.gif" alt="" />
+            <img src="/images/HAPPY-EDDIE.gif" alt="" />
           </div>
         </button>
       </div>

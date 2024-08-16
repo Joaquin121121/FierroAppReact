@@ -11,6 +11,13 @@ function CustomSlider({ field, mouseDown, setMouseDown, counter, setCounter }) {
 
   const t = useContext(TranslationContext)
 
+  const updateSliderDimensions = () => {
+    setSliderBarX(sliderBarRef.current.getBoundingClientRect().left)
+    setSliderBarWidth(sliderBarRef.current.offsetWidth)
+    sliderRef.current.style.width = "33%"
+    setCounter(field === "frequency" ? 3 : 40)
+  }
+
   const onMouseDown = (e) => {
     setMouseDown(true)
     const [width, count] = setSlider(
@@ -37,13 +44,6 @@ function CustomSlider({ field, mouseDown, setMouseDown, counter, setCounter }) {
   }
 
   useEffect(() => {
-    const updateSliderDimensions = () => {
-      setSliderBarX(sliderBarRef.current.getBoundingClientRect().left)
-      setSliderBarWidth(sliderBarRef.current.offsetWidth)
-      sliderRef.current.style.width = "33%"
-      setCounter(field === "frequency" ? 3 : 40)
-    }
-
     updateSliderDimensions()
 
     window.addEventListener("resize", updateSliderDimensions)
@@ -52,6 +52,12 @@ function CustomSlider({ field, mouseDown, setMouseDown, counter, setCounter }) {
       window.removeEventListener("resize", updateSliderDimensions)
     }
   }, [setCounter, field])
+
+  useEffect(() => {
+    setTimeout(() => {
+      updateSliderDimensions()
+    }, 500)
+  }, [])
 
   return (
     <div
