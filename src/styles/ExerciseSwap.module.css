@@ -64,8 +64,9 @@
   height: 700px;
   zoom: 0.8;
   overflow: hidden;
-  border-color: #0989ff;
+  border-color: #e0e0e0;
   border-style: solid;
+  border-width: 0.25px;
   margin-bottom: 0;
   position: relative;
 }
