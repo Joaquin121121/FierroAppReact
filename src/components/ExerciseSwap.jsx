@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
 import styles from "../styles/ExerciseSwap.module.css"
-import navAnimations from "../styles/NavAnimations.module.css"
 import TranslationContext from "../contexts/TranslationContext"
 import UserContext from "../contexts/UserContext"
 
@@ -16,7 +15,7 @@ function ExerciseSwap({
     2 /* Checks if the action is a swap or a load by number of numbers passed in params */
 
   const t = useContext(TranslationContext)
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
   const processedN = parseInt(n.toString().charAt(0))
   const session = user.plan[`session ${processedN}`]
@@ -25,7 +24,6 @@ function ExerciseSwap({
   const actionTimeouts = []
   const initialCardStyles = lengthArray.map((i) => {
     return {
-      translate: `${i * -97}% ${i * -1.5}%`,
       zIndex: length - i,
     }
   })
@@ -87,15 +85,6 @@ function ExerciseSwap({
       cardAnimations.map((_, i) => (i === exerciseN ? styles.leave : ""))
     )
     setTimeout(() => {
-      setCardStyles(
-        cardStyles.map((e, i) => {
-          return {
-            ...e,
-            zIndex: i === exerciseN ? -1 : e.zIndex,
-            opacity: i === exerciseN ? 0 : e.opacity,
-          }
-        })
-      )
       setExerciseN((index) => {
         if (index === length - 1) {
           setCardAnimations(Array.from({ length }, () => styles.enter))
@@ -124,19 +113,18 @@ function ExerciseSwap({
             `fa-solid fa-${action === "success" ? "check" : "xmark"} fa-2xl`
           )
           setActionMessage(`${action}Message`)
-          onRight()
-        }, 1000),
-
+        }, 750),
         setTimeout(() => {
-          setTransitionVisibility("")
+          onRight()
+        }, 1500),
+        setTimeout(() => {
+          setTransitionVisibility("0")
           setTransitionContentVisibility("none")
-          setTransition(
-            `${styles.transition} ${styles[action]} ${styles.fadeOut}`
-          )
+          setTransition(`${styles.transition} ${styles[action]}`)
         }, 2000),
         setTimeout(() => {
           setTransitionFlag(false)
-        }, 2500),
+        }, 2250),
       ])
     }
   }
@@ -158,6 +146,21 @@ function ExerciseSwap({
         : null
     )
   }
+
+  useEffect(() => {
+    setCardStyles(
+      cardStyles.map((e, i) => ({
+        ...e,
+        translate:
+          i >= exerciseN && i < exerciseN + 5
+            ? `${(i - exerciseN) * -97}% ${(i - exerciseN) * -1.5}%`
+            : "",
+        zIndex: i >= exerciseN && i < exerciseN + 5 ? length - i : -1,
+        opacity: i >= exerciseN && i < exerciseN + 5 ? 1 : 0,
+        display: i >= exerciseN && i < exerciseN + 5 ? "flex" : "none",
+      }))
+    )
+  }, [exerciseN])
 
   return (
     <div
@@ -217,27 +220,30 @@ function ExerciseSwap({
         </div>
 
         <div className={`${styles.exerciseCard}`}>
-          <div
-            className={transition}
-            style={{ opacity: transitionVisibility }}
-          ></div>
-          <div
-            className={styles.transitionContent}
-            style={{ display: transitionContentVisibility }}
-          >
-            <div className={styles.actionCircle}>
-              <div className={styles.actionContainer}>
-                <i className={actionIcon} style={{ color: "black" }}></i>
-              </div>
-            </div>
-            {t(actionMessage)}
-          </div>
           {lengthArray.map((i) => (
             <div
               className={`${styles.card} ${styles.contentContainer} ${cardAnimations[i]}`}
               key={i}
               style={cardStyles[i]}
             >
+              <div
+                className={transition}
+                style={{ ...cardStyles[i], opacity: transitionVisibility }}
+              ></div>
+              <div
+                className={styles.transitionContent}
+                style={{
+                  ...cardStyles[i],
+                  display: transitionContentVisibility,
+                }}
+              >
+                <div className={styles.actionCircle}>
+                  <div className={styles.actionContainer}>
+                    <i className={actionIcon} style={{ color: "black" }}></i>
+                  </div>
+                </div>
+                {t(actionMessage)}
+              </div>
               <h1>
                 {t(session.exerciseList[i].exercise.name)
                   .charAt(0)
@@ -344,7 +350,9 @@ function ExerciseSwap({
                 exerciseN === i ? styles.selected : ""
               }`}
               onClick={() => {
-                setExerciseN(i)
+                if (!load) {
+                  setExerciseN(i)
+                }
               }}
             ></button>
           ))}

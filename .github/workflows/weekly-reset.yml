@@ -1,0 +1,27 @@
+name: Weekly Reset
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # Runs at midnight UTC on Sunday
+
+jobs:
+  run-resetter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14" # Specify the Node.js version you want to use
+
+      - name: Install dependencies
+        run: npm install # If you have dependencies, install them
+
+      - name: Run resetter script
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        run: |
+          echo $FIREBASE_SERVICE_ACCOUNT_KEY > serviceAccountKey.json
+          node src/services/resetter.js
