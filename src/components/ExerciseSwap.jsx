@@ -15,6 +15,22 @@ function ExerciseSwap({
     n.toString().length ===
     2 /* Checks if the action is a swap or a load by number of numbers passed in params */
 
+  const t = useContext(TranslationContext)
+  const { user, setUser } = useContext(UserContext)
+
+  const processedN = parseInt(n.toString().charAt(0))
+  const session = user.plan[`session ${processedN}`]
+  const length = session.exerciseList.length
+  const lengthArray = Array.from({ length }, (_, i) => i)
+  const actionTimeouts = []
+  const initialCardStyles = lengthArray.map((i) => {
+    return {
+      translate: `${i * -97}% ${i * -1.5}%`,
+      zIndex: length - i,
+    }
+  })
+  const initialCardAnimations = Array.from({ length }, () => "")
+
   const [exerciseN, setExerciseN] = useState(0)
   const [transition, setTransition] = useState("")
   const [transitionVisibility, setTransitionVisibility] = useState("")
@@ -23,17 +39,38 @@ function ExerciseSwap({
   const [transitionFlag, setTransitionFlag] = useState(false)
   const [actionIcon, setActionIcon] = useState("")
   const [actionMessage, setActionMessage] = useState("")
-
-  const t = useContext(TranslationContext)
-  const { user, setUser } = useContext(UserContext)
-
-  const processedN = parseInt(n.toString().charAt(0))
-  const session = user.plan[`session ${processedN}`]
-  const length = session.exerciseList.length
-  const lengthArray = Array.from({ length }, (_, i) => i)
-  const timeouts = []
+  const [cardStyles, setCardStyles] = useState(initialCardStyles)
+  const [cardAnimations, setCardAnimations] = useState(initialCardAnimations)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   const onLeft = () => {
+    if (exerciseN === 0) {
+      setCardStyles(
+        cardStyles.map((e, i) => {
+          return {
+            ...e,
+            zIndex: i === length - 1 ? 1 : -1,
+            opacity: i === length - 1 ? 1 : 0,
+          }
+        })
+      )
+      setCardAnimations(
+        cardAnimations.map((_, i) => (i === length - 1 ? styles.enter : ""))
+      )
+    } else {
+      setCardAnimations(
+        cardAnimations.map((_, i) => (i === exerciseN - 1 ? styles.enter : ""))
+      )
+      setCardStyles(
+        cardStyles.map((e, i) => {
+          return {
+            ...e,
+            zIndex: i === exerciseN - 1 ? length - (exerciseN - 1) : e.zIndex,
+            opacity: i === exerciseN - 1 ? 1 : e.opacity,
+          }
+        })
+      )
+    }
     setExerciseN((index) => {
       if (index === 0) return length - 1
       return index - 1
@@ -42,10 +79,33 @@ function ExerciseSwap({
   }
 
   const onRight = () => {
-    setExerciseN((index) => {
-      if (index === length - 1) return 0
-      return index + 1
-    })
+    if (isTransitioning) {
+      return
+    }
+    setIsTransitioning(true)
+    setCardAnimations(
+      cardAnimations.map((_, i) => (i === exerciseN ? styles.leave : ""))
+    )
+    setTimeout(() => {
+      setCardStyles(
+        cardStyles.map((e, i) => {
+          return {
+            ...e,
+            zIndex: i === exerciseN ? -1 : e.zIndex,
+            opacity: i === exerciseN ? 0 : e.opacity,
+          }
+        })
+      )
+      setExerciseN((index) => {
+        if (index === length - 1) {
+          setCardAnimations(Array.from({ length }, () => styles.enter))
+          setCardStyles(initialCardStyles)
+          return 0
+        }
+        return index + 1
+      })
+      setIsTransitioning(false)
+    }, 500)
   }
 
   const onRollBack = () => {
@@ -56,7 +116,7 @@ function ExerciseSwap({
     if (!transitionFlag) {
       setTransitionFlag(true)
       setTransition(`${styles.transition} ${styles[action]} ${styles.fadeIn}`)
-      timeouts.push([
+      actionTimeouts.push([
         setTimeout(() => {
           setTransitionVisibility("1")
           setTransitionContentVisibility("flex")
@@ -66,7 +126,7 @@ function ExerciseSwap({
           setActionMessage(`${action}Message`)
           onRight()
         }, 1000),
-        ,
+
         setTimeout(() => {
           setTransitionVisibility("")
           setTransitionContentVisibility("none")
@@ -82,20 +142,11 @@ function ExerciseSwap({
   }
 
   const onBack = () => {
-    window.removeEventListener("keydown", onKeyDown)
     selectedAction ? navigate("main") : navigate("display")
   }
 
   const onStart = () => {
     navigate("main")
-  }
-
-  const onKeyDown = (event) => {
-    if (event.key === "ArrowLeft") {
-      onLeft()
-    } else if (event.key === "ArrowRight") {
-      onRight()
-    }
   }
 
   const onHover = (e) => {
@@ -108,17 +159,13 @@ function ExerciseSwap({
     )
   }
 
-  useEffect(() => {
-    window.addEventListener("keydown", onKeyDown)
-  }, [])
-
   return (
     <div
       className={`${styles.card} ${animation}`}
       onMouseEnter={onHover}
       onMouseLeave={onHover}
     >
-      <h1>
+      <h1 style={{ marginBottom: "80px" }}>
         {t("session")} {processedN} -{" "}
         <span className={styles.span}>
           {t("exercises").charAt(0).toUpperCase() + t("exercises").slice(1)}
@@ -169,7 +216,7 @@ function ExerciseSwap({
           </div>
         </div>
 
-        <div className={`${styles.card} ${styles.exerciseCard}`}>
+        <div className={`${styles.exerciseCard}`}>
           <div
             className={transition}
             style={{ opacity: transitionVisibility }}
@@ -187,9 +234,9 @@ function ExerciseSwap({
           </div>
           {lengthArray.map((i) => (
             <div
-              className={styles.contentContainer}
+              className={`${styles.card} ${styles.contentContainer} ${cardAnimations[i]}`}
               key={i}
-              style={{ translate: `${exerciseN * -100}%` }}
+              style={cardStyles[i]}
             >
               <h1>
                 {t(session.exerciseList[i].exercise.name)
