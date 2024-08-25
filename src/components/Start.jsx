@@ -4,14 +4,17 @@ import navAnimations from "../styles/NavAnimations.module.css"
 import Welcome from "./Welcome.jsx"
 import New from "./New.jsx"
 import Display from "./Display.jsx"
-import ExerciseSwap from "./ExerciseSwap.jsx"
+import ExerciseDisplay from "./ExerciseDisplay.jsx"
 import "../styles/Global.css"
 import { useNavigate, useParams } from "react-router-dom"
+import UserContext from "../contexts/UserContext.jsx"
+import ExerciseSwap from "./ExerciseSwap.jsx"
 
-function Start({ userdata }) {
+function Start() {
   const { param } = useParams()
+  const { user } = useContext(UserContext)
   const [selectedAction, setSelectedAction] = useState(
-    param ? (isNaN(Number(param)) ? param : "exerciseSwap") : null
+    param ? (isNaN(Number(param)) ? param : "ExerciseDisplay") : null
   )
 
   const [mouseDown, setMouseDown] = useState(false)
@@ -26,11 +29,15 @@ function Start({ userdata }) {
   const [displayAnimation, setDisplayAnimation] = useState(
     selectedAction ? navAnimations.fadeInRight : null
   )
-  const [exerciseSwapAnimation, setExerciseSwapAnimation] = useState(
+  const [ExerciseDisplayAnimation, setExerciseDisplayAnimation] = useState(
     selectedAction ? navAnimations.fadeInRight : null
   )
 
-  const pages = ["welcome", "new", "display", "exerciseSwap"]
+  const [ExerciseSwapAnimation, setExerciseSwapAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+
+  const pages = ["welcome", "new", "display", "ExerciseDisplay"]
   const timeouts = []
 
   const routeNavigate = useNavigate()
@@ -39,7 +46,8 @@ function Start({ userdata }) {
     welcome: setWelcomeAnimation,
     new: setNewAnimation,
     display: setDisplayAnimation,
-    exerciseSwap: setExerciseSwapAnimation,
+    ExerciseDisplay: setExerciseDisplayAnimation,
+    ExerciseSwap: setExerciseSwapAnimation,
   }
 
   const onMouseUp = () => {
@@ -109,7 +117,7 @@ function Start({ userdata }) {
         <div className={styles.user}>
           <i className={`${styles.userIcon} fa-regular fa-user fa-2xl`}></i>
           <div className={styles.text} id="user">
-            {userdata ? userdata.name || "Joaquin121" : "Joaquin121"}
+            {user.username || "Joaquin121"}
           </div>
         </div>
       </div>
@@ -139,14 +147,17 @@ function Start({ userdata }) {
           selectedAction={selectedAction}
         />
       )}
-      {page === "exerciseSwap" && (
-        <ExerciseSwap
+      {page === "ExerciseDisplay" && (
+        <ExerciseDisplay
           navigate={navigate}
           n={param || sessionN}
-          animation={exerciseSwapAnimation}
-          setAnimation={setExerciseSwapAnimation}
+          animation={ExerciseDisplayAnimation}
+          setAnimation={setExerciseDisplayAnimation}
           selectedAction={selectedAction}
         />
+      )}
+      {page === "ExerciseSwap" && (
+        <ExerciseSwap animation={ExerciseSwapAnimation}></ExerciseSwap>
       )}
     </div>
   )

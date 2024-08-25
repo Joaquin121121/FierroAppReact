@@ -125,6 +125,10 @@
   "save": "Save Changes",
   "dontSave": "Exit without saving",
 
+  "exerciseToSwap": "Exercise to Swap",
+  "similarExercises": "Similar Exercises",
+  "swapInstructions": "Double click on the exercise you want to swap",
+
   "home": "Home",
   "logSession": "Log Session",
   "calendar": "Calendar",

@@ -1,375 +1,169 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState, useRef } from "react"
 import styles from "../styles/ExerciseSwap.module.css"
 import TranslationContext from "../contexts/TranslationContext"
 import UserContext from "../contexts/UserContext"
+import parsedExercises from "../exercises.json"
 
-function ExerciseSwap({
-  n,
-  animation,
-  setAnimation,
-  navigate,
-  selectedAction,
-}) {
-  const load =
-    n.toString().length ===
-    2 /* Checks if the action is a swap or a load by number of numbers passed in params */
-
+function ExerciseSwap({ animation }) {
   const t = useContext(TranslationContext)
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
-  const processedN = parseInt(n.toString().charAt(0))
-  const session = user.plan[`session ${processedN}`]
-  const length = session.exerciseList.length
-  const lengthArray = Array.from({ length }, (_, i) => i)
-  const actionTimeouts = []
-  const initialCardStyles = lengthArray.map((i) => {
-    return {
-      zIndex: length - i,
-    }
+  const exercise = "benchPress"
+  const exercises = [
+    ...parsedExercises.chestExercises,
+    ...parsedExercises.backExercises,
+    ...parsedExercises.shoulderExercises,
+    ...parsedExercises.legExercises,
+    ...parsedExercises.forearmExercises,
+    ...parsedExercises.bicepsExercises,
+    ...parsedExercises.tricepsExercises,
+  ]
+  const currentExercise = exercises.find((e) => e.name === exercise)
+  const targetedMuscles = currentExercise ? currentExercise.targetedMuscles : []
+  const similarExercises = exercises.filter((e) => {
+    return (
+      e.name !== exercise &&
+      e.targetedMuscles.length === targetedMuscles.length &&
+      e.targetedMuscles.every(
+        (muscle, index) => muscle === targetedMuscles[index]
+      )
+    )
   })
-  const initialCardAnimations = Array.from({ length }, () => "")
+  const cardRefs = Array(similarExercises.length + 1)
+    .fill()
+    .map(() => React.createRef())
 
-  const [exerciseN, setExerciseN] = useState(0)
-  const [transition, setTransition] = useState("")
-  const [transitionVisibility, setTransitionVisibility] = useState("")
-  const [transitionContentVisibility, setTransitionContentVisibility] =
-    useState("none")
-  const [transitionFlag, setTransitionFlag] = useState(false)
-  const [actionIcon, setActionIcon] = useState("")
-  const [actionMessage, setActionMessage] = useState("")
-  const [cardStyles, setCardStyles] = useState(initialCardStyles)
-  const [cardAnimations, setCardAnimations] = useState(initialCardAnimations)
+  const [beingShown, setBeingShown] = useState([0, 1])
+  const [selected, setSelected] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
-
-  const onLeft = () => {
-    if (exerciseN === 0) {
-      setCardStyles(
-        cardStyles.map((e, i) => {
-          return {
-            ...e,
-            zIndex: i === length - 1 ? 1 : -1,
-            opacity: i === length - 1 ? 1 : 0,
-          }
-        })
-      )
-      setCardAnimations(
-        cardAnimations.map((_, i) => (i === length - 1 ? styles.enter : ""))
-      )
-    } else {
-      setCardAnimations(
-        cardAnimations.map((_, i) => (i === exerciseN - 1 ? styles.enter : ""))
-      )
-      setCardStyles(
-        cardStyles.map((e, i) => {
-          return {
-            ...e,
-            zIndex: i === exerciseN - 1 ? length - (exerciseN - 1) : e.zIndex,
-            opacity: i === exerciseN - 1 ? 1 : e.opacity,
-          }
-        })
-      )
-    }
-    setExerciseN((index) => {
-      if (index === 0) return length - 1
-      return index - 1
-    })
-    console.log(exerciseN)
-  }
-
-  const onRight = () => {
+  const [similarExercisesData, setSimilarExercisesData] =
+    useState(similarExercises)
+  const transition = (i) => {
+    const index = i || selected + 1
     if (isTransitioning) {
       return
     }
+
     setIsTransitioning(true)
-    setCardAnimations(
-      cardAnimations.map((_, i) => (i === exerciseN ? styles.leave : ""))
-    )
+    const originalPosition = cardRefs[0].current.getBoundingClientRect()
+    const swapPosition = cardRefs[index].current.getBoundingClientRect()
+
+    const deltaX = originalPosition.left - swapPosition.left
+    const deltaY = originalPosition.top - swapPosition.top
+    cardRefs[0].current.style.transform = `translate(${deltaX * -1 - 25}px, ${
+      deltaY * -1
+    }px)`
+    cardRefs[
+      index
+    ].current.style.transform = `translate(${deltaX}px, ${deltaY}px)`
     setTimeout(() => {
-      setExerciseN((index) => {
-        if (index === length - 1) {
-          setCardAnimations(Array.from({ length }, () => styles.enter))
-          setCardStyles(initialCardStyles)
-          return 0
-        }
-        return index + 1
-      })
+      cardRefs[0].current.style.transform = `translate(0px, 0px)`
+      cardRefs[index].current.style.transform = `translate(0px, 0px)`
       setIsTransitioning(false)
-    }, 500)
+    }, 1000)
   }
-
-  const onRollBack = () => {
-    console.log("rollback")
-  }
-
-  const onAction = (action) => {
-    if (!transitionFlag) {
-      setTransitionFlag(true)
-      setTransition(`${styles.transition} ${styles[action]} ${styles.fadeIn}`)
-      actionTimeouts.push([
-        setTimeout(() => {
-          setTransitionVisibility("1")
-          setTransitionContentVisibility("flex")
-          setActionIcon(
-            `fa-solid fa-${action === "success" ? "check" : "xmark"} fa-2xl`
-          )
-          setActionMessage(`${action}Message`)
-        }, 750),
-        setTimeout(() => {
-          onRight()
-        }, 1500),
-        setTimeout(() => {
-          setTransitionVisibility("0")
-          setTransitionContentVisibility("none")
-          setTransition(`${styles.transition} ${styles[action]}`)
-        }, 2000),
-        setTimeout(() => {
-          setTransitionFlag(false)
-        }, 2250),
-      ])
-    }
-  }
-
-  const onBack = () => {
-    selectedAction ? navigate("main") : navigate("display")
-  }
-
-  const onStart = () => {
-    navigate("main")
-  }
-
-  const onHover = (e) => {
-    setAnimation(
-      animation && animation !== styles.hover
-        ? animation
-        : e._reactName === "onMouseEnter"
-        ? styles.hover
-        : null
-    )
-  }
-
-  useEffect(() => {
-    setCardStyles(
-      cardStyles.map((e, i) => ({
-        ...e,
-        translate:
-          i >= exerciseN && i < exerciseN + 5
-            ? `${(i - exerciseN) * -97}% ${(i - exerciseN) * -1.5}%`
-            : "",
-        zIndex: i >= exerciseN && i < exerciseN + 5 ? length - i : -1,
-        opacity: i >= exerciseN && i < exerciseN + 5 ? 1 : 0,
-        display: i >= exerciseN && i < exerciseN + 5 ? "flex" : "none",
-      }))
-    )
-  }, [exerciseN])
 
   return (
-    <div
-      className={`${styles.card} ${animation}`}
-      onMouseEnter={onHover}
-      onMouseLeave={onHover}
-    >
-      <h1 style={{ marginBottom: "80px" }}>
-        {t("session")} {processedN} -{" "}
-        <span className={styles.span}>
-          {t("exercises").charAt(0).toUpperCase() + t("exercises").slice(1)}
-        </span>
-      </h1>
-      <div className={styles.parentContainer}>
-        <div
-          className={styles.leftButtons}
-          style={{ justifyContent: load ? "space-between" : "end" }}
-        >
-          {load && (
-            <div className={styles.exerciseButtonContainer}>
-              <div
-                className={styles.exerciseButton}
-                style={{ backgroundColor: "#adb5bd" }}
-                onClick={onRollBack}
-              >
+    <div className={`${styles.card} ${animation}`}>
+      <div className={styles.mainContainer}>
+        <div className={styles.leftContainer}>
+          <h1 className={styles.h1}>{t("exerciseToSwap")}</h1>
+          <div
+            className={`${styles.exerciseCard} ${styles.leaving}`}
+            ref={cardRefs[0]}
+          >
+            <h2 className={styles.h2}>{t("benchPress")}</h2>
+            <div className={styles.itemContainer}>
+              <div className={styles.iconContainer}>
+                <img src="/images/strength.png" alt="" />
+              </div>
+              Placeholder
+            </div>
+            <div className={styles.itemContainer}>
+              <div className={styles.iconContainer}>
                 <i
-                  className="fa-solid fa-arrow-rotate-left fa-2xl"
-                  style={{ color: "#ffffff" }}
+                  className="fa-solid fa-clipboard-question fa-xl"
+                  style={{ color: "#0989ff" }}
                 ></i>
               </div>
-              {load && t("rollback")}
+              Placeholder
             </div>
-          )}
-          <div className={styles.exerciseButtonContainer}>
-            <div
-              className={styles.exerciseButton}
-              style={{ backgroundColor: load ? "#FF0909" : "black" }}
-              onClick={
-                load
-                  ? () => {
-                      onAction("failure")
-                    }
-                  : onLeft
-              }
-            >
-              <i
-                className={
-                  load
-                    ? "fa-solid fa-xmark fa-2xl"
-                    : "fa-solid fa-arrow-left fa-2xl"
-                }
-                style={{ color: "#ffffff" }}
-              ></i>
+            <div className={styles.itemContainer}>
+              <div className={styles.iconContainer}>
+                <i
+                  className="fa-solid fa-dumbbell fa-xl"
+                  style={{ color: "#0989ff" }}
+                ></i>
+              </div>
+              Placeholder
             </div>
-            {load && t("notToday")}
           </div>
         </div>
-
-        <div className={`${styles.exerciseCard}`}>
-          {lengthArray.map((i) => (
-            <div
-              className={`${styles.card} ${styles.contentContainer} ${cardAnimations[i]}`}
-              key={i}
-              style={cardStyles[i]}
-            >
-              <div
-                className={transition}
-                style={{ ...cardStyles[i], opacity: transitionVisibility }}
-              ></div>
-              <div
-                className={styles.transitionContent}
-                style={{
-                  ...cardStyles[i],
-                  display: transitionContentVisibility,
-                }}
-              >
-                <div className={styles.actionCircle}>
-                  <div className={styles.actionContainer}>
-                    <i className={actionIcon} style={{ color: "black" }}></i>
-                  </div>
-                </div>
-                {t(actionMessage)}
-              </div>
-              <h1>
-                {t(session.exerciseList[i].exercise.name)
-                  .charAt(0)
-                  .toUpperCase() +
-                  t(session.exerciseList[i].exercise.name).slice(1)}
-              </h1>
-              <div className={styles.itemContainer}>
-                <div className={styles.iconContainer}>
-                  {load ? (
-                    <i
-                      className="fa-solid fa-circle-info fa-2xl"
-                      style={{ color: "#0989ff" }}
-                    ></i>
-                  ) : (
-                    <img src="/images/strength.png" alt="" />
-                  )}
-                </div>
-                <span key={i} className={styles.item}>
-                  {session.exerciseList[i].exercise.targetedMuscles
-                    .map(
-                      (muscle, i) =>
-                        t(muscle).charAt(0).toUpperCase() + t(muscle).slice(1)
-                    )
-                    .join(", ")}
-                </span>
-              </div>
-              <div className={styles.itemContainer}>
-                <div className={styles.iconContainer}>
-                  <i
-                    className="fa-solid fa-clipboard-question fa-2xl"
-                    style={{ color: "#0989ff" }}
-                  ></i>
-                </div>
-                <span className={styles.item}>
-                  {session.exerciseList[i].reps} {t("reps")}
-                </span>
-              </div>
-              <div className={`${styles.itemContainer} ${styles.dumbbell}`}>
-                <div className={styles.iconContainer}>
-                  <i
-                    className="fa-solid fa-dumbbell fa-2xl"
-                    style={{ color: "#0989ff" }}
-                  ></i>
-                </div>
-                <span className={styles.item}>
-                  {session.exerciseList[i].sets > 1
-                    ? `${session.exerciseList[i].sets} sets`
-                    : `${session.exerciseList[i].sets} set`}
-                </span>
-              </div>
-              <div className={styles.imgContainer}>
-                <img
-                  src={`/images/${session.exerciseList[i].exercise.image}`}
-                  alt=""
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className={styles.rightButtons}>
-          <div className={styles.exerciseButtonContainer}>
-            {" "}
-            <div
-              className={styles.exerciseButton}
-              style={{ backgroundColor: "#0989ff", opacity: 1 }}
-            >
-              <i
-                className="fa-solid fa-arrows-rotate fa-2xl"
-                style={{ color: "#ffffff" }}
-              ></i>
-            </div>
-            {t("swap")}
+        <div className={styles.middleContainer}>
+          <p className={styles.p}>{t("swapInstructions")}</p>
+          <div className={`${styles.arrow} ${styles.rightArrow}`}>
+            <div className=""></div>
+            <div className=""></div>
           </div>
-          <div className={styles.exerciseButtonContainer}>
-            <div
-              className={styles.exerciseButton}
-              style={{ backgroundColor: load ? "#198038" : "black" }}
-              onClick={
-                load
-                  ? () => {
-                      onAction("success")
-                    }
-                  : onRight
-              }
-            >
-              <i
-                className={
-                  load
-                    ? "fa-solid fa-check fa-2xl"
-                    : "fa-solid fa-arrow-right fa-2xl"
-                }
-                style={{ color: "#ffffff" }}
-              ></i>
-            </div>
-            {load && t("success")}
+          <div className={`${styles.arrow} ${styles.leftArrow}`}>
+            <div className=""></div>
+            <div className=""></div>
           </div>
+          <button className={styles.swapButton}>
+            <i
+              className="fa-solid fa-arrows-rotate fa-2xl"
+              style={{ color: "#ffffff" }}
+            ></i>
+          </button>
+          {t("swap")}
         </div>
-      </div>
-      <div className={styles.buttonsContainer}>
-        <div className={styles.exerciseSwapButtons}>
-          {lengthArray.map((i) => (
-            <button
-              className={`${styles.exerciseSwapButton} ${
-                exerciseN === i ? styles.selected : ""
+        <div className={styles.rightContainer}>
+          <h1 className={styles.h1}>{t("similarExercises")}</h1>
+          {similarExercisesData.map((e, i) => (
+            <div
+              className={`${styles.exerciseCard} ${
+                selected === i ? styles.selected : ""
               }`}
+              style={{ display: beingShown.includes(i) ? "" : "none" }}
               onClick={() => {
-                if (!load) {
-                  setExerciseN(i)
-                }
+                setSelected(i)
               }}
-            ></button>
+              onDoubleClick={() => {
+                transition(i + 1)
+              }}
+              ref={cardRefs[i + 1]}
+            >
+              <h2 className={styles.h2}>{t(e.name)}</h2>
+              <div className={styles.itemContainer}>
+                <div className={styles.iconContainer}>
+                  <img src="/images/strength.png" alt="" />
+                </div>
+                {e.targetedMuscles}
+              </div>
+              <div className={styles.itemContainer}>
+                <div className={styles.iconContainer}>
+                  <i
+                    className="fa-solid fa-clipboard-question fa-xl"
+                    style={{ color: "#0989ff" }}
+                  ></i>
+                </div>
+                {e.targetedMuscles}
+              </div>
+              <div className={styles.itemContainer}>
+                <div className={styles.iconContainer}>
+                  <i
+                    className="fa-solid fa-dumbbell fa-xl"
+                    style={{ color: "#0989ff" }}
+                  ></i>
+                </div>
+                Placeholder
+              </div>
+            </div>
           ))}
+          <div className={styles.navigateContainer}></div>
         </div>
-        <button
-          className={`${styles.button} ${styles.backButton}`}
-          onClick={onBack}
-        >
-          {selectedAction ? t("dontSave") : t("goBack")}
-        </button>
-        <button
-          className={`${styles.button} ${styles.startButton}`}
-          onClick={onStart}
-        >
-          {selectedAction ? t("save") : t("start")}
-        </button>
       </div>
+      <div className={styles.buttonContainer}></div>
     </div>
   )
 }
