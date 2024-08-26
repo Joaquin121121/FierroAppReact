@@ -103,7 +103,7 @@ function PlanContent({ pressedKey, animation, setAnimation, navigate }) {
                 onEditSession(i + 1)
               }}
             >
-              Edit Session{" "}
+              {t("editSession")}{" "}
               <i
                 className="fa-solid fa-pencil fa-lg"
                 style={{ color: "white" }}
@@ -142,14 +142,14 @@ function PlanContent({ pressedKey, animation, setAnimation, navigate }) {
       </div>
       <div className={styles.buttonContainer}>
         <button className={`${styles.button} ${styles.swapButton}`}>
-          Swap Exercises
+          {t("swapExercises")}
           <i className="fa-solid fa-dumbbell fa-xl"></i>
         </button>
         <button
           className={`${styles.button} ${styles.preferencesButton}`}
           onClick={onChangePreferences}
         >
-          Change preferences
+          {t("changePreferences")}
           <i className="fa-solid fa-arrow-rotate-right fa-xl"></i>
         </button>
       </div>

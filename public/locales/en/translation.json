@@ -125,7 +125,7 @@
   "save": "Save Changes",
   "dontSave": "Exit without saving",
 
-  "exerciseToSwap": "Exercise to Swap",
+  "exerciseToKeep": "Exercise to Keep",
   "similarExercises": "Similar Exercises",
   "swapInstructions": "Double click on the exercise you want to swap",
 
@@ -137,12 +137,15 @@
   "logOut": "Exit Session",
   "myWeek": "My Week",
   "completedSessions": "Completed sessions",
-  "streakWeeks": "Weeks in a row",
+  "streakWeeks": "Streak Weeks",
 
   "miPlan": "My Plan",
   "showing": "Showing",
   "sessions": "sessions",
   "fullBodySplit": "Full Body Split",
+  "editSession": "Edit Session",
+  "swapExercises": "Swap Exercises",
+  "changePreferences": "Change Preferences",
 
   "rollback": "Modify sets/reps",
   "swap": "Swap exercise",

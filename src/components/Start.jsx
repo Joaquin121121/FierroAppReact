@@ -20,6 +20,7 @@ function Start() {
   const [mouseDown, setMouseDown] = useState(false)
   const [sessionN, setSessionN] = useState(0)
   const [page, setPage] = useState(selectedAction || "welcome")
+  const [exerciseToSwap, setExerciseToSwap] = useState("")
   const [welcomeAnimation, setWelcomeAnimation] = useState(
     navAnimations.fadeInRight
   )
@@ -154,10 +155,14 @@ function Start() {
           animation={ExerciseDisplayAnimation}
           setAnimation={setExerciseDisplayAnimation}
           selectedAction={selectedAction}
+          setExerciseToSwap={setExerciseToSwap}
         />
       )}
       {page === "ExerciseSwap" && (
-        <ExerciseSwap animation={ExerciseSwapAnimation}></ExerciseSwap>
+        <ExerciseSwap
+          animation={ExerciseSwapAnimation}
+          exercise={exerciseToSwap}
+        ></ExerciseSwap>
       )}
     </div>
   )

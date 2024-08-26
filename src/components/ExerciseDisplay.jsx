@@ -9,6 +9,7 @@ function ExerciseDisplay({
   setAnimation,
   navigate,
   selectedAction,
+  setExerciseToSwap,
 }) {
   const load =
     n.toString().length ===
@@ -89,6 +90,11 @@ function ExerciseDisplay({
     console.log("rollback")
   }
 
+  const onSwap = () => {
+    setExerciseToSwap(session.exerciseList[exerciseN].exercise.name)
+    navigate("ExerciseSwap")
+  }
+
   const onAction = (action) => {
     if (!transitionFlag) {
       setTransitionFlag(true)
@@ -164,6 +170,14 @@ function ExerciseDisplay({
     }
   }
 
+  const onKeyDown = (e) => {
+    if (e.key === "ArrowLeft") {
+      onLeft()
+    } else if (e.key === "ArrowRight") {
+      onRight()
+    }
+  }
+
   const onBack = () => {
     selectedAction ? navigate("main") : navigate("display")
   }
@@ -196,6 +210,14 @@ function ExerciseDisplay({
       }))
     )
   }, [exerciseN])
+
+  useEffect(() => {
+    window.addEventListener("keydown", onKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown)
+    }
+  }, [])
 
   return (
     <div
@@ -344,9 +366,7 @@ function ExerciseDisplay({
             <div
               className={styles.exerciseButton}
               style={{ backgroundColor: "#0989ff", opacity: 1 }}
-              onClick={() => {
-                navigate("ExerciseSwap")
-              }}
+              onClick={onSwap}
             >
               <i
                 className="fa-solid fa-arrows-rotate fa-2xl"
