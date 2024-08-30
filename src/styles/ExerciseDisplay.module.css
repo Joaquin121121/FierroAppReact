@@ -133,7 +133,7 @@
 }
 
 .transition.success {
-  background-color: #28a745;
+  background-color: #00a859;
 }
 .transition.failure {
   background-color: #ff0909;
@@ -366,5 +366,5 @@ button.button:active {
 .startButton {
   border-radius: 15px;
   width: 40%;
-  background-color: #28a745;
+  background-color: #00a859;
 }

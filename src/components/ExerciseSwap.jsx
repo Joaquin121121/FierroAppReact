@@ -50,7 +50,7 @@ function ExerciseSwap({ animation, exercise }) {
   )
 
   const [exerciseClasses, setExerciseClassses] = useState(
-    Array(similarExercises.length + 1).fill("")
+    Array(similarExercises.length + 1).fill(styles.fadeIn)
   )
 
   const [arrowClasses, setArrowClasses] = useState(Array(2).fill(""))
@@ -61,10 +61,39 @@ function ExerciseSwap({ animation, exercise }) {
 
   const initializePositions = () => {
     setInitialPositions(
-      initialPositions.map((_, i) =>
-        cardRefs.current[i].current.getBoundingClientRect()
-      )
+      initialPositions.map((_, i) => {
+        const rect = cardRefs.current[i].current.getBoundingClientRect()
+        const computedStyle = window.getComputedStyle(
+          cardRefs.current[i].current
+        )
+        const marginLeft = parseFloat(computedStyle.marginLeft)
+        const marginTop = parseFloat(computedStyle.marginTop)
+
+        return {
+          left: rect.left + marginLeft,
+          top: rect.top + marginTop,
+        }
+      })
     )
+  }
+
+  const onDrop = (e, i) => {
+    e.preventDefault()
+    if (i === 0) {
+      if (e.clientX < window.innerWidth / 2) {
+        return
+      }
+      if (e.clientY < window.innerHeight / 2) {
+        transition(1)
+      } else {
+        transition(2)
+      }
+    } else {
+      if (e.clientX > window.innerWidth / 2) {
+        return
+      }
+      transition(i)
+    }
   }
 
   const transition = (index) => {
@@ -72,8 +101,10 @@ function ExerciseSwap({ animation, exercise }) {
       return
     }
     setIsTransitioning(true)
-    const deltaX = initialPositions[0].left - initialPositions[index].left
-    const deltaY = initialPositions[0].top - initialPositions[index].top
+    const positionIndex = index % 2 === 1 ? 1 : 2
+    const deltaX =
+      initialPositions[0].left - initialPositions[positionIndex].left
+    const deltaY = initialPositions[0].top - initialPositions[positionIndex].top
 
     setExerciseClassses(
       exerciseClasses.map((e, i) => (i === 0 || i === index ? styles.up : e))
@@ -85,15 +116,15 @@ function ExerciseSwap({ animation, exercise }) {
           if (i === 0) {
             return {
               ...e,
-              translate: `${deltaX * -1}px ${deltaY * -1}px`,
+              translate: `${deltaX * -1.1}px ${deltaY * -1.1}px`,
               transition: "translate 600ms ease",
             }
           }
           if (i === index) {
             return {
               ...e,
-              translate: `${deltaX}px ${deltaY}px`,
-              transition: "translate 1s ease",
+              translate: `${deltaX * 1.1}px ${deltaY * 1.1}px`,
+              transition: "translate 600ms ease",
             }
           }
           return e
@@ -118,19 +149,75 @@ function ExerciseSwap({ animation, exercise }) {
       )
       setExerciseStyles(
         exerciseStyles.map((e, i) => ({
-          display: beingShown.includes(i) ? "block" : "none",
+          display: beingShown.includes(i) || i === 0 ? "block" : "none",
           transition: "none",
         }))
       )
       setExerciseClassses(exerciseClasses.map(() => ""))
       setArrowClasses(arrowClasses.map(() => ""))
       setIsTransitioning(false)
-    }, 1200)
+    }, 1000)
+  }
+
+  const onRight = () => {
+    setIsTransitioning(true)
+    const firstElement =
+      beingShown[1] + 1 >= similarExercises.length ? 0 : beingShown[1] + 1
+    const secondElement = firstElement + 1
+    setExerciseClassses(
+      exerciseClasses.map((_, i) =>
+        i === beingShown[0] + 1 || i === beingShown[1] + 1
+          ? styles.fadeOut
+          : i === firstElement + 1 || i === secondElement + 1
+          ? styles.fadeIn
+          : ""
+      )
+    )
+    setTimeout(() => {
+      setBeingShown([firstElement, secondElement])
+      setSelected(firstElement)
+    }, 400)
+    setTimeout(() => {
+      setIsTransitioning(false)
+    }, 800)
+  }
+
+  const onLeft = () => {
+    setIsTransitioning(true)
+    const secondElement =
+      beingShown[0] - 1 < 0 ? similarExercises.length : beingShown[0] - 1
+    const firstElement = secondElement - 1
+    setExerciseClassses(
+      exerciseClasses.map((_, i) =>
+        i === beingShown[0] + 1 || i === beingShown[1] + 1
+          ? styles.fadeOut
+          : i === firstElement + 1 || i === secondElement + 1
+          ? styles.fadeIn
+          : ""
+      )
+    )
+    setTimeout(() => {
+      setBeingShown([firstElement, secondElement])
+      setSelected(firstElement)
+    }, 400)
+    setTimeout(() => {
+      setIsTransitioning(false)
+    }, 800)
   }
 
   useLayoutEffect(() => {
+    document.addEventListener("dragover", (event) => {
+      event.preventDefault()
+    })
     initializePositions()
     window.addEventListener("resize", initializePositions)
+
+    return () => {
+      window.removeEventListener("resize", initializePositions)
+      document.removeEventListener("dragover", (event) => {
+        event.preventDefault()
+      })
+    }
   }, [])
 
   return (
@@ -140,8 +227,12 @@ function ExerciseSwap({ animation, exercise }) {
           <h1 className={styles.h1}>{t("exerciseToKeep")}</h1>
           <div
             className={`${styles.exerciseCard} ${styles.leaving} ${exerciseClasses[0]}`}
+            draggable
+            onDragEnd={(e) => {
+              onDrop(e, 0)
+            }}
             ref={cardRefs.current[0]}
-            style={exerciseStyles[0]}
+            style={{ ...exerciseStyles[0], cursor: "auto" }}
           >
             <h2 className={styles.h2}>{t(currentExercise.name)}</h2>
             <div className={styles.itemContainer}>
@@ -204,9 +295,14 @@ function ExerciseSwap({ animation, exercise }) {
               className={`${styles.exerciseCard} ${
                 selected === i ? styles.selected : ""
               } ${exerciseClasses[i + 1]}`}
+              draggable
+              onDragEnd={(e) => {
+                onDrop(e, i + 1)
+              }}
               style={{
                 ...exerciseStyles[i + 1],
-                display: beingShown.includes(i) ? "" : "none",
+                display: "block",
+                visibility: beingShown.includes(i) ? "visible" : "hidden",
               }}
               onClick={() => {
                 setSelected(i)
@@ -243,10 +339,37 @@ function ExerciseSwap({ animation, exercise }) {
               </div>
             </div>
           ))}
-          <div className={styles.navigateContainer}></div>
+          <div
+            className={styles.navigateContainer}
+            style={{
+              justifyContent:
+                similarExercises.length <= 2 ? "center" : "space-between",
+            }}
+          >
+            <i
+              className={`${styles.navArrow} fa-solid fa-arrow-left fa-2xl`}
+              onClick={onLeft}
+              style={{ display: similarExercises.length <= 2 ? "none" : "" }}
+            ></i>
+            {`Showing ${beingShown[0] + 1} - ${beingShown[1] + 1} of ${
+              similarExercises.length
+            } similar exercises `}
+            <i
+              className={`${styles.navArrow} fa-solid fa-arrow-right fa-2xl`}
+              onClick={onRight}
+              style={{ display: similarExercises.length <= 2 ? "none" : "" }}
+            ></i>
+          </div>
         </div>
       </div>
-      <div className={styles.buttonContainer}></div>
+      <div className={styles.buttonsContainer}>
+        <button className={`${styles.button} ${styles.leave}`}>
+          {t("dontSave")}
+        </button>
+        <button className={`${styles.button} ${styles.save}`}>
+          {t("save")}
+        </button>
+      </div>
     </div>
   )
 }

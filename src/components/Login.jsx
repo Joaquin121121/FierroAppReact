@@ -191,6 +191,7 @@ function Login() {
           username={username}
           email={email}
           providerLogIn={providerLogIn}
+          setDisabled={setDisabled}
         ></Register>
       ) : null}
       <div

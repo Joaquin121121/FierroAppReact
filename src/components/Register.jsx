@@ -21,7 +21,7 @@ import UserContext from "../contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 import { changeLanguage } from "i18next"
 
-function Register({ setAction, username, email, providerLogIn }) {
+function Register({ setAction, username, email, providerLogIn, setDisabled }) {
   const {
     register,
     handleSubmit,
@@ -125,6 +125,7 @@ function Register({ setAction, username, email, providerLogIn }) {
 
   const onClose = () => {
     setTimeout(() => {
+      setDisabled(false)
       setAction("login")
     }, 500)
     setRegisterCardStyles(`${styles.registerCard} ${styles.fadeUp}`)

@@ -267,14 +267,14 @@ img {
 .card3 .textContainer .streak {
   width: 100%;
   font-weight: 900;
-  color: #0989ff;
+  color: #ff9900;
   font-size: 64px;
   line-height: 1.2;
   text-align: left;
 }
 
 .card3 .textContainer h1 {
-  color: #ff9900;
+  color: #0989ff;
   font-weight: 600;
 }
 
