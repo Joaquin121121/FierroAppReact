@@ -34,7 +34,7 @@ function Display({ navigate, animation, setAnimation, setSessionN }) {
 
   const onEdit = (i) => {
     setSessionN(i)
-    navigate("exerciseSwap")
+    navigate("exerciseDisplay")
   }
 
   const onBack = () => {

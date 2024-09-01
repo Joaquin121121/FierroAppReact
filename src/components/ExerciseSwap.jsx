@@ -3,8 +3,10 @@ import styles from "../styles/ExerciseSwap.module.css"
 import TranslationContext from "../contexts/TranslationContext"
 import UserContext from "../contexts/UserContext"
 import parsedExercises from "../exercises.json"
+import { db, auth } from "../services/firebase.js"
+import { doc, updateDoc } from "firebase/firestore"
 
-function ExerciseSwap({ animation, exercise }) {
+function ExerciseSwap({ animation, exercise, navigate, n }) {
   const t = useContext(TranslationContext)
   const { user, setUser } = useContext(UserContext)
 
@@ -22,15 +24,13 @@ function ExerciseSwap({ animation, exercise }) {
     exercises.find((e) => e.name === exercise)
   )
 
+  const [exerciseToReplace, setExerciseToReplace] = useState(null)
+
   const [similarExercises, setSimilarExercises] = useState(
     exercises.filter((e) => {
       return (
         e.name !== exercise &&
-        e.targetedMuscles.length ===
-          (currentExercise?.targetedMuscles.length || 0) &&
-        e.targetedMuscles.every(
-          (muscle, index) => muscle === currentExercise?.targetedMuscles[index]
-        )
+        e.targetedMuscles[0] === currentExercise?.targetedMuscles[0]
       )
     })
   )
@@ -57,6 +57,7 @@ function ExerciseSwap({ animation, exercise }) {
 
   const [selected, setSelected] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [initialPositions, setInitialPositions] = useState(Array(3).fill())
 
   const initializePositions = () => {
@@ -84,9 +85,9 @@ function ExerciseSwap({ animation, exercise }) {
         return
       }
       if (e.clientY < window.innerHeight / 2) {
-        transition(1)
+        transition(beingShown[0] + 1)
       } else {
-        transition(2)
+        transition(beingShown[1] + 1)
       }
     } else {
       if (e.clientX > window.innerWidth / 2) {
@@ -133,17 +134,13 @@ function ExerciseSwap({ animation, exercise }) {
     }, 300)
     setTimeout(() => {
       const newExercise = similarExercises[index - 1].name
+      setExerciseToReplace(currentExercise)
       setCurrentExercise(exercises.find((e) => e.name === newExercise))
       setSimilarExercises(
         exercises.filter((e) => {
           return (
             e.name !== newExercise &&
-            e.targetedMuscles.length ===
-              (currentExercise?.targetedMuscles.length || 0) &&
-            e.targetedMuscles.every(
-              (muscle, index) =>
-                muscle === currentExercise?.targetedMuscles[index]
-            )
+            e.targetedMuscles[0] === currentExercise?.targetedMuscles[0]
           )
         })
       )
@@ -205,7 +202,49 @@ function ExerciseSwap({ animation, exercise }) {
     }, 800)
   }
 
+  const onLeave = () => {
+    if (loading) {
+      return
+    }
+    navigate("exerciseDisplay")
+  }
+  const onSave = async () => {
+    if (loading) {
+      return
+    }
+    setLoading(true)
+    setIsTransitioning(true)
+    const docRef = doc(db, "userdata", auth.currentUser.uid)
+    const exerciseGroup = Object.keys(parsedExercises).find(
+      (key) =>
+        Array.isArray(parsedExercises[key]) &&
+        parsedExercises[key].some((e) => e.name === currentExercise.name)
+    )
+    const sessionData = user.plan[`session ${n}`]
+    const updatedSession = {}
+    Object.keys(sessionData).forEach((key) => {
+      if (key === "exerciseList" || key === exerciseGroup) {
+        updatedSession[key] = sessionData[key].map((e, i) => ({
+          ...e,
+          exercise:
+            e.exercise.name === exerciseToReplace.name
+              ? currentExercise
+              : sessionData[key][i]["exercise"],
+        }))
+        return
+      }
+      updatedSession[key] = sessionData[key]
+    })
+    try {
+      await updateDoc(docRef, { [`plan.session ${n}`]: updatedSession })
+    } catch (error) {}
+    user.plan[`session ${n}`] = updatedSession
+    setUser(user)
+    navigate("main")
+  }
+
   useLayoutEffect(() => {
+    console.log(user.plan[`session ${n}`])
     document.addEventListener("dragover", (event) => {
       event.preventDefault()
     })
@@ -351,9 +390,9 @@ function ExerciseSwap({ animation, exercise }) {
               onClick={onLeft}
               style={{ display: similarExercises.length <= 2 ? "none" : "" }}
             ></i>
-            {`Showing ${beingShown[0] + 1} - ${beingShown[1] + 1} of ${
-              similarExercises.length
-            } similar exercises `}
+            {`Showing ${beingShown[0] + 1}${
+              similarExercises[beingShown[1]] ? ` - ${beingShown[1] + 1}` : ""
+            } of ${similarExercises.length} similar exercises `}
             <i
               className={`${styles.navArrow} fa-solid fa-arrow-right fa-2xl`}
               onClick={onRight}
@@ -363,10 +402,19 @@ function ExerciseSwap({ animation, exercise }) {
         </div>
       </div>
       <div className={styles.buttonsContainer}>
-        <button className={`${styles.button} ${styles.leave}`}>
+        <button
+          className={`${styles.button} ${styles.leave}`}
+          onClick={onLeave}
+        >
           {t("dontSave")}
         </button>
-        <button className={`${styles.button} ${styles.save}`}>
+        <div
+          className={styles.loadingAnimation}
+          style={{ display: loading ? "block" : "none" }}
+        >
+          <img src="/images/loading-animation.gif" alt="loading-animation" />
+        </div>
+        <button className={`${styles.button} ${styles.save}`} onClick={onSave}>
           {t("save")}
         </button>
       </div>

@@ -4,6 +4,7 @@ import Start from "./Start.jsx"
 import Register from "./Register.jsx"
 import Main from "./Main.jsx"
 import styles from "../styles/Login.module.css"
+import navAnimations from "../styles/NavAnimations.module.css"
 import { useForm } from "react-hook-form"
 import { db, auth } from "../services/firebase"
 import {
@@ -43,6 +44,7 @@ function Login() {
   const [username, setUsername] = useState(null)
   const [email, setEmail] = useState(null)
   const [providerLogIn, setProviderLogIn] = useState(false)
+  const [animation, setAnimation] = useState(navAnimations.fadeInTopRight)
   const { user, setUser } = useContext(UserContext)
 
   const t = useContext(TranslationContext)
@@ -183,6 +185,12 @@ function Login() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }, [action])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimation(null)
+    }, 1000)
+  }, [])
+
   return (
     <>
       {action === "register" ? (
@@ -195,7 +203,7 @@ function Login() {
         ></Register>
       ) : null}
       <div
-        className={styles.loginContainer}
+        className={`${styles.loginContainer} ${animation}`}
         ref={loginContainerRef}
         onMouseEnter={onHover}
         onMouseLeave={onHover}

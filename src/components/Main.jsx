@@ -13,12 +13,16 @@ function Main() {
   const [action, setAction] = useState("plan")
   const [selectedAction, setSelectedAction] = useState("plan")
   const [key, setKey] = useState("")
-  const [menuAnimation, setMenuAnimation] = useState(null)
+  const [menuAnimation, setMenuAnimation] = useState(
+    navAnimations.fadeInTopRight
+  )
   const [topAnimation, setTopAnimation] = useState(null)
   const [homeAnimation, setHomeAnimation] = useState(null)
   const [logSessionAnimation, setLogSessionAnimation] = useState(null)
   const [calendarAnimation, setCalendarAnimation] = useState(null)
-  const [planAnimation, setPlanAnimation] = useState(null)
+  const [planAnimation, setPlanAnimation] = useState(
+    navAnimations.fadeInTopRight
+  )
   const [myStatsAnimation, setMyStatsAnimation] = useState(null)
   const [disableNavigation, setDisableNavigation] = useState(false)
 
@@ -36,6 +40,7 @@ function Main() {
     plan: setPlanAnimation,
     myStats: setMyStatsAnimation,
   }
+
   const sessions = user.plan.sessions
   const timeouts = []
   const componentActions = ["home", "logSession", "calendar", "plan", "myStats"]
@@ -48,6 +53,7 @@ function Main() {
     }
   }
 
+  const onHover = () => {}
   const navigate = (nextAction) => {
     if (!disableNavigation) {
       timeouts.forEach((intervalID) => clearInterval(intervalID))
@@ -81,7 +87,14 @@ function Main() {
     try {
       await signOut(auth)
       setUser(null)
-      routeNavigate("/login")
+      setMenuAnimation(navAnimations.fadeOutTopRight)
+      if (action !== "plan") {
+        setters["top"](navAnimations.fadeOutTopRight)
+      }
+      setters[action](navAnimations.fadeOutTopRight)
+      setTimeout(() => {
+        routeNavigate("/login")
+      }, 500)
     } catch (error) {
       console.log(error)
     }

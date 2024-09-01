@@ -92,7 +92,7 @@ function ExerciseDisplay({
 
   const onSwap = () => {
     setExerciseToSwap(session.exerciseList[exerciseN].exercise.name)
-    navigate("ExerciseSwap")
+    navigate("exerciseSwap")
   }
 
   const onAction = (action) => {

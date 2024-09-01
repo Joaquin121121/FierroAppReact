@@ -126,12 +126,11 @@ function PlanContent({ pressedKey, animation, setAnimation, navigate }) {
           ></i>
         )}
         <p className={styles.p2}>
-          {t("showing")}{" "}
+          {t("showing")} &nbsp;&nbsp;{showMore ? "4" : "1"} -{" "}
+          {showMore ? nSessions : nSessions === 2 ? "2" : "3"} of {nSessions}{" "}
           {nSessions === 4 && showMore
             ? t("session").toLowerCase()
             : t("sessions")}{" "}
-          &nbsp;&nbsp;{showMore ? "4" : "1"} -{" "}
-          {showMore ? nSessions : nSessions === 2 ? "2" : "3"}
         </p>
         {nSessions > 3 && (
           <i

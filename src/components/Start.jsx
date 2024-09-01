@@ -14,7 +14,7 @@ function Start() {
   const { param } = useParams()
   const { user } = useContext(UserContext)
   const [selectedAction, setSelectedAction] = useState(
-    param ? (isNaN(Number(param)) ? param : "ExerciseDisplay") : null
+    param ? (isNaN(Number(param)) ? param : "exerciseDisplay") : null
   )
 
   const [mouseDown, setMouseDown] = useState(false)
@@ -47,8 +47,8 @@ function Start() {
     welcome: setWelcomeAnimation,
     new: setNewAnimation,
     display: setDisplayAnimation,
-    ExerciseDisplay: setExerciseDisplayAnimation,
-    ExerciseSwap: setExerciseSwapAnimation,
+    exerciseDisplay: setExerciseDisplayAnimation,
+    exerciseSwap: setExerciseSwapAnimation,
   }
 
   const onMouseUp = () => {
@@ -148,7 +148,7 @@ function Start() {
           selectedAction={selectedAction}
         />
       )}
-      {page === "ExerciseDisplay" && (
+      {page === "exerciseDisplay" && (
         <ExerciseDisplay
           navigate={navigate}
           n={param || sessionN}
@@ -158,8 +158,10 @@ function Start() {
           setExerciseToSwap={setExerciseToSwap}
         />
       )}
-      {page === "ExerciseSwap" && (
+      {page === "exerciseSwap" && (
         <ExerciseSwap
+          n={param || sessionN}
+          navigate={navigate}
           animation={ExerciseSwapAnimation}
           exercise={exerciseToSwap}
         ></ExerciseSwap>
