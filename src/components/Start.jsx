@@ -2,13 +2,17 @@ import React, { useContext, useEffect, useState } from "react"
 import styles from "../styles/StartLight.module.css"
 import navAnimations from "../styles/NavAnimations.module.css"
 import Welcome from "./Welcome.jsx"
-import New from "./New.jsx"
 import Display from "./Display.jsx"
 import ExerciseDisplay from "./ExerciseDisplay.jsx"
 import "../styles/Global.css"
 import { useNavigate, useParams } from "react-router-dom"
 import UserContext from "../contexts/UserContext.jsx"
 import ExerciseSwap from "./ExerciseSwap.jsx"
+import SuccessfulSession from "./SuccessfulSession.jsx"
+import Premade from "./Premade.jsx"
+import Custom from "./Custom.jsx"
+import PlanChoice from "./PlanChoice.jsx"
+import Frequency from "./Frequency.jsx"
 
 function Start() {
   const { param } = useParams()
@@ -24,31 +28,59 @@ function Start() {
   const [welcomeAnimation, setWelcomeAnimation] = useState(
     navAnimations.fadeInRight
   )
-  const [newAnimation, setNewAnimation] = useState(
+
+  const [frequencyAnimation, setFrequencyAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+
+  const [planChoiceAnimation, setPlanChoiceAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+
+  const [customAnimation, setCustomAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+
+  const [premadeAnimation, setPremadeAnimation] = useState(
     selectedAction ? navAnimations.fadeInRight : null
   )
   const [displayAnimation, setDisplayAnimation] = useState(
     selectedAction ? navAnimations.fadeInRight : null
   )
-  const [ExerciseDisplayAnimation, setExerciseDisplayAnimation] = useState(
+  const [exerciseDisplayAnimation, setExerciseDisplayAnimation] = useState(
     selectedAction ? navAnimations.fadeInRight : null
   )
 
-  const [ExerciseSwapAnimation, setExerciseSwapAnimation] = useState(
+  const [exerciseSwapAnimation, setExerciseSwapAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+  const [successfulSessionAnimation, setSuccessfulSessionAnimation] = useState(
     selectedAction ? navAnimations.fadeInRight : null
   )
 
-  const pages = ["welcome", "new", "display", "ExerciseDisplay"]
+  const pages = [
+    "welcome",
+    "frequency",
+    "planChoice",
+    "custom",
+    "premade",
+    "display",
+    "ExerciseDisplay",
+  ]
   const timeouts = []
 
   const routeNavigate = useNavigate()
 
   const setters = {
     welcome: setWelcomeAnimation,
-    new: setNewAnimation,
+    frequency: setFrequencyAnimation,
+    planChoice: setPlanChoiceAnimation,
+    custom: setCustomAnimation,
+    premade: setPremadeAnimation,
     display: setDisplayAnimation,
     exerciseDisplay: setExerciseDisplayAnimation,
     exerciseSwap: setExerciseSwapAnimation,
+    successfulSession: setSuccessfulSessionAnimation,
   }
 
   const onMouseUp = () => {
@@ -98,9 +130,6 @@ function Start() {
         setters[selectedAction](null)
       }, 500)
     }
-    setTimeout(() => {
-      setWelcomeAnimation(null)
-    }, 500)
   }, [])
 
   return (
@@ -129,13 +158,39 @@ function Start() {
           setAnimation={setWelcomeAnimation}
         />
       )}
-      {page === "new" && (
-        <New
+      {page === "frequency" && (
+        <Frequency
+          animation={frequencyAnimation}
+          navigate={navigate}
+        ></Frequency>
+      )}
+      {page === "planChoice" && (
+        <PlanChoice
           mouseDown={mouseDown}
           setMouseDown={setMouseDown}
           navigate={navigate}
-          animation={newAnimation}
-          setAnimation={setNewAnimation}
+          animation={planChoiceAnimation}
+          setAnimation={setPlanChoiceAnimation}
+          selectedAction={selectedAction}
+        />
+      )}
+      {page === "premade" && (
+        <Premade
+          mouseDown={mouseDown}
+          setMouseDown={setMouseDown}
+          navigate={navigate}
+          animation={premadeAnimation}
+          setAnimation={setPremadeAnimation}
+          selectedAction={selectedAction}
+        />
+      )}
+      {page === "custom" && (
+        <Custom
+          mouseDown={mouseDown}
+          setMouseDown={setMouseDown}
+          navigate={navigate}
+          animation={customAnimation}
+          setAnimation={setCustomAnimation}
           selectedAction={selectedAction}
         />
       )}
@@ -152,7 +207,7 @@ function Start() {
         <ExerciseDisplay
           navigate={navigate}
           n={param || sessionN}
-          animation={ExerciseDisplayAnimation}
+          animation={exerciseDisplayAnimation}
           setAnimation={setExerciseDisplayAnimation}
           selectedAction={selectedAction}
           setExerciseToSwap={setExerciseToSwap}
@@ -162,9 +217,15 @@ function Start() {
         <ExerciseSwap
           n={param || sessionN}
           navigate={navigate}
-          animation={ExerciseSwapAnimation}
+          animation={exerciseSwapAnimation}
           exercise={exerciseToSwap}
         ></ExerciseSwap>
+      )}
+      {page === "successfulSession" && (
+        <SuccessfulSession
+          navigate={navigate}
+          animation={successfulSessionAnimation}
+        ></SuccessfulSession>
       )}
     </div>
   )

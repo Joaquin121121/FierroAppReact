@@ -73,7 +73,7 @@ function ExerciseDisplay({
       setExerciseN((index) => {
         if (index === length - 1) {
           if (load) {
-            navigate("main")
+            navigate("successfulSession")
           } else {
             setCardAnimations(Array.from({ length }, () => styles.enter))
             setCardStyles(initialCardStyles)
@@ -183,7 +183,7 @@ function ExerciseDisplay({
   }
 
   const onStart = () => {
-    navigate("main")
+    navigate("successfulSession")
   }
 
   const onHover = (e) => {
@@ -225,7 +225,7 @@ function ExerciseDisplay({
       onMouseEnter={onHover}
       onMouseLeave={onHover}
     >
-      <h1 style={{ marginBottom: "80px" }}>
+      <h1>
         {t("session")} {processedN} -{" "}
         <span className={styles.span}>
           {t("exercises").charAt(0).toUpperCase() + t("exercises").slice(1)}
@@ -351,12 +351,6 @@ function ExerciseDisplay({
                     : `${session.exerciseList[i].sets} set`}
                 </span>
               </div>
-              <div className={styles.imgContainer}>
-                <img
-                  src={`/images/${session.exerciseList[i].exercise.image}`}
-                  alt=""
-                />
-              </div>
             </div>
           ))}
         </div>
@@ -373,7 +367,6 @@ function ExerciseDisplay({
                 style={{ color: "#ffffff" }}
               ></i>
             </div>
-            {t("swap")}
           </div>
           <div className={styles.exerciseButtonContainer}>
             <div

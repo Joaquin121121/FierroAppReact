@@ -99,6 +99,7 @@ h1 {
   align-items: center;
   padding-top: 50px;
   margin-bottom: 40px;
+  position: relative;
 }
 
 .hover {
@@ -123,6 +124,7 @@ h1 {
   display: flex;
   align-items: center;
   transition: transform 1s ease;
+  cursor: pointer;
 }
 
 .session {
@@ -197,7 +199,6 @@ h1 {
   font-weight: 400;
   color: gray;
   opacity: 0;
-  cursor: pointer;
   transition: transform 1s ease;
 }
 
@@ -281,8 +282,6 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -301,19 +300,20 @@ h1 {
 }
 
 .buttonsContainer {
+  margin: 120px auto 20px auto;
   width: 50%;
-  margin: 80px auto;
-  margin-top: 150px; /* Cambiar por 150  */
   display: flex;
   justify-content: space-between;
 }
 
 .returnButton {
+  height: 60px;
   width: 40%;
   background-color: #adb5bd;
 }
 
 .startButton {
+  height: 60px;
   width: 40%;
   background-color: #00a859;
 }

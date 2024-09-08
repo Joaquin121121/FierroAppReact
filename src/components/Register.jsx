@@ -132,24 +132,23 @@ function Register({ setAction, username, email, providerLogIn, setDisabled }) {
   }
 
   return (
-    <div
-      className={registerCardStyles}
-      style={{ height: providerLogIn ? "150vh" : "" }}
-    >
+    <div className={registerCardStyles}>
       <div className={styles.closeButton} onClick={onClose}>
         <i className="fa-solid fa-xmark fa-xl"></i>
       </div>
-      <div className={styles.header}>
-        <div className={styles.iconContainer}>
-          <i
-            className={`${styles.icon} fa-solid fa-dumbbell fa-2xl`}
-            style={{ color: "#ffffff" }}
-          ></i>
+      {providerLogIn && (
+        <div className={styles.header}>
+          <div className={styles.iconContainer}>
+            <i
+              className={`${styles.icon} fa-solid fa-dumbbell fa-2xl`}
+              style={{ color: "#ffffff" }}
+            ></i>
+          </div>
+          <div className={styles.brand}>
+            <h1>Fierro App</h1>
+          </div>
         </div>
-        <div className={styles.brand}>
-          <h1>Fierro App</h1>
-        </div>
-      </div>
+      )}
       <p className={styles.p}>{t("registerSubheading")}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!providerLogIn && (
@@ -226,106 +225,110 @@ function Register({ setAction, username, email, providerLogIn, setDisabled }) {
             </div>
           </div>
         )}
-        <h2 className={styles.h2}>{t("gender")}</h2>
-        <div
-          className={`form-group ${styles.formGroup} ${styles.genderContainer}`}
-        >
+        <div className={styles.section}>
+          <h2 className={styles.h2}>{t("gender")}</h2>
           <div
-            className={
-              gender === "male"
-                ? `${styles.gender} ${styles.selected}`
-                : styles.gender
-            }
-            onClick={() => {
-              setGender("male")
-            }}
-            onMouseEnter={onHover}
-            onMouseLeave={onHover}
+            className={`form-group ${styles.formGroup} ${styles.genderContainer}`}
           >
-            <div className={styles.iconContainer}>
-              <i
-                className={`fa-solid fa-mars ${styles.icon}`}
-                style={{ color: "#0989FF" }}
-              />
+            <div
+              className={
+                gender === "male"
+                  ? `${styles.gender} ${styles.selected}`
+                  : styles.gender
+              }
+              onClick={() => {
+                setGender("male")
+              }}
+              onMouseEnter={onHover}
+              onMouseLeave={onHover}
+            >
+              <div className={styles.iconContainer}>
+                <i
+                  className={`fa-solid fa-mars ${styles.icon}`}
+                  style={{ color: "#0989FF" }}
+                />
+              </div>
+              <div className={styles.genderText}>{t("male")}</div>
             </div>
-            <div className={styles.genderText}>{t("male")}</div>
-          </div>
-          <div
-            className={
-              gender === "female"
-                ? `${styles.gender} ${styles.selected}`
-                : styles.gender
-            }
-            onClick={() => {
-              setGender("female")
-            }}
-            onMouseEnter={onHover}
-            onMouseLeave={onHover}
-          >
-            <div className={styles.iconContainer} style={{ color: "#f0f" }}>
-              <i className={`fa-solid fa-venus ${styles.icon}`} />
+            <div
+              className={
+                gender === "female"
+                  ? `${styles.gender} ${styles.selected}`
+                  : styles.gender
+              }
+              onClick={() => {
+                setGender("female")
+              }}
+              onMouseEnter={onHover}
+              onMouseLeave={onHover}
+            >
+              <div className={styles.iconContainer} style={{ color: "#f0f" }}>
+                <i className={`fa-solid fa-venus ${styles.icon}`} />
+              </div>
+              <div className={styles.genderText}>{t("female")}</div>
             </div>
-            <div className={styles.genderText}>{t("female")}</div>
           </div>
         </div>
-        <h2 className={styles.h2}>{t("language")}</h2>
-        <div className={styles.languageContainer}>
-          <div
-            className={
-              language === "en"
-                ? `${styles.language} ${styles.selected}`
-                : styles.language
-            }
-            onMouseEnter={onHover}
-            onMouseLeave={onHover}
-            onClick={() => {
-              setLanguage("en")
-            }}
-          >
-            <img
-              src="images/english.webp"
-              alt="english"
-              className={styles.flag}
-            ></img>
-            <p className={styles.languageName}>English</p>
-          </div>
-          <div
-            className={
-              language === "es"
-                ? `${styles.language} ${styles.selected}`
-                : styles.language
-            }
-            onMouseEnter={onHover}
-            onMouseLeave={onHover}
-            onClick={() => {
-              setLanguage("es")
-            }}
-          >
-            <img
-              src="images/spanish.jpg"
-              alt="spanish"
-              className={styles.flag}
-            ></img>
-            <p className={styles.languageName}>Español</p>
-          </div>
-          <div
-            className={
-              language === "fr"
-                ? `${styles.language} ${styles.selected}`
-                : styles.language
-            }
-            onMouseEnter={onHover}
-            onMouseLeave={onHover}
-            onClick={() => {
-              setLanguage("fr")
-            }}
-          >
-            <img
-              src="images/french.webp"
-              alt="french"
-              className={styles.flag}
-            ></img>
-            <p className={styles.languageName}>Français</p>
+        <div className={styles.section} style={{ marginTop: 0 }}>
+          <h2 className={styles.h2}>{t("language")}</h2>
+          <div className={styles.languageContainer}>
+            <div
+              className={
+                language === "en"
+                  ? `${styles.language} ${styles.selected}`
+                  : styles.language
+              }
+              onMouseEnter={onHover}
+              onMouseLeave={onHover}
+              onClick={() => {
+                setLanguage("en")
+              }}
+            >
+              <img
+                src="images/english.webp"
+                alt="english"
+                className={styles.flag}
+              ></img>
+              <p className={styles.languageName}>English</p>
+            </div>
+            <div
+              className={
+                language === "es"
+                  ? `${styles.language} ${styles.selected}`
+                  : styles.language
+              }
+              onMouseEnter={onHover}
+              onMouseLeave={onHover}
+              onClick={() => {
+                setLanguage("es")
+              }}
+            >
+              <img
+                src="images/spanish.jpg"
+                alt="spanish"
+                className={styles.flag}
+              ></img>
+              <p className={styles.languageName}>Español</p>
+            </div>
+            <div
+              className={
+                language === "fr"
+                  ? `${styles.language} ${styles.selected}`
+                  : styles.language
+              }
+              onMouseEnter={onHover}
+              onMouseLeave={onHover}
+              onClick={() => {
+                setLanguage("fr")
+              }}
+            >
+              <img
+                src="images/french.webp"
+                alt="french"
+                className={styles.flag}
+              ></img>
+              <p className={styles.languageName}>Français</p>
+            </div>
           </div>
         </div>
 

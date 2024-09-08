@@ -1,0 +1,174 @@
+.card {
+  position: relative;
+  padding: 20px 20px 0 20px;
+  border-radius: 25px;
+  background-color: white;
+  transition: all 1s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 90vh;
+}
+
+.button {
+  border-radius: 15px;
+  width: 40%;
+  text-align: center;
+  box-shadow: inset 0 -3px 2px rgba(82, 82, 82, 0.5);
+  height: 60px;
+  font-size: 16px;
+  font-weight: 900;
+  color: white;
+  transition: transform 0.5s ease;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:hover {
+  transform: scale(1.02);
+}
+
+.button:active {
+  height: 50px;
+  margin-top: 10px;
+  box-shadow: none;
+}
+
+h1.h1 {
+  margin-top: 0;
+}
+
+.mainContainer {
+  height: 70%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftContainer {
+  width: 50%;
+  height: 100%;
+}
+
+.leftContainer h1 {
+  margin: 40px 0;
+  font-weight: 300;
+}
+
+.planContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80%;
+}
+
+.premadePlan {
+  width: 30%;
+  height: 70%;
+  border-radius: 25px;
+  background-color: #f5f5f5;
+  transition: transform 1s ease;
+  cursor: pointer;
+}
+
+.premadePlan:hover {
+  transform: scale(1.03);
+}
+
+.premadePlan.selected {
+  border-style: solid;
+  border-color: #0989ff;
+}
+.premadePlan h1 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 24px;
+}
+
+.animationContainer {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightContainer {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.rightContainer h1 {
+  font-weight: 300;
+  margin: 40px 0;
+}
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chartContainer canvas {
+  width: 50% !important;
+  height: 85% !important;
+}
+
+.chartContainer img {
+  position: absolute;
+  width: 27.5%;
+  height: 40%;
+  left: 11.5%;
+  top: 32%;
+}
+
+.chartContainer .labels {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.label {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 300;
+  align-items: center;
+}
+
+.label div {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.buttonsContainer {
+  position: absolute;
+  bottom: 20px;
+  width: 50%;
+  left: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+.button.save {
+  background-color: #00a859;
+}
+
+.loadingAnimation {
+  height: 50px;
+  width: 50px;
+}
+
+.button.leave {
+  background-color: #adb5bd;
+}

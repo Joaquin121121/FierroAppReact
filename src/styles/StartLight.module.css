@@ -13,7 +13,6 @@ body {
   margin: auto;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
 }
 
 .brand {
@@ -25,6 +24,7 @@ body {
 
 .brand h1 {
   font-weight: 800;
+  margin: 0;
 }
 
 .iconContainer {
@@ -44,9 +44,11 @@ body {
 
 .user {
   height: 100%;
-  width: 14%;
+  width: 25%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 10px;
   font-weight: 700;
   font-size: 16px;
 }

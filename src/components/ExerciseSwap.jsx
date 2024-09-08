@@ -117,14 +117,14 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
           if (i === 0) {
             return {
               ...e,
-              translate: `${deltaX * -1.1}px ${deltaY * -1.1}px`,
+              translate: `${deltaX * -1}px ${deltaY * -1}px`,
               transition: "translate 600ms ease",
             }
           }
           if (i === index) {
             return {
               ...e,
-              translate: `${deltaX * 1.1}px ${deltaY * 1.1}px`,
+              translate: `${deltaX * 1}px ${deltaY * 1}px`,
               transition: "translate 600ms ease",
             }
           }
@@ -182,7 +182,7 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
   const onLeft = () => {
     setIsTransitioning(true)
     const secondElement =
-      beingShown[0] - 1 < 0 ? similarExercises.length : beingShown[0] - 1
+      beingShown[0] - 1 < 0 ? similarExercises.length - 1 : beingShown[0] - 1
     const firstElement = secondElement - 1
     setExerciseClassses(
       exerciseClasses.map((_, i) =>
@@ -193,6 +193,7 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
           : ""
       )
     )
+    console.log(firstElement, secondElement)
     setTimeout(() => {
       setBeingShown([firstElement, secondElement])
       setSelected(firstElement)
@@ -274,30 +275,6 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
             style={{ ...exerciseStyles[0], cursor: "auto" }}
           >
             <h2 className={styles.h2}>{t(currentExercise.name)}</h2>
-            <div className={styles.itemContainer}>
-              <div className={styles.iconContainer}>
-                <img src="/images/strength.png" alt="" />
-              </div>
-              Placeholder
-            </div>
-            <div className={styles.itemContainer}>
-              <div className={styles.iconContainer}>
-                <i
-                  className="fa-solid fa-clipboard-question fa-xl"
-                  style={{ color: "#0989ff" }}
-                ></i>
-              </div>
-              Placeholder
-            </div>
-            <div className={styles.itemContainer}>
-              <div className={styles.iconContainer}>
-                <i
-                  className="fa-solid fa-dumbbell fa-xl"
-                  style={{ color: "#0989ff" }}
-                ></i>
-              </div>
-              Placeholder
-            </div>
           </div>
         </div>
         <div className={styles.middleContainer}>
@@ -314,18 +291,21 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
             <div className={`${styles.rightEnd} ${arrowClasses[1]}`}></div>
             <div className={`${styles.rightEnd} ${arrowClasses[1]}`}></div>
           </div>
-          <button
-            className={styles.swapButton}
-            onClick={() => {
-              transition(selected + 1)
-            }}
-          >
-            <i
-              className="fa-solid fa-arrows-rotate fa-2xl"
-              style={{ color: "#ffffff" }}
-            ></i>
-          </button>
-          {t("swap")}
+          <div className={styles.swapButtonContainer}>
+            {" "}
+            <button
+              className={styles.swapButton}
+              onClick={() => {
+                transition(selected + 1)
+              }}
+            >
+              <i
+                className="fa-solid fa-arrows-rotate fa-2xl"
+                style={{ color: "#ffffff" }}
+              ></i>
+            </button>
+            {t("swap")}
+          </div>
         </div>
         <div className={styles.rightContainer}>
           <h1 className={styles.h1}>{t("similarExercises")}</h1>
@@ -352,30 +332,6 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
               ref={cardRefs.current[i + 1]}
             >
               <h2 className={styles.h2}>{t(e.name)}</h2>
-              <div className={styles.itemContainer}>
-                <div className={styles.iconContainer}>
-                  <img src="/images/strength.png" alt="" />
-                </div>
-                {e.targetedMuscles}
-              </div>
-              <div className={styles.itemContainer}>
-                <div className={styles.iconContainer}>
-                  <i
-                    className="fa-solid fa-clipboard-question fa-xl"
-                    style={{ color: "#0989ff" }}
-                  ></i>
-                </div>
-                {e.targetedMuscles}
-              </div>
-              <div className={styles.itemContainer}>
-                <div className={styles.iconContainer}>
-                  <i
-                    className="fa-solid fa-dumbbell fa-xl"
-                    style={{ color: "#0989ff" }}
-                  ></i>
-                </div>
-                Placeholder
-              </div>
             </div>
           ))}
           <div

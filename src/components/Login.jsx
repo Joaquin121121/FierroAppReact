@@ -39,14 +39,16 @@ function Login() {
   const [loginButton, setLoginButton] = useState(styles.logButton)
   const [registerButton, setRegisterButton] = useState(styles.registerButton)
   const [action, setAction] = useState("login")
-  const loginContainerRef = useRef(null)
   const [disabled, setDisabled] = useState(false)
   const [username, setUsername] = useState(null)
   const [email, setEmail] = useState(null)
   const [providerLogIn, setProviderLogIn] = useState(false)
   const [animation, setAnimation] = useState(navAnimations.fadeInTopRight)
-  const { user, setUser } = useContext(UserContext)
+  const [visiblePassword, setVisiblePassword] = useState(false)
 
+  const loginContainerRef = useRef(null)
+
+  const { user, setUser } = useContext(UserContext)
   const t = useContext(TranslationContext)
 
   const navigate = useNavigate()
@@ -261,6 +263,7 @@ function Login() {
               {errors.name && (
                 <span className="text-danger">{errors.name.message}</span>
               )}
+              <i className="fa-regular fa-user"></i>
             </div>
             <div
               className={`${styles.formGroup} ${styles.passwordContainer} form-group`}
@@ -268,33 +271,59 @@ function Login() {
               <input
                 disabled={disabled}
                 onKeyDown={onKeyDown}
-                type="password"
+                type={visiblePassword ? "text" : "password"}
                 className={`${styles.formControl} form-control`}
                 id="password"
                 placeholder={t("password")}
                 {...register("password", { required: t("noPassword") })}
               />
+              <i
+                className={`fa-solid fa-eye${!visiblePassword ? "" : "-slash"}`}
+                onClick={() => {
+                  setVisiblePassword(!visiblePassword)
+                }}
+              ></i>
               {errors.password && (
                 <span className="text-danger">{errors.password.message}</span>
               )}
             </div>
-            <button
-              className={loginButton}
-              disabled={disabled}
-              onMouseEnter={onHover}
-              onMouseLeave={(e) => {
-                onHover(e)
-                onMouseUp("logIn")
-              }}
-              onMouseDown={() => {
-                onMouseDown("logIn")
-              }}
-              onMouseUp={() => {
-                onMouseUp("logIn")
-              }}
-            >
-              {t("logIn")}
-            </button>
+            <div className={styles.buttonContainer}>
+              <button
+                className={registerButton}
+                onMouseEnter={onHover}
+                onMouseLeave={(e) => {
+                  onHover(e)
+                  onMouseUp("register")
+                }}
+                onMouseDown={(e) => {
+                  onMouseDown("register")
+                }}
+                onClick={onRegister}
+                onMouseUp={() => {
+                  onMouseUp("register")
+                }}
+                disabled={disabled}
+              >
+                {t("newAccount")}
+              </button>
+              <button
+                className={loginButton}
+                disabled={disabled}
+                onMouseEnter={onHover}
+                onMouseLeave={(e) => {
+                  onHover(e)
+                  onMouseUp("logIn")
+                }}
+                onMouseDown={() => {
+                  onMouseDown("logIn")
+                }}
+                onMouseUp={() => {
+                  onMouseUp("logIn")
+                }}
+              >
+                {t("logIn")}
+              </button>
+            </div>
           </form>
           <div className={styles.noAccountDiv} style={{ marginTop: "40px" }}>
             <div className={styles.line}></div>
@@ -337,29 +366,6 @@ function Login() {
               Facebook
             </button>
           </div>
-          <div className={styles.noAccountDiv} style={{ marginBottom: "20px" }}>
-            <div className={styles.line}></div>
-            <p className={styles.p}>{t("noAccount")}</p>
-            <div className={styles.line}></div>
-          </div>
-          <button
-            className={registerButton}
-            onMouseEnter={onHover}
-            onMouseLeave={(e) => {
-              onHover(e)
-              onMouseUp("register")
-            }}
-            onMouseDown={(e) => {
-              onMouseDown("register")
-            }}
-            onClick={onRegister}
-            onMouseUp={() => {
-              onMouseUp("register")
-            }}
-            disabled={disabled}
-          >
-            {t("newAccount")}
-          </button>
         </div>
       </div>
     </>

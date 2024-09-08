@@ -44,7 +44,7 @@
   "strength": "Strength",
   "hyperthrophy": "Hyperthrophy",
   "functional": "Functional",
-  "legs": "legs",
+  "legs": "Legs",
   "back": "Back",
   "exerciseDistribution": "Exercise Distribution",
   "balanced": "Balanced",
@@ -128,6 +128,9 @@
   "exerciseToKeep": "Exercise to Keep",
   "similarExercises": "Similar Exercises",
   "swapInstructions": "Double click on the exercise you want to swap",
+
+  "completedSession": "Completed Session Stats",
+  "share": "Share Your Progress",
 
   "home": "Home",
   "logSession": "Log Session",

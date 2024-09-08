@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback, useContext } from "react"
-import styles from "../styles/New.module.css"
+import styles from "../styles/Custom.module.css"
 import Slider from "@mui/material/Slider"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
 import CustomSlider from "./CustomSlider"
 import createPlan from "../services/planService"
-import navAnimations from "../styles/NavAnimations.module.css"
 import { Chart } from "chart.js"
 import { Doughnut } from "react-chartjs-2"
 import { throttle } from "lodash"
@@ -80,6 +79,7 @@ function New({
     ],
   }
   const options = {
+    responsive: true,
     cutout: "80%",
     plugins: {
       legend: {
@@ -128,7 +128,7 @@ function New({
   }
 
   const onBack = () => {
-    navigate(selectedAction ? "main" : "welcome")
+    navigate(selectedAction ? "main" : "planChoice")
   }
 
   const onChange = (index, value) => {
@@ -200,33 +200,7 @@ function New({
       onMouseLeave={onHover}
     >
       <div className={styles.create}>
-        <h1>{t("tellUs")}</h1>
-      </div>
-      <div className={styles.frequencyContainer}>
-        <h1>{t("frequency")}</h1>
-        <div
-          className={styles.sliders}
-          onMouseLeave={() => {
-            setMouseDown(false)
-          }}
-        >
-          <CustomSlider
-            field="frequency"
-            mouseDown={mouseDown}
-            setMouseDown={setMouseDown}
-            counter={frequency}
-            setCounter={setFrequency}
-            t={t}
-          />
-          <CustomSlider
-            field="duration"
-            mouseDown={mouseDown}
-            setMouseDown={setMouseDown}
-            counter={duration}
-            setCounter={setDuration}
-            t={t}
-          />
-        </div>
+        <h1 className={styles.h1}>{t("tellUs")}</h1>
       </div>
       <div className={styles.goalContainer}>
         <h1>{t("goal")}</h1>
@@ -264,53 +238,6 @@ function New({
             options={options}
           ></Doughnut>
           <img src="/images/icon-blue.png" alt="" />
-        </div>
-      </div>
-      <div className={styles.plansContainer}>
-        <div
-          className={
-            premadePlan === "balanced"
-              ? `${styles.plan} ${styles.selected}`
-              : styles.plan
-          }
-          onClick={() => {
-            onPlan("balanced")
-          }}
-        >
-          <div className={styles.imageContainer}>
-            <img src="/images/balanced-training.jpg" alt="" />
-          </div>
-          <div className={styles.textContainer}>{t("balanced")}</div>
-        </div>
-        <div
-          className={
-            premadePlan === "lower"
-              ? `${styles.plan} ${styles.selected}`
-              : styles.plan
-          }
-          onClick={() => {
-            onPlan("lower")
-          }}
-        >
-          <div className={styles.imageContainer}>
-            <img src="/images/lower-body-training.jpg" alt="" />
-          </div>
-          <div className={styles.textContainer}>+ {t("lowerBody")}</div>
-        </div>
-        <div
-          className={
-            premadePlan === "upper"
-              ? `${styles.plan} ${styles.selected}`
-              : styles.plan
-          }
-          onClick={() => {
-            onPlan("upper")
-          }}
-        >
-          <div className={styles.imageContainer}>
-            <img src="/images/upper-body-training.jpg" alt="" />
-          </div>
-          <div className={styles.textContainer}>+ {t("upperBody")}</div>
         </div>
       </div>
 

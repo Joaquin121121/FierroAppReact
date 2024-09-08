@@ -6,8 +6,8 @@ import { auth } from "../services/firebase"
 function Welcome({ navigate, animation, setAnimation }) {
   const t = useContext(TranslationContext)
 
-  const onNew = () => {
-    navigate("new")
+  const onFrequency = () => {
+    navigate("frequency")
   }
 
   const onHover = (e) => {
@@ -33,11 +33,11 @@ function Welcome({ navigate, animation, setAnimation }) {
       <div className={styles.buttonContainer}>
         <button
           className={`${styles.button} ${styles.welcomeContainer} ${styles.newContainer}`}
-          onClick={onNew}
+          onClick={onFrequency}
         >
           <div className={styles.sumContainer}>
-            <div className={styles.sumHorizontal}></div>
-            <div className={styles.sumVertical}></div>
+            <div></div>
+            <div></div>
           </div>
           <h1>{t("create")}</h1>
           <div className={styles.imageContainer}>

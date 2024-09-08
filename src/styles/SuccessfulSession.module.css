@@ -1,0 +1,162 @@
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+@property --streak {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+button.button {
+  width: 40%;
+  height: 60px;
+  box-shadow: inset 0 -3px 2px rgba(82, 82, 82, 0.5);
+  gap: 40px;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:hover {
+  transform: scale(1.02);
+}
+
+.button:active {
+  height: 50px;
+  margin-top: 10px;
+  box-shadow: none;
+}
+
+h1.h1 {
+  margin-top: 40px;
+  margin-bottom: 80px;
+  font-weight: 300;
+}
+
+.card {
+  position: relative;
+  border-radius: 25px;
+  background-color: white;
+  transition: all 1s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  height: 130vh;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.mainContainer {
+  width: 100%;
+  display: flex;
+  height: 60%;
+  margin-bottom: 40px;
+}
+
+.leftContainer {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.leftContainer img {
+  height: 90%;
+  width: 80%;
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  height: 100%;
+}
+
+.statsCard {
+  opacity: 0;
+  border: 3px solid;
+  border-top-width: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  height: 30%;
+  border-radius: 15px;
+}
+
+.statDisplayContainer {
+  width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statTextContainer {
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.outerCircle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #0989ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.innerCircle {
+  width: 85%;
+  height: 85%;
+  background-color: white;
+  border-radius: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0989ff;
+  font-size: 36px;
+  font-weight: 900;
+}
+
+.innerCircle.minuteDisplay {
+  transition: --num 1s;
+  counter-reset: num var(--num);
+}
+
+.innerCircle.minuteDisplay::after {
+  content: counter(num);
+}
+
+span.streak {
+  font-weight: 900;
+  font-size: 48px;
+  color: #ff9900;
+  transition: --streak 1s;
+  counter-reset: streak var(--streak);
+}
+
+span.streak::after {
+  content: counter(streak);
+}
+
+.buttonsContainer {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}

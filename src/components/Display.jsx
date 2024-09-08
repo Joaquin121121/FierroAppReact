@@ -38,7 +38,8 @@ function Display({ navigate, animation, setAnimation, setSessionN }) {
   }
 
   const onBack = () => {
-    navigate("new")
+    setUser({ ...user, hasPlan: false })
+    navigate("planChoice")
   }
 
   const onStart = async () => {
@@ -85,11 +86,14 @@ function Display({ navigate, animation, setAnimation, setSessionN }) {
             onMouseLeave={() => {
               onMouseLeave(editRefs.current[i - 1], i)
             }}
+            onClick={() => {
+              onEdit(i)
+            }}
           >
             <div
               className={styles.session}
               style={{
-                animationDelay: `${i + 1}s`,
+                animationDelay: `${i}s`,
               }}
             >
               <div className={styles.imageContainer}>
@@ -129,13 +133,7 @@ function Display({ navigate, animation, setAnimation, setSessionN }) {
                 </div>
               </div>
             </div>
-            <div
-              className={styles.editContainer}
-              ref={editRefs.current[i - 1]}
-              onClick={() => {
-                onEdit(i)
-              }}
-            >
+            <div className={styles.editContainer} ref={editRefs.current[i - 1]}>
               <div className={styles.edit}>
                 <i
                   className="fa-solid fa-pen fa-xl"
@@ -149,7 +147,7 @@ function Display({ navigate, animation, setAnimation, setSessionN }) {
 
         setTimeout(() => {
           loadedSessions.push(i)
-        }, (i + 1) * 1000)
+        }, i * 1000)
       }
 
       jsx.push(
@@ -194,7 +192,7 @@ function Display({ navigate, animation, setAnimation, setSessionN }) {
           if (ref && ref.current) {
             ref.current.scrollIntoView({ behavior: "smooth" })
           }
-        }, index * 1000 + 3000)
+        }, index * 1000 + 2000)
       }
     })
   }, [cardsJSX])

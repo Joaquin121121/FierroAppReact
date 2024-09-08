@@ -9,6 +9,11 @@
   }
 }
 
+h1.h1 {
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
 .h2 {
   font-size: 24px;
   font-weight: 300;
@@ -16,46 +21,17 @@
 }
 
 .card {
-  padding: 0 50px;
+  position: relative;
+  padding: 40px 20px;
   border-radius: 25px;
+  background-color: white;
   transition: all 1s ease;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-
-.create h1 {
-  margin-top: 70px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.frequencyContainer {
-  margin-top: 50px;
-  width: 100%;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.frequencyContainer h1 {
-  font-weight: 300;
-}
-
-.frequencyContainer .sliders {
-  height: 100%;
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  height: 90vh;
 }
 
 .goalContainer {
-  margin-top: 80px;
+  padding: 0 5%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -70,28 +46,33 @@
 .sliderContainer {
   display: flex;
   gap: 25px;
-  margin: 50px 0;
+  margin: 20px 0;
   width: 80%;
   margin-left: 40px;
 }
 
 .chartContainer {
   position: relative;
-  width: 300px;
-  height: 450px;
+  width: 50%;
+  height: 100%;
   margin-left: 10%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  gap: 40px;
+}
+
+.chartContainer canvas {
+  width: 60% !important;
+  height: 60% !important;
 }
 
 .chartContainer img {
   height: 150px;
   width: 150px;
   position: absolute;
-  bottom: 75px;
-  left: 75px;
+  bottom: 27.5%;
+  left: 33.5%;
 }
 
 .plansContainer {
@@ -142,14 +123,19 @@
 }
 
 .buttons {
-  width: 75%;
-  margin: 80px auto;
+  position: absolute;
+  bottom: 20px;
+  left: 25%;
+  width: 50%;
+  margin: auto;
   display: flex;
   justify-content: space-between;
 }
 
 .button {
+  width: 40%;
   box-shadow: inset 0 -3px 2px rgba(82, 82, 82, 0.5);
+  height: 60px;
 }
 
 .button:hover {
@@ -159,12 +145,11 @@
 .button:active {
   box-shadow: none;
   margin-top: 10px;
-  height: 55px;
+  height: 50px;
 }
 
 .backButton {
   background-color: #adb5bd;
-  width: 35%;
 }
 
 .loadingAnimation {
@@ -174,5 +159,4 @@
 
 .startButton {
   background-color: #00a859;
-  width: 35%;
 }

@@ -29,8 +29,8 @@ span.big {
 }
 
 button {
-  width: 80%;
-  height: 65px;
+  width: 40%;
+  height: 55px;
   border-radius: 15px;
   display: flex;
   justify-content: center;
@@ -52,7 +52,7 @@ button:focus {
 button.active {
   box-shadow: none;
   margin-top: 10px;
-  height: 55px;
+  height: 45px;
 }
 
 form {
@@ -86,9 +86,9 @@ form {
 
 .loginContainer {
   margin: auto;
-  margin-top: 2.5%;
+  margin-top: 0.5%;
   width: 90%;
-  height: 130vh;
+  height: 100vh;
   border-radius: 25px;
   background-color: white;
   display: flex;
@@ -131,7 +131,7 @@ form {
 
 .loginCard {
   margin-left: 5%;
-  height: 90%;
+  height: 95%;
   width: 40%;
   border-radius: 100px;
   background: radial-gradient(circle at bottom right, #70bbff, #0989ff);
@@ -147,8 +147,8 @@ form {
   line-height: 2;
   color: white;
   margin: auto;
-  margin-top: 15%;
-  margin-bottom: 60px;
+  margin-top: 80px;
+  margin-bottom: 40px;
   font-size: 40px;
   font-weight: 600;
 }
@@ -183,7 +183,12 @@ form {
   width: 60%;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: 10px;
+}
+
+.login .header h1 {
+  margin: 0;
 }
 
 .login .header .iconContainer {
@@ -225,35 +230,48 @@ form {
 }
 
 .login p.subHeading {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .formControl {
   width: 80%;
-  height: 65px;
+  height: 55px;
   border-radius: 15px;
 }
 
 .formGroup {
+  position: relative;
   margin-bottom: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+.formGroup i {
+  position: absolute;
+  top: 20px;
+  right: 15%;
+}
 .passwordContainer {
   margin-bottom: 45px;
 }
 
+.passwordContainer i {
+  right: 14.5%;
+  transition: transform 1s ease;
+  cursor: pointer;
+}
+
+.passwordContainer i:hover {
+  transform: scale(1.1);
+}
+
 .buttonContainer {
-  margin: 0;
-  height: 125px;
+  padding: 0 10%;
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
 }
 
 .logButton {
