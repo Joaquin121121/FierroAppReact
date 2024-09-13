@@ -8,9 +8,10 @@ import UserContext from "../contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth"
 import { auth } from "../services/firebase"
+import Calendar from "./Calendar"
 
 function Main() {
-  const [action, setAction] = useState("plan")
+  const [action, setAction] = useState("calendar")
   const [selectedAction, setSelectedAction] = useState("plan")
   const [key, setKey] = useState("")
   const [menuAnimation, setMenuAnimation] = useState(
@@ -266,7 +267,7 @@ function Main() {
             navigate={navigate}
           ></PlanContent>
         ) : (
-          <></>
+          <Calendar></Calendar>
         )}
       </div>
     </div>
