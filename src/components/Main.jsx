@@ -12,7 +12,7 @@ import Calendar from "./Calendar"
 
 function Main() {
   const [action, setAction] = useState("calendar")
-  const [selectedAction, setSelectedAction] = useState("plan")
+  const [selectedAction, setSelectedAction] = useState("calendar")
   const [key, setKey] = useState("")
   const [menuAnimation, setMenuAnimation] = useState(
     navAnimations.fadeInTopRight
@@ -168,6 +168,11 @@ function Main() {
             className={`${styles.button} ${
               selectedAction === "calendar" ? styles.selected : ""
             }`}
+            onClick={() => {
+              if (action !== "calendar") {
+                navigate("calendar")
+              }
+            }}
           >
             <div className={styles.iconContainer}>
               <i className="fa-solid fa-calendar-days fa-xl"></i>
@@ -252,22 +257,28 @@ function Main() {
             </div>
           </div>
         )}
-        {action === "main" ? (
-          <div className={`card ${styles.card} ${styles.card4}`}>
-            <MainContent
-              animation={homeAnimation}
-              setAnimation={setHomeAnimation}
-            ></MainContent>
-          </div>
-        ) : action === "plan" ? (
+        {action === "plan" && (
           <PlanContent
             pressedKey={key}
             animation={planAnimation}
             setAnimation={setPlanAnimation}
             navigate={navigate}
           ></PlanContent>
-        ) : (
-          <Calendar></Calendar>
+        )}
+        {action === "main" && (
+          <div className={`card ${styles.card} ${styles.card4}`}>
+            <MainContent
+              animation={homeAnimation}
+              setAnimation={setHomeAnimation}
+            ></MainContent>
+          </div>
+        )}
+        {action === "calendar" && (
+          <div
+            className={`card ${styles.card} ${styles.card4} ${calendarAnimation}`}
+          >
+            <Calendar></Calendar>
+          </div>
         )}
       </div>
     </div>

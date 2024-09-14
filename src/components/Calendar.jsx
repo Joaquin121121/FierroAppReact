@@ -12,6 +12,16 @@ export default function () {
     "Saturday",
   ]
 
+  const abbreviatedDaysOfWeek = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+  ]
+
   const getFirstDayName = () => {
     const now = new Date()
     const year = now.getFullYear()
@@ -68,13 +78,19 @@ export default function () {
 
   return (
     <>
+      <div className={styles.linesContainer}>
+        {daysOfWeek.map((e) => (
+          <div></div>
+        ))}
+      </div>
+      <div className={styles.calendarTop}></div>
       <div className={styles.calendarContainer}>
         <div className={styles.calendar}>
           <h1 className={styles.month}>
             {new Date().toLocaleString("default", { month: "long" })}
           </h1>
           <div className={styles.dayNames}>
-            {daysOfWeek.map((e) => (
+            {abbreviatedDaysOfWeek.map((e) => (
               <p className={styles.p}>{e}</p>
             ))}
           </div>
