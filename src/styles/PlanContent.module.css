@@ -105,6 +105,13 @@ button.editButton {
   margin-top: 10px;
   width: 80%;
   background-color: #0989ff;
+  position: relative;
+}
+
+button.editButton i {
+  z-index: 2;
+  position: absolute;
+  right: 40px;
 }
 
 button.editButton:active {

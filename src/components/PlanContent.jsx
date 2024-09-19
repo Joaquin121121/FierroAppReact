@@ -4,7 +4,13 @@ import navAnimations from "../styles/NavAnimations.module.css"
 import TranslationContext from "../contexts/TranslationContext"
 import UserContext from "../contexts/UserContext"
 
-function PlanContent({ pressedKey, animation, setAnimation, navigate }) {
+function PlanContent({
+  action,
+  pressedKey,
+  animation,
+  setAnimation,
+  navigate,
+}) {
   const t = useContext(TranslationContext)
   const { user, setUser } = useContext(UserContext)
   const [showMore, setShowMore] = useState(false)
@@ -27,18 +33,21 @@ function PlanContent({ pressedKey, animation, setAnimation, navigate }) {
   }
 
   const onChangePreferences = () => {
-    navigate("new")
+    navigate("frequency")
   }
 
   const onEditSession = (n) => {
     navigate(`${n}`)
   }
 
+  const onLogSession = (n) => {
+    navigate(`${n * 11}`)
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setAnimation(null)
     }, 1000)
-    console.log(sessions)
   }, [])
 
   useEffect(() => {
@@ -100,12 +109,16 @@ function PlanContent({ pressedKey, animation, setAnimation, navigate }) {
             <button
               className={`${styles.button} ${styles.editButton}`}
               onClick={() => {
-                onEditSession(i + 1)
+                {
+                  action === "plan" ? onEditSession(i + 1) : onLogSession(i + 1)
+                }
               }}
             >
-              {t("editSession")}{" "}
+              {t(action === "plan" ? "editSession" : "logSession")}{" "}
               <i
-                className="fa-solid fa-pencil fa-lg"
+                className={`fa-solid fa-${
+                  action === "plan" ? "pencil" : "dumbbell"
+                } fa-lg`}
                 style={{ color: "white" }}
               ></i>
             </button>

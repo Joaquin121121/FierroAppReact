@@ -123,10 +123,10 @@ function ExerciseDisplay({
             transitionContentVisibility.map(() => "none")
           )
           setTransition(`${styles.transition} ${styles[action]}`)
-        }, 2000),
+        }, 2500),
         setTimeout(() => {
           setTransitionFlag(false)
-        }, 2250),
+        }, 2750),
       ])
     }
   }
@@ -248,7 +248,6 @@ function ExerciseDisplay({
                   style={{ color: "#ffffff" }}
                 ></i>
               </div>
-              {load && t("rollback")}
             </div>
           )}
           <div className={styles.exerciseButtonContainer}>
@@ -272,7 +271,6 @@ function ExerciseDisplay({
                 style={{ color: "#ffffff" }}
               ></i>
             </div>
-            {load && t("notToday")}
           </div>
         </div>
 
@@ -389,7 +387,6 @@ function ExerciseDisplay({
                 style={{ color: "#ffffff" }}
               ></i>
             </div>
-            {load && t("success")}
           </div>
         </div>
       </div>

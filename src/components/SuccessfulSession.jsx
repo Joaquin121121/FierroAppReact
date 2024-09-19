@@ -5,7 +5,7 @@ import { useState } from "react"
 import TranslationContext from "../contexts/TranslationContext"
 import UserContext from "../contexts/UserContext"
 
-function SuccessfulSession(navigate, animation) {
+function SuccessfulSession({ navigate, animation }) {
   const [counter, setCounter] = useState(0)
   const [shownMinutes, setShownMinutes] = useState(0)
   const [startAnimation, setStartAnimation] = useState(false)
@@ -28,10 +28,6 @@ function SuccessfulSession(navigate, animation) {
     setTimeout(() => {
       setStartStreakAnimation(true)
       setCounter(2)
-      window.scrollTo({
-        top: document.body.scrollHeight / 4,
-        behavior: "smooth",
-      })
     }, 2000)
   }, [])
 

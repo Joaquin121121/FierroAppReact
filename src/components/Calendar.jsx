@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useContext } from "react"
 import styles from "../styles/Calendar.module.css"
 
-export default function () {
+export default function ({ setAnimation }) {
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -51,6 +51,9 @@ export default function () {
     return lastDayCurrentMonth.getDate()
   }
 
+  const [currentMonth, setCurrentMonth] = useState(
+    new Date().toLocaleString("default", { month: "long" })
+  )
   const [firstDayName, setFirstDayName] = useState(getFirstDayName())
   const [nDays, setNDays] = useState(getDaysInCurrentMonth())
   const [nRows, setNRows] = useState(
@@ -73,7 +76,9 @@ export default function () {
   )
 
   useEffect(() => {
-    console.log(calendar)
+    setTimeout(() => {
+      setAnimation(null)
+    }, 1000)
   }, [])
 
   return (
@@ -87,7 +92,7 @@ export default function () {
       <div className={styles.calendarContainer}>
         <div className={styles.calendar}>
           <h1 className={styles.month}>
-            {new Date().toLocaleString("default", { month: "long" })}
+            {currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1)}
           </h1>
           <div className={styles.dayNames}>
             {abbreviatedDaysOfWeek.map((e) => (
@@ -97,14 +102,15 @@ export default function () {
           <div className={styles.daysContainer}>
             {calendar.map((week) => (
               <div className={styles.week}>
-                {week.map(
-                  (day) =>
-                    (
+                {week.map((day) => {
+                  if (day) {
+                    return (
                       <div className={styles.day} index={day}>
                         <p className={styles.p}>{day}</p>
                       </div>
-                    ) || ""
-                )}
+                    )
+                  }
+                })}
               </div>
             ))}
           </div>

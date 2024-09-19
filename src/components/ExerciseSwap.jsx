@@ -20,6 +20,8 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
     ...parsedExercises.tricepsExercises,
   ]
 
+  const processedN = Number(n.toString()[0])
+
   const [currentExercise, setCurrentExercise] = useState(
     exercises.find((e) => e.name === exercise)
   )
@@ -182,7 +184,11 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
   const onLeft = () => {
     setIsTransitioning(true)
     const secondElement =
-      beingShown[0] - 1 < 0 ? similarExercises.length - 1 : beingShown[0] - 1
+      beingShown[0] - 1 < 0
+        ? similarExercises.length % 2 === 0
+          ? similarExercises.length - 1
+          : similarExercises.length
+        : beingShown[0] - 1
     const firstElement = secondElement - 1
     setExerciseClassses(
       exerciseClasses.map((_, i) =>
@@ -213,6 +219,10 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
     if (loading) {
       return
     }
+    if (!exerciseToReplace) {
+      navigate("exerciseDisplay")
+      return
+    }
     setLoading(true)
     setIsTransitioning(true)
     const docRef = doc(db, "userdata", auth.currentUser.uid)
@@ -221,8 +231,9 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
         Array.isArray(parsedExercises[key]) &&
         parsedExercises[key].some((e) => e.name === currentExercise.name)
     )
-    const sessionData = user.plan[`session ${n}`]
+    const sessionData = user.plan[`session ${processedN}`]
     const updatedSession = {}
+    console.log(sessionData)
     Object.keys(sessionData).forEach((key) => {
       if (key === "exerciseList" || key === exerciseGroup) {
         updatedSession[key] = sessionData[key].map((e, i) => ({
@@ -237,15 +248,17 @@ function ExerciseSwap({ animation, exercise, navigate, n }) {
       updatedSession[key] = sessionData[key]
     })
     try {
-      await updateDoc(docRef, { [`plan.session ${n}`]: updatedSession })
+      await updateDoc(docRef, {
+        [`plan.session ${processedN}`]: updatedSession,
+      })
     } catch (error) {}
-    user.plan[`session ${n}`] = updatedSession
+    user.plan[`session ${processedN}`] = updatedSession
     setUser(user)
-    navigate("main")
+    navigate("exerciseDisplay")
   }
 
   useLayoutEffect(() => {
-    console.log(user.plan[`session ${n}`])
+    console.log(user.plan[`session ${processedN}`])
     document.addEventListener("dragover", (event) => {
       event.preventDefault()
     })

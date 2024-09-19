@@ -55,8 +55,6 @@ function New({
   setAnimation,
   selectedAction,
 }) {
-  const [duration, setDuration] = useState(40)
-  const [frequency, setFrequency] = useState(3)
   const [sliders, setSliders] = useState(initialSliders)
   const [indexToIgnore, setIndexToIgnore] = useState(null)
   const [replacePointer, setReplacePointer] = useState(0)
@@ -101,26 +99,10 @@ function New({
     },
   }
 
-  const onPlan = (plan) => {
-    switch (plan) {
-      case "balanced":
-        setSliders(initialSliders)
-        break
-      case "upper":
-        setSliders(upperBodySliders)
-        break
-      case "lower":
-        setSliders(lowerBodySliders)
-        break
-      default:
-        break
-    }
-  }
-
   const onStart = async () => {
     setLoading(true)
     const docRef = doc(db, "userdata", auth.currentUser.uid)
-    const plan = createPlan(frequency, duration, sliders)
+    const plan = createPlan(user.plan.sessions, user.plan.duration, sliders)
     setUser({ ...user, plan: plan })
     await updateDoc(docRef, { plan: plan })
     setLoading(false)
