@@ -10,6 +10,10 @@ function Welcome({ navigate, animation, setAnimation }) {
     navigate("frequency")
   }
 
+  const onUpload = () => {
+    navigate("uploadPlan")
+  }
+
   const onHover = (e) => {
     setAnimation(
       animation && animation !== styles.hover
@@ -46,6 +50,7 @@ function Welcome({ navigate, animation, setAnimation }) {
         </button>
         <button
           className={`${styles.button} ${styles.welcomeContainer} ${styles.uploadContainer}`}
+          onClick={onUpload}
         >
           <div className={styles.secondaryUploadContainer}>
             <img src="/images/UPLOAD.svg" alt="" />

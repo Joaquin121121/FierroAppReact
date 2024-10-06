@@ -13,6 +13,7 @@ import Premade from "./Premade.jsx"
 import Custom from "./Custom.jsx"
 import PlanChoice from "./PlanChoice.jsx"
 import Frequency from "./Frequency.jsx"
+import UploadPlan from "./UploadPlan.jsx"
 
 function Start() {
   const { param } = useParams()
@@ -58,6 +59,10 @@ function Start() {
     selectedAction ? navAnimations.fadeInRight : null
   )
 
+  const [uploadAnimation, setUploadAnimation] = useState(
+    selectedAction ? navAnimations.fadeInRight : null
+  )
+
   const pages = [
     "welcome",
     "frequency",
@@ -81,6 +86,7 @@ function Start() {
     exerciseDisplay: setExerciseDisplayAnimation,
     exerciseSwap: setExerciseSwapAnimation,
     successfulSession: setSuccessfulSessionAnimation,
+    uploadPlan: setUploadAnimation,
   }
 
   const onMouseUp = () => {
@@ -226,6 +232,9 @@ function Start() {
           navigate={navigate}
           animation={successfulSessionAnimation}
         ></SuccessfulSession>
+      )}
+      {page === "uploadPlan" && (
+        <UploadPlan animation={uploadAnimation}></UploadPlan>
       )}
     </div>
   )
